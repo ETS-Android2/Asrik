@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Asrik</string>
+    <string name="already_have_a_account_sign_in">Already have a account? sign-in</string>
+    <string name="continue_text">Continue</string>
+    <string name="registration">Registration</string>
+    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="phone_placeholder">901-234-5086</string>
+    <string name="verification">Verification</string>
+    <string name="please_enter_the_otp">Please enter the OTP</string>
+    <string name="resend_code_in">Resend code in</string>
+    <string name="resend_code">Resend code</string>
+    <string name="hashes">######</string>
+    <string name="learning_about">Learning About</string>
+    <string name="you">You</string>
+    <string name="your_full_name">Your full name</string>
+    <string name="your_email">Your email</string>
+    <string name="company_email">help@asrik.com</string>
+    <string name="take_your_photo">Take your photo</string>
+    <string name="your_photo_made_us_to_ndeliver_right_person">Your photo made us to\ndeliver right person</string>
+    <string name="upload">Upload</string>
+    <string name="your_area_pin_code">Your area PIN Code</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
 </resources>

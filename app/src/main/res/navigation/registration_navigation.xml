@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/registration_navigation"
+    app:startDestination="@id/phoneNumber">
+
+    <fragment
+        android:id="@+id/phoneNumber"
+        android:name="com.mitrukahitesh.asrik.fragments.registration.PhoneNumber"
+        android:label="fragment_phone_number"
+        tools:layout="@layout/fragment_phone_number" >
+        <action
+            android:id="@+id/action_phoneNumber_to_otp"
+            app:destination="@id/otp" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDetails"
+        android:name="com.mitrukahitesh.asrik.fragments.registration.UserDetails"
+        android:label="fragment_user_details"
+        tools:layout="@layout/fragment_user_details" >
+        <action
+            android:id="@+id/action_userDetails_to_takePicture"
+            app:destination="@id/takePicture" />
+    </fragment>
+    <fragment
+        android:id="@+id/takePicture"
+        android:name="com.mitrukahitesh.asrik.fragments.registration.TakePicture"
+        android:label="fragment_take_picture"
+        tools:layout="@layout/fragment_take_picture" />
+    <fragment
+        android:id="@+id/otp"
+        android:name="com.mitrukahitesh.asrik.fragments.registration.Otp"
+        android:label="Otp" >
+        <action
+            android:id="@+id/action_otp_to_userDetails"
+            app:destination="@id/userDetails" />
+    </fragment>
+</navigation>
