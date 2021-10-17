@@ -79,5 +79,5 @@ dependencies {
 
     //For pojo annotation
     implementation 'org.glassfish:javax.annotation:10.0-b28'
-    
+
 }
