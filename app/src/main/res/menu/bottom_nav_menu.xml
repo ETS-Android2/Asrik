@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/admin"
+        android:icon="@drawable/ic_baseline_verified_user_24"
+        android:visible="false"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_house"
+        tools:ignore="MenuTitle" />
+
+
+    <item
+        android:id="@+id/nearbyServices"
+        android:icon="@drawable/ic_navigation_arrow"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/chat"
+        android:icon="@drawable/ic_dashicon"
+        tools:ignore="MenuTitle" />
+
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_usercircle"
+        tools:ignore="MenuTitle" />
+
+</menu>

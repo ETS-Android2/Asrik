@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_nav"
+    app:startDestination="@id/phoneNumber2">
+    <fragment
+        android:id="@+id/phoneNumber2"
+        android:name="com.mitrukahitesh.asrik.fragments.registration.PhoneNumber"
+        android:label="fragment_phone_number"
+        tools:layout="@layout/fragment_phone_number" />
+</navigation>
