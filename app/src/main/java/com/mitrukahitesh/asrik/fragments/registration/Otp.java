@@ -147,11 +147,10 @@ public class Otp extends Fragment {
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
                         verified = true;
-                        NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.userDetails, true).build();
                         Bundle bundle = new Bundle();
                         bundle.putString(Constants.NUMBER, number);
                         bundle.putBoolean(Constants.ADMIN, admin);
-                        controller.navigate(R.id.action_otp_to_userDetails, bundle, navOptions);
+                        controller.navigate(R.id.action_otp_to_userDetails, bundle);
                     } else {
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                             Log.i("Asrik", "Incorrect OTP");
