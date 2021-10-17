@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/registration_navigation"
-    app:startDestination="@id/phoneNumber">
+    app:startDestination="@id/userType">
 
     <fragment
         android:id="@+id/phoneNumber"
@@ -35,5 +35,13 @@
         <action
             android:id="@+id/action_otp_to_userDetails"
             app:destination="@id/userDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/userType"
+        android:name="com.mitrukahitesh.asrik.fragments.registration.UserType"
+        android:label="UserType" >
+        <action
+            android:id="@+id/action_userType_to_phoneNumber"
+            app:destination="@id/phoneNumber" />
     </fragment>
 </navigation>

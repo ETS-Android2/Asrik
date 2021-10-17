@@ -41,6 +41,7 @@ public class Otp extends Fragment {
     private TextInputEditText code;
     private String verId;
     private boolean verified = false;
+    private boolean admin;
 
     public Otp() {
     }
@@ -48,8 +49,10 @@ public class Otp extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        assert getArguments() != null;
-        number = getArguments().getString(Constants.NUMBER);
+        if (getArguments() != null) {
+            admin = getArguments().getBoolean(Constants.ADMIN, false);
+            number = getArguments().getString(Constants.NUMBER);
+        }
     }
 
     @Override
@@ -147,6 +150,7 @@ public class Otp extends Fragment {
                         NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.userDetails, true).build();
                         Bundle bundle = new Bundle();
                         bundle.putString(Constants.NUMBER, number);
+                        bundle.putBoolean(Constants.ADMIN, admin);
                         controller.navigate(R.id.action_otp_to_userDetails, bundle, navOptions);
                     } else {
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {

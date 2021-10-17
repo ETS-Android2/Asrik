@@ -23,7 +23,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/registertv"
+            android:id="@+id/register_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -43,14 +43,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/poppins_bold"
-            android:paddingHorizontal="6dp"
             android:paddingVertical="10dp"
             android:text="@string/you"
             android:textColor="@color/theme_color_dark"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/registertv"
+            app:layout_constraintStart_toEndOf="@id/register_tv"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
         <androidx.cardview.widget.CardView
@@ -221,10 +220,18 @@
 
         </LinearLayout>
 
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@id/city_state" />
+
         <Button
             android:id="@+id/continue_btn"
             android:layout_width="0dp"
-            android:layout_height="60sp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="44dp"
@@ -234,22 +241,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/city_state" />
-
-        <TextView
-            android:id="@+id/sign_in_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            android:fontFamily="@font/poppins_regular"
-            android:padding="10sp"
-            android:text="@string/company_email"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/continue_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

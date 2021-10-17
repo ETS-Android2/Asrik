@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.registration.PhoneNumber">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:src="@drawable/register"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/register_as"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins_regular"
+            android:padding="10sp"
+            android:text="@string/continue_as"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
+        <Button
+            android:id="@+id/admin"
+            android:layout_width="0dp"
+            android:layout_height="60sp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="44dp"
+            android:background="@drawable/button_bg1"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/admin"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_as" />
+
+        <Button
+            android:id="@+id/normal"
+            android:layout_width="0dp"
+            android:layout_height="60sp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="44dp"
+            android:background="@drawable/button_bg1"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/normal_user"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/admin" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

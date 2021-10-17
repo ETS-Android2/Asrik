@@ -23,6 +23,7 @@ import com.mitrukahitesh.asrik.utility.Constants;
 public class PhoneNumber extends Fragment {
 
     private TextInputEditText phone;
+    private boolean admin;
 
     public PhoneNumber() {
     }
@@ -30,6 +31,8 @@ public class PhoneNumber extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null)
+            admin = getArguments().getBoolean(Constants.ADMIN, false);
     }
 
     @Override
@@ -68,6 +71,7 @@ public class PhoneNumber extends Fragment {
             num = "+91" + num;
             Bundle bundle = new Bundle();
             bundle.putString(Constants.NUMBER, num);
+            bundle.putBoolean(Constants.ADMIN, admin);
             bundle.putBoolean(Constants.REGISTER, true);
             Navigation.findNavController(view).navigate(R.id.action_phoneNumber_to_otp, bundle);
         });

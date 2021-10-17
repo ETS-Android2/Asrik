@@ -14,4 +14,5 @@ public class Constants {
 
 
     public static final String USERS = "USERS";
+    public static final String ADMINS = "ADMINS";
 }
