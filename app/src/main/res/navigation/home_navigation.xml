@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nav"
-    app:startDestination="@id/userType2">
-
+    app:startDestination="@id/feed">
     <fragment
-        android:id="@+id/userType2"
-        android:name="com.mitrukahitesh.asrik.fragments.registration.UserType"
-        android:label="UserType" />
+        android:id="@+id/feed"
+        android:name="com.mitrukahitesh.asrik.fragments.homefragments.Feed"
+        android:label="fragment_feed"
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_feed_to_raiseRequest"
+            app:destination="@id/raiseRequest" />
+    </fragment>
+    <fragment
+        android:id="@+id/raiseRequest"
+        android:name="com.mitrukahitesh.asrik.fragments.homefragments.RaiseRequest"
+        android:label="fragment_raise_request"
+        tools:layout="@layout/fragment_raise_request" >
+        <action
+            android:id="@+id/action_raiseRequest_to_feed"
+            app:destination="@id/feed" />
+        <action
+            android:id="@+id/action_raiseRequest_to_selectLocation"
+            app:destination="@id/selectLocation" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectLocation"
+        android:name="com.mitrukahitesh.asrik.fragments.homefragments.SelectLocation"
+        android:label="fragment_select_location"
+        tools:layout="@layout/fragment_select_location" >
+        <action
+            android:id="@+id/action_selectLocation_to_raiseRequest"
+            app:destination="@id/raiseRequest" />
+    </fragment>
 </navigation>

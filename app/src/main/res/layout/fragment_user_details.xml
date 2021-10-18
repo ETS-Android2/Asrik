@@ -214,7 +214,6 @@
                 android:fontFamily="@font/poppins_semibold"
                 android:includeFontPadding="false"
                 android:text="@string/state"
-                android:textAlignment="textEnd"
                 android:textColor="@color/theme_color_dark"
                 android:textSize="14sp" />
 

@@ -2,7 +2,9 @@ package com.mitrukahitesh.asrik.fragments.registration;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,18 +21,23 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.activities.Main;
+import com.mitrukahitesh.asrik.utility.Constants;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -84,7 +91,7 @@ public class TakePicture extends Fragment {
                     progressIndicator.setVisibility(View.VISIBLE);
                     progressIndicator.setProgress(0);
                     Snackbar.make(frameLayout, "Uploading...", Snackbar.LENGTH_LONG).show();
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("profile_pic").child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(Constants.PROFILE_PIC).child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
                     storageReference.putFile(uri).addOnProgressListener(requireActivity(), new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
@@ -94,16 +101,13 @@ public class TakePicture extends Fragment {
                             } else {
                                 progressIndicator.setProgress((int) progress);
                             }
-                            if (progress == 100) {
-                                try {
-                                    completeRegistration();
-                                } catch (Exception e) {
-                                    Snackbar.make(frameLayout, "Please try again", Snackbar.LENGTH_SHORT).show();
-                                    upload.setVisibility(View.VISIBLE);
-                                    progressIndicator.setVisibility(View.GONE);
-                                    Log.i("Asrik", e.getMessage());
-                                }
-                            }
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressIndicator.setProgress(100);
+                            Snackbar.make(frameLayout, "Picture uploaded successfully..", Snackbar.LENGTH_SHORT).show();
+                            completeRegistration();
                         }
                     });
                 } catch (Exception e) {
@@ -117,9 +121,32 @@ public class TakePicture extends Fragment {
     }
 
     private void completeRegistration() {
-        Intent intent = new Intent(requireContext(), Main.class);
-        startActivity(intent);
-        requireActivity().finish();
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(Constants.PROFILE_PIC).child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+        storageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put(Constants.PROFILE_PIC_URL, task.getResult().toString());
+                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(Constants.PROFILE_PIC_URL, task.getResult().toString());
+                    editor.apply();
+                    FirebaseFirestore.getInstance()
+                            .collection(Constants.USERS)
+                            .document(FirebaseAuth.getInstance().getUid())
+                            .update(map)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Intent intent = new Intent(requireContext(), Main.class);
+                                    startActivity(intent);
+                                    requireActivity().finish();
+                                }
+                            });
+                }
+            }
+        });
     }
 
     @Override

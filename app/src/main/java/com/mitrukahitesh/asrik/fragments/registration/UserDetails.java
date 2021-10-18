@@ -1,5 +1,7 @@
 package com.mitrukahitesh.asrik.fragments.registration;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,6 +51,7 @@ public class UserDetails extends Fragment {
     private FrameLayout frameLayout;
     private Spinner spinner;
     private String bloodGroup;
+    private SharedPreferences.Editor editor;
     private final View.OnClickListener onSubmit = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -114,6 +117,15 @@ public class UserDetails extends Fragment {
         details.put(Constants.BLOOD_GROUP, bloodGroup);
         details.put(Constants.CITY, city.getText().toString());
         details.put(Constants.STATE, state.getText().toString());
+        editor.putBoolean(Constants.ADMIN, bundle.getBoolean(Constants.ADMIN, false));
+        editor.putString(Constants.NUMBER, bundle.getString(Constants.NUMBER));
+        editor.putString(Constants.NAME, Objects.requireNonNull(name.getText()).toString());
+        editor.putString(Constants.EMAIL, Objects.requireNonNull(email.getText()).toString());
+        editor.putString(Constants.PIN_CODE, Objects.requireNonNull(pin.getText()).toString());
+        editor.putString(Constants.BLOOD_GROUP, bloodGroup);
+        editor.putString(Constants.CITY, city.getText().toString());
+        editor.putString(Constants.STATE, state.getText().toString());
+        editor.apply();
         FirebaseFirestore.getInstance()
                 .collection(Constants.USERS)
                 .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
@@ -133,6 +145,8 @@ public class UserDetails extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         if (getArguments() != null) {
             bundle = getArguments();
         }

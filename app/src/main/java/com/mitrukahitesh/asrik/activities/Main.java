@@ -82,7 +82,7 @@ public class Main extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Map<String, Boolean> map = new HashMap<>();
-        map.put("status", true);
+        map.put(Constants.STATUS, true);
         FirebaseFirestore.getInstance().collection(Constants.ONLINE).document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).set(map);
     }
 
@@ -90,7 +90,7 @@ public class Main extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Map<String, Boolean> map = new HashMap<>();
-        map.put("status", false);
+        map.put(Constants.STATUS, false);
         FirebaseFirestore.getInstance().collection(Constants.ONLINE).document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).set(map);
     }
 
