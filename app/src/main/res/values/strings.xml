@@ -43,6 +43,10 @@
     <string name="choose_on_map">Choose on\nmap</string>
     <string name="add_blood_requirement_proof">Add blood requirement proof</string>
     <string name="select_file">Select file</string>
+    <string name="location">Location</string>
+    <string name="contact">Contact</string>
+    <string name="edit_profile">EDIT PROFILE</string>
+    <string name="about_me">About me</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>

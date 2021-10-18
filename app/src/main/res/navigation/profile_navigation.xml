@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile_nav"
-    app:startDestination="@id/takePicture2">
-
+    app:startDestination="@id/profile2">
     <fragment
-        android:id="@+id/takePicture2"
-        android:name="com.mitrukahitesh.asrik.fragments.registration.TakePicture"
-        android:label="fragment_take_picture"
-        tools:layout="@layout/fragment_take_picture" />
+        android:id="@+id/profile2"
+        android:name="com.mitrukahitesh.asrik.fragments.profilefragments.Profile"
+        android:label="fragment_profile2"
+        tools:layout="@layout/fragment_profile2" />
 </navigation>
