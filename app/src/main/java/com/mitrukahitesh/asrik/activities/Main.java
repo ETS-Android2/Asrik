@@ -16,7 +16,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.fragments.rootfragments.Chat;
@@ -49,6 +53,7 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         navigationView = findViewById(R.id.bottomNavigationView);
         setBottomNavListener();
+        updatePicUrlOnUserRequests();
         navigationView.setBackground(null);
         fragmentManager.beginTransaction().add(R.id.main_container, profile, PROFILE).hide(profile).commit();
         fragmentManager.beginTransaction().add(R.id.main_container, chat, CHAT).hide(chat).commit();
@@ -98,6 +103,25 @@ public class Main extends AppCompatActivity {
                                 .set(map);
                     }
                 });
+    }
+
+    private void updatePicUrlOnUserRequests() {
+        String url = getIntent().getStringExtra(Constants.PROFILE_PIC_URL);
+        if (url == null)
+            return;
+        Map<String, Object> map = new HashMap<>();
+        map.put("profilePicUrl", url);
+        CollectionReference reference = FirebaseFirestore.getInstance().collection(Constants.REQUESTS);
+        Query query = reference.
+                whereEqualTo("uid", FirebaseAuth.getInstance().getUid());
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                    reference.document((String) Objects.requireNonNull(snapshot.get("requestId"))).update(map);
+                }
+            }
+        });
     }
 
     @Override
