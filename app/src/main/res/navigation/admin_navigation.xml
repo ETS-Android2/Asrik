@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/admin_navigation"
-    app:startDestination="@id/userType3">
-
+    app:startDestination="@id/pendingRequests">
     <fragment
-        android:id="@+id/userType3"
-        android:name="com.mitrukahitesh.asrik.fragments.registration.UserType"
-        android:label="UserType" />
+        android:id="@+id/pendingRequests"
+        android:name="com.mitrukahitesh.asrik.fragments.adminfragments.PendingRequests"
+        android:label="fragment_pending_requests"
+        tools:layout="@layout/fragment_pending_requests" />
 </navigation>

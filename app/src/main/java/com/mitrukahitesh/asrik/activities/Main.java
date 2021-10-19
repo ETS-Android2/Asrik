@@ -23,6 +23,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mitrukahitesh.asrik.R;
+import com.mitrukahitesh.asrik.fragments.rootfragments.Admin;
 import com.mitrukahitesh.asrik.fragments.rootfragments.Chat;
 import com.mitrukahitesh.asrik.fragments.rootfragments.Home;
 import com.mitrukahitesh.asrik.fragments.rootfragments.NearbyServices;
@@ -35,8 +36,9 @@ import java.util.Objects;
 
 public class Main extends AppCompatActivity {
 
-    private final Fragment chat = new Chat();
+    private final Fragment admin = new Admin();
     private final Fragment home = new Home();
+    private final Fragment chat = new Chat();
     private final Fragment nearbyServices = new NearbyServices();
     private final Fragment profile = new Profile();
     private Fragment active = home;
@@ -46,25 +48,38 @@ public class Main extends AppCompatActivity {
     public static final String NEARBY_SERVICES = "nearby_services";
     public static final String CHAT = "chat";
     public static final String PROFILE = "profile";
+    private boolean isAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        isAdmin = getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, MODE_PRIVATE).getBoolean(Constants.ADMIN, false);
         navigationView = findViewById(R.id.bottomNavigationView);
         setBottomNavListener();
         updatePicUrlOnUserRequests();
         navigationView.setBackground(null);
+        fragmentManager.beginTransaction().add(R.id.main_container, home, HOME).hide(home).commit();
+        if (isAdmin) {
+            navigationView.getMenu().getItem(0).setVisible(true);
+            fragmentManager.beginTransaction().add(R.id.main_container, admin, PROFILE).show(admin).commit();
+            active = admin;
+        } else {
+            fragmentManager.beginTransaction().show(home).commit();
+            active = home;
+        }
         fragmentManager.beginTransaction().add(R.id.main_container, profile, PROFILE).hide(profile).commit();
         fragmentManager.beginTransaction().add(R.id.main_container, chat, CHAT).hide(chat).commit();
         fragmentManager.beginTransaction().add(R.id.main_container, nearbyServices, NEARBY_SERVICES).hide(nearbyServices).commit();
-        fragmentManager.beginTransaction().add(R.id.main_container, home, HOME).commit();
-        active = home;
     }
 
     private void setBottomNavListener() {
         navigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.home) {
+            if (item.getItemId() == R.id.admin) {
+                fragmentManager.beginTransaction().hide(active).show(admin).commit();
+                active = admin;
+                return true;
+            } else if (item.getItemId() == R.id.home) {
                 fragmentManager.beginTransaction().hide(active).show(home).commit();
                 active = home;
                 return true;

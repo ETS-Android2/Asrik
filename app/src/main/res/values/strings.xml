@@ -49,6 +49,9 @@
     <string name="about_me">About me</string>
     <string name="confirm_location">Confirm Location</string>
     <string name="address">Address</string>
+    <string name="pending_requests">Pending Requests</string>
+    <string name="reject">Reject</string>
+    <string name="approve">Approve</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>

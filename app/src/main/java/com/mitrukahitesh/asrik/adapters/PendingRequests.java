@@ -1,0 +1,238 @@
+package com.mitrukahitesh.asrik.adapters;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.mitrukahitesh.asrik.R;
+import com.mitrukahitesh.asrik.models.BloodRequest;
+import com.mitrukahitesh.asrik.utility.Constants;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class PendingRequests extends RecyclerView.Adapter<PendingRequests.CustomVH> {
+
+    private Context context;
+    private View root;
+    private final List<BloodRequest> requests = new ArrayList<>();
+    private Long last = 0l;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final Set<Integer> updatedAt = new HashSet<>();
+    private final Set<String> gotOnlineStatus = new HashSet<>();
+
+    public PendingRequests(Context context, View root) {
+        this.context = context;
+        this.root = root;
+        fetchData();
+    }
+
+    private void fetchData() {
+        CollectionReference reference = db.collection(Constants.REQUESTS);
+        Query query = reference.
+                whereEqualTo(Constants.PINCODE.toLowerCase(Locale.ROOT), context.getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE).getString(Constants.PIN_CODE, "")).
+                whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), false).
+                whereEqualTo(Constants.REJECTED.toLowerCase(Locale.ROOT), false).
+                orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.ASCENDING).
+                whereGreaterThan(Constants.TIME.toLowerCase(Locale.ROOT), last).
+                limit(15);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult() == null)
+                        return;
+                    for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                        requests.add(snapshot.toObject(BloodRequest.class));
+                        notifyItemInserted(requests.size() - 1);
+                    }
+                    if (!task.getResult().isEmpty())
+                        last = requests.get(requests.size() - 1).getTime();
+                    Log.i("Asrik: Pending requests", "fetched " + task.getResult().size() + " " + last);
+                } else {
+                    Log.i("Asrik: Pending requests", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    @NonNull
+    @Override
+    public CustomVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new CustomVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_request, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull CustomVH holder, int position) {
+        holder.setView(requests.get(position), position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return requests.size();
+    }
+
+    public class CustomVH extends RecyclerView.ViewHolder {
+
+        private final LinearLayout locate, share, chat, on, off, detailsHolder, buttons;
+        private final TextView title, name, units, address, severity;
+        private final CircleImageView dp;
+        private final ImageView verified;
+        private final Button approve, reject;
+
+        public CustomVH(@NonNull View itemView) {
+            super(itemView);
+            detailsHolder = itemView.findViewById(R.id.details_holder);
+            locate = itemView.findViewById(R.id.location);
+            share = itemView.findViewById(R.id.share);
+            chat = itemView.findViewById(R.id.chat);
+            on = itemView.findViewById(R.id.online);
+            off = itemView.findViewById(R.id.offline);
+            buttons = itemView.findViewById(R.id.buttons);
+            buttons.setVisibility(View.VISIBLE);
+            title = itemView.findViewById(R.id.title);
+            name = itemView.findViewById(R.id.name);
+            units = itemView.findViewById(R.id.units);
+            address = itemView.findViewById(R.id.address);
+            severity = itemView.findViewById(R.id.severity);
+            dp = itemView.findViewById(R.id.dp);
+            approve = itemView.findViewById(R.id.approve);
+            reject = itemView.findViewById(R.id.reject);
+            verified = itemView.findViewById(R.id.verified);
+            setListeners();
+        }
+
+        private void setListeners() {
+            detailsHolder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(requests.get(getAdapterPosition()).getDocumentUrl()), "application/pdf");
+                    context.startActivity(intent);
+                }
+            });
+            approve.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put(Constants.VERIFIED.toLowerCase(Locale.ROOT), true);
+                    FirebaseFirestore.getInstance()
+                            .collection(Constants.REQUESTS)
+                            .document(requests.get(getAdapterPosition()).getRequestId())
+                            .update(map)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        requests.get(getAdapterPosition()).setVerified(true);
+                                        notifyItemChanged(getAdapterPosition());
+                                    } else {
+                                        if (root != null)
+                                            Snackbar.make(root, "Approval failed", Snackbar.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                }
+            });
+            reject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put(Constants.REJECTED.toLowerCase(Locale.ROOT), true);
+                    FirebaseFirestore.getInstance()
+                            .collection(Constants.REQUESTS)
+                            .document(requests.get(getAdapterPosition()).getRequestId())
+                            .update(map)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        requests.remove(getAdapterPosition());
+                                        notifyItemRemoved(getAdapterPosition());
+                                    } else {
+                                        if (root != null)
+                                            Snackbar.make(root, "Approval failed", Snackbar.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                }
+            });
+        }
+
+        public void setView(BloodRequest request, int position) {
+            if ((position + 1) % 15 == 0 && !updatedAt.contains(position)) {
+                fetchData();
+                updatedAt.add(position);
+            }
+            if (request.getProfilePicUrl() == null || request.getProfilePicUrl().equals("")) {
+                Glide.with(context).load(AppCompatResources.getDrawable(context, R.drawable.ic_usercircle)).into(dp);
+            } else {
+                Glide.with(context).load(request.getProfilePicUrl()).into(dp);
+            }
+            if (request.isVerified()) {
+                verified.setVisibility(View.VISIBLE);
+                buttons.setVisibility(View.GONE);
+            } else {
+                verified.setVisibility(View.GONE);
+                buttons.setVisibility(View.VISIBLE);
+            }
+            title.setText(String.format("%s in %s", request.getBloodGroup(), request.getCity()));
+            units.setText(String.format(Locale.getDefault(), "%d units", request.getUnits()));
+            name.setText(request.getName());
+            address.setText(request.getAddress());
+            severity.setText(request.getSeverity());
+            if (request.isUserOnline()) {
+                on.setVisibility(View.VISIBLE);
+                off.setVisibility(View.GONE);
+            } else {
+                on.setVisibility(View.GONE);
+                off.setVisibility(View.VISIBLE);
+            }
+            if (gotOnlineStatus.contains(request.getRequestId()))
+                return;
+            FirebaseFirestore.getInstance()
+                    .collection(Constants.ONLINE)
+                    .document(request.getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful() && task.getResult() != null && task.getResult().contains(Constants.STATUS)) {
+                                request.setUserOnline((Boolean) task.getResult().get(Constants.STATUS));
+                                notifyItemChanged(position);
+                            }
+                        }
+                    });
+            gotOnlineStatus.add(request.getRequestId());
+        }
+    }
+}

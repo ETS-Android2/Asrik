@@ -14,8 +14,10 @@ public class Constants {
     public static final String UNITS = "UNITS";
     public static final String STATE = "STATE";
     public static final String VERIFIED = "VERIFIED";
+    public static final String REJECTED = "REJECTED";
     public static final String TIME = "TIME";
     public static final String ADDRESS = "ADDRESS";
+    public static final String PINCODE = "PINCODE";
 
 
     public static final String USERS = "USERS";
