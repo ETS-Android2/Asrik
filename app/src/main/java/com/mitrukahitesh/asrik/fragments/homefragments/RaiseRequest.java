@@ -52,6 +52,9 @@ import com.mitrukahitesh.asrik.models.PinCodeDetails;
 import com.mitrukahitesh.asrik.utility.Constants;
 import com.mitrukahitesh.asrik.utility.FileDetails;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -289,6 +292,7 @@ public class RaiseRequest extends Fragment {
                                         reference.set(request).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
+                                                notifyAdmin();
                                                 Snackbar.make(root, "Request sent to admin for verification..", Snackbar.LENGTH_LONG).show();
                                                 NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.feed, true).build();
                                                 controller.navigate(R.id.action_raiseRequest_to_feed, null, navOptions);
@@ -307,6 +311,31 @@ public class RaiseRequest extends Fragment {
                 }
             }
         });
+    }
+
+    private void notifyAdmin() {
+        JSONObject object = new JSONObject();
+        try {
+            object.put(Constants.NAME, preferences.getString(Constants.NAME, ""));
+            object.put(Constants.PROFILE_PIC_URL, preferences.getString(Constants.PROFILE_PIC_URL, ""));
+            object.put(Constants.UNITS, units.getText().toString());
+            object.put(Constants.BLOOD_GROUP, bloodGroup);
+        } catch (JSONException exception) {
+            Log.i("Asrik: RaiseRequest", exception.getMessage());
+        }
+        RetrofitAccessObject.getRetrofitAccessObject()
+                .notifyAdmin(pin.getText().toString(), object)
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+
+                    }
+                });
     }
 
     private void pinCodeValidationFailed() {

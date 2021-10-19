@@ -11,6 +11,7 @@ public class Constants {
     public static final String BLOOD_GROUP = "BLOOD_GROUP";
     public static final String PIN_CODE = "PIN_CODE";
     public static final String CITY = "CITY";
+    public static final String UNITS = "UNITS";
     public static final String STATE = "STATE";
     public static final String VERIFIED = "VERIFIED";
     public static final String TIME = "TIME";
@@ -24,4 +25,6 @@ public class Constants {
     public static final String REQUESTS = "REQUESTS";
     public static final String PROFILE_PIC_URL = "PROFILE_PIC_URL";
     public static final String PROFILE_PIC = "profile_pic";
+    public static final String TOKENS = "TOKENS";
+    public static final String TOKEN = "TOKEN";
 }

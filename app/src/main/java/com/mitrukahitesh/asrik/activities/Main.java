@@ -12,10 +12,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.fragments.rootfragments.Chat;
 import com.mitrukahitesh.asrik.fragments.rootfragments.Home;
@@ -76,6 +78,26 @@ public class Main extends AppCompatActivity {
             }
             return false;
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (FirebaseAuth.getInstance().getUid() == null)
+            return;
+        FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        Log.i("Asrik: FCM", s);
+                        Map<String, String> map = new HashMap<>();
+                        map.put(Constants.TOKEN, s);
+                        FirebaseFirestore.getInstance()
+                                .collection(Constants.TOKENS)
+                                .document(FirebaseAuth.getInstance().getUid())
+                                .set(map);
+                    }
+                });
     }
 
     @Override
