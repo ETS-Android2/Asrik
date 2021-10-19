@@ -40,13 +40,15 @@
     <string name="quantity">Quantity</string>
     <string name="severity">Severity</string>
     <string name="hospital_address">Hospital Address</string>
-    <string name="choose_on_map">Choose on\nmap</string>
+    <string name="mark_location">Mark\nLocation</string>
     <string name="add_blood_requirement_proof">Add blood requirement proof</string>
     <string name="select_file">Select file</string>
     <string name="location">Location</string>
     <string name="contact">Contact</string>
     <string name="edit_profile">EDIT PROFILE</string>
     <string name="about_me">About me</string>
+    <string name="confirm_location">Confirm Location</string>
+    <string name="address">Address</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>

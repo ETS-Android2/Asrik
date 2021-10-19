@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/searchll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,6 +46,19 @@
             android:padding="8sp"
             android:textSize="14sp" />
 
-    </LinearLayout>
+    </LinearLayout>-->
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:paddingVertical="8dp"
+        android:text="@string/confirm_location"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

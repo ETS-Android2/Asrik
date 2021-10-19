@@ -1,6 +1,5 @@
 package com.mitrukahitesh.asrik.fragments.homefragments;
 
-import static android.app.Activity.RESULT_OK;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 import androidx.activity.OnBackPressedCallback;
@@ -12,9 +11,10 @@ import androidx.navigation.Navigation;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,11 +23,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.Button;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,28 +33,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.mitrukahitesh.asrik.R;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class SelectLocation extends Fragment {
 
-    private static final long MIN_TIME = 400;
-    private static final float MIN_DISTANCE = 1000;
-    private EditText search;
-    public static final int PLACES_REQUEST_CODE = 1;
     private GoogleMap googleMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private Marker marker;
-    private LatLng delhi = new LatLng(28.7041, 77.1025);
+    private final LatLng delhi = new LatLng(28.7041, 77.1025);
+    private Button confirmLocation;
+    private LatLng current = null;
+    private final GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener = new GoogleMap.OnMyLocationButtonClickListener() {
+        @Override
+        public boolean onMyLocationButtonClick() {
+            requestToTurnGpsOn();
+            return false;
+        }
+    };
 
     private final OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
@@ -72,6 +64,24 @@ public class SelectLocation extends Fragment {
                     if (marker != null)
                         marker.remove();
                     marker = googleMap.addMarker(new MarkerOptions().position(latLng).draggable(true));
+                    current = latLng;
+                    confirmLocation.setVisibility(View.VISIBLE);
+                }
+            });
+            googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                @Override
+                public void onMarkerDragStart(@NonNull Marker marker) {
+
+                }
+
+                @Override
+                public void onMarkerDrag(@NonNull Marker marker) {
+
+                }
+
+                @Override
+                public void onMarkerDragEnd(@NonNull Marker marker) {
+                    current = marker.getPosition();
                 }
             });
         }
@@ -94,24 +104,18 @@ public class SelectLocation extends Fragment {
                 Navigation.findNavController(view).popBackStack();
             }
         });
+        confirmLocation = view.findViewById(R.id.confirm);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
-        search = view.findViewById(R.id.search);
-        search.setFocusable(false);
-        Places.initialize(requireContext(), "AIzaSyDq2QaRFXiSxJQmGYNLsWQ6c5vf5WRZwK0");
-        PlacesClient placesClient = Places.createClient(requireContext());
-        search.setOnClickListener(new View.OnClickListener() {
+        confirmLocation.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                List<Place.Field> fieldList = Arrays.asList(
-                        Place.Field.ADDRESS,
-                        Place.Field.LAT_LNG,
-                        Place.Field.NAME);
-                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).build(requireContext());
-                startActivityForResult(intent, PLACES_REQUEST_CODE);
+            public void onClick(View v) {
+                RaiseRequest.lat = current.latitude;
+                RaiseRequest.lon = current.longitude;
+                Navigation.findNavController(view).popBackStack();
             }
         });
     }
@@ -120,16 +124,10 @@ public class SelectLocation extends Fragment {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         } else {
+            requestToTurnGpsOn();
             getCurrentLocation();
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PLACES_REQUEST_CODE && resultCode == RESULT_OK) {
-            Place place = Autocomplete.getPlaceFromIntent(data);
-//            search.setText(place.getAddress());
+            googleMap.setMyLocationEnabled(true);
+            googleMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
         }
     }
 
@@ -140,10 +138,35 @@ public class SelectLocation extends Fragment {
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
                 googleMap.animateCamera(cameraUpdate);
             }
         }, null);
+    }
+
+    private void requestToTurnGpsOn() {
+        if (((LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE)).isProviderEnabled(LocationManager.GPS_PROVIDER))
+            return;
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setTitle("Location Service")
+                .setMessage("Please turn on GPS for better experience.")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent gpsOptionsIntent = new Intent(
+                                android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(gpsOptionsIntent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+        dialog.show();
     }
 
     @SuppressLint("MissingPermission")
@@ -151,7 +174,10 @@ public class SelectLocation extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE && grantResults[0] == PERMISSION_GRANTED) {
+            requestToTurnGpsOn();
             getCurrentLocation();
+            googleMap.setMyLocationEnabled(true);
+            googleMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
         }
     }
 }

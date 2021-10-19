@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -64,9 +66,11 @@ public class RaiseRequest extends Fragment {
     private TextView name, cityProfile, submit, city, state, map, selectFile;
     public static final int MEDIA_SELECT = 1;
     private LinearProgressIndicator progressIndicator;
-    private ConstraintLayout root;
+    private ScrollView root;
     private SharedPreferences preferences;
     private String bloodGroup = "", severityString = "";
+    public static Double lat = null;
+    public static Double lon = null;
 
     public RaiseRequest() {
     }
@@ -118,8 +122,15 @@ public class RaiseRequest extends Fragment {
         state = view.findViewById(R.id.state);
         map = view.findViewById(R.id.choose_on_map);
         selectFile = view.findViewById(R.id.select_file);
+        if (uri != null) {
+            FileMetaData metaData = FileDetails.getFileMetaData(requireContext(), uri);
+            selectFile.setText(metaData != null ? metaData.displayName : "file.pdf");
+        }
         img = view.findViewById(R.id.dp);
         submit = view.findViewById(R.id.submit);
+        name.setText(preferences.getString(Constants.NAME, ""));
+        cityProfile.setText(preferences.getString(Constants.CITY, ""));
+        Glide.with(requireContext()).load(preferences.getString(Constants.PROFILE_PIC_URL, "")).into(img);
     }
 
     private void setListeners() {
@@ -220,7 +231,11 @@ public class RaiseRequest extends Fragment {
                         address.getText().toString().length() == 0) {
                     Snackbar.make(root, "Please fill all details", Snackbar.LENGTH_SHORT).show();
                     return;
-                } //Map condition left
+                }
+                if (lat == null || lon == null) {
+                    Snackbar.make(root, "Please mark location on map to make navigation easy", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 try {
                     toggleViews(false);
                     progressIndicator.setVisibility(View.VISIBLE);
@@ -242,8 +257,8 @@ public class RaiseRequest extends Fragment {
                     request.setState(state.getText().toString());
                     request.setEmergency(false);
                     request.setVerified(false);
-                    request.setLatitude("");
-                    request.setLongitude("");
+                    request.setLatitude(lat.toString());
+                    request.setLongitude(lon.toString());
                     request.setTime(System.currentTimeMillis());
                     request.setName(preferences.getString(Constants.NAME, "User"));
                     request.setProfilePicUrl(preferences.getString(Constants.PROFILE_PIC_URL, ""));
