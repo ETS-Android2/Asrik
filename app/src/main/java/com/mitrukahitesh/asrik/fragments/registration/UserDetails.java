@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -48,7 +49,7 @@ public class UserDetails extends Fragment {
     private TextView city, state;
     private Bundle bundle;
     private NavController controller;
-    private FrameLayout frameLayout;
+    private ScrollView frameLayout;
     private Spinner spinner;
     private String bloodGroup;
     private SharedPreferences.Editor editor;
