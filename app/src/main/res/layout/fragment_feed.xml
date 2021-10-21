@@ -29,12 +29,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/emergency_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                app:layout_constraintTop_toBottomOf="@id/blood_req_tv" />
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/blood_req_tv" />
+                app:layout_constraintTop_toBottomOf="@id/emergency_recycler" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

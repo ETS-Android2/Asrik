@@ -58,6 +58,9 @@
     <string name="end_time">End time</string>
     <string name="notify">Notify</string>
     <string name="camp_date">Camp date</string>
+    <string name="mark_emergency">Mark Emergency</string>
+    <string name="emergency">EMERGENCY</string>
+    <string name="verified">VERIFIED</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>

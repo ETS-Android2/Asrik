@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -111,11 +113,12 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
 
     public class CustomVH extends RecyclerView.ViewHolder {
 
-        private final LinearLayout locate, share, chat, on, off, detailsHolder, buttons;
+        private final LinearLayout locate, share, chat, on, off, detailsHolder, emergency_ll, buttons;
         private final TextView title, name, units, address, severity;
         private final CircleImageView dp;
         private final ImageView verified;
         private final Button approve, reject;
+        private final CheckBox emergency;
 
         public CustomVH(@NonNull View itemView) {
             super(itemView);
@@ -125,8 +128,9 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
             chat = itemView.findViewById(R.id.chat);
             on = itemView.findViewById(R.id.online);
             off = itemView.findViewById(R.id.offline);
+            emergency = itemView.findViewById(R.id.emergency);
+            emergency_ll = itemView.findViewById(R.id.emergency_ll);
             buttons = itemView.findViewById(R.id.buttons);
-            buttons.setVisibility(View.VISIBLE);
             title = itemView.findViewById(R.id.title);
             name = itemView.findViewById(R.id.name);
             units = itemView.findViewById(R.id.units);
@@ -148,11 +152,18 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
                     context.startActivity(intent);
                 }
             });
+            emergency.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    requests.get(getAdapterPosition()).setEmergency(isChecked);
+                }
+            });
             approve.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Map<String, Object> map = new HashMap<>();
                     map.put(Constants.VERIFIED.toLowerCase(Locale.ROOT), true);
+                    map.put(Constants.EMERGENCY.toLowerCase(Locale.ROOT), requests.get(getAdapterPosition()).isEmergency());
                     FirebaseFirestore.getInstance()
                             .collection(Constants.REQUESTS)
                             .document(requests.get(getAdapterPosition()).getRequestId())
@@ -212,10 +223,13 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
             if (request.isVerified()) {
                 verified.setVisibility(View.VISIBLE);
                 buttons.setVisibility(View.GONE);
+                emergency_ll.setVisibility(View.GONE);
             } else {
                 verified.setVisibility(View.GONE);
                 buttons.setVisibility(View.VISIBLE);
+                emergency_ll.setVisibility(View.VISIBLE);
             }
+            emergency.setChecked(request.isEmergency());
             title.setText(String.format("%s in %s", request.getBloodGroup(), request.getCity()));
             units.setText(String.format(Locale.getDefault(), "%d units", request.getUnits()));
             name.setText(request.getName());
@@ -276,9 +290,11 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
         JSONObject object = new JSONObject();
         try {
             SharedPreferences preferences = context.getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+            object.put(Constants.REQUEST_ID, request.getRequestId());
             object.put(Constants.ADMIN, preferences.getString(Constants.NAME, ""));
             object.put(Constants.UNITS, request.getUnits());
             object.put(Constants.NAME, request.getName());
+            object.put(Constants.EMERGENCY, request.isEmergency());
             object.put(Constants.BLOOD_GROUP, request.getBloodGroup());
             object.put(Constants.SEVERITY, request.getSeverity().toUpperCase(Locale.ROOT));
             object.put(Constants.PROFILE_PIC_URL, preferences.getString(Constants.PROFILE_PIC_URL, ""));

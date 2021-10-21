@@ -26,9 +26,11 @@ public class Constants {
     public static final String DATE = "DATE";
     public static final String START_TIME = "START_TIME";
     public static final String END_TIME = "END_TIME";
+    public static final String REQUEST_ID = "REQUEST_ID";
 
 
     public static final String USERS = "USERS";
+    public static final String EMERGENCY = "EMERGENCY";
     public static final String ADMINS = "ADMINS";
     public static final String ONLINE = "ONLINE";
     public static final String STATUS = "STATUS";

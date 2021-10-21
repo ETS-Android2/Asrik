@@ -18,13 +18,14 @@ import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mitrukahitesh.asrik.R;
+import com.mitrukahitesh.asrik.adapters.EmergencyRequests;
 import com.mitrukahitesh.asrik.adapters.FeedRequests;
 
 public class Feed extends Fragment {
 
-    private RecyclerView recyclerView;
+    private RecyclerView emergencyRecyclerView, recyclerView;
     private FeedRequests adapter;
-    private FloatingActionButton fab;
+    private EmergencyRequests emergencyAdapter;
     private NavController controller;
 
     public Feed() {
@@ -49,11 +50,20 @@ public class Feed extends Fragment {
         } else {
             adapter = (FeedRequests) recyclerView.getAdapter();
         }
+        if (emergencyRecyclerView == null) {
+            emergencyAdapter = new EmergencyRequests(requireContext());
+        } else {
+            emergencyAdapter = (EmergencyRequests) emergencyRecyclerView.getAdapter();
+        }
         controller = Navigation.findNavController(view);
+        emergencyRecyclerView = view.findViewById(R.id.emergency_recycler);
         recyclerView = view.findViewById(R.id.recycler);
-        fab = view.findViewById(R.id.fab);
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        emergencyRecyclerView.setNestedScrollingEnabled(false);
         recyclerView.setNestedScrollingEnabled(false);
+        emergencyRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        emergencyRecyclerView.setAdapter(emergencyAdapter);
         recyclerView.setAdapter(adapter);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
