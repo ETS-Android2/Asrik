@@ -59,6 +59,7 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final Set<Integer> updatedAt = new HashSet<>();
     private final Set<String> gotOnlineStatus = new HashSet<>();
+    private final Map<String, Boolean> checkedAsEmergency = new HashMap<>();
 
     public PendingRequests(Context context, View root) {
         this.context = context;
@@ -155,7 +156,7 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
             emergency.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    requests.get(getAdapterPosition()).setEmergency(isChecked);
+                    checkedAsEmergency.put(requests.get(getAdapterPosition()).getRequestId(), isChecked);
                 }
             });
             approve.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +164,7 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
                 public void onClick(View v) {
                     Map<String, Object> map = new HashMap<>();
                     map.put(Constants.VERIFIED.toLowerCase(Locale.ROOT), true);
-                    map.put(Constants.EMERGENCY.toLowerCase(Locale.ROOT), requests.get(getAdapterPosition()).isEmergency());
+                    map.put(Constants.EMERGENCY.toLowerCase(Locale.ROOT), checkedAsEmergency.getOrDefault(requests.get(getAdapterPosition()).getRequestId(), false));
                     FirebaseFirestore.getInstance()
                             .collection(Constants.REQUESTS)
                             .document(requests.get(getAdapterPosition()).getRequestId())
@@ -173,6 +174,7 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         requests.get(getAdapterPosition()).setVerified(true);
+                                        requests.get(getAdapterPosition()).setEmergency(checkedAsEmergency.getOrDefault(requests.get(getAdapterPosition()).getRequestId(), false));
                                         notifyVerification(requests.get(getAdapterPosition()));
                                         notifyItemChanged(getAdapterPosition());
                                     } else {
@@ -229,7 +231,7 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
                 buttons.setVisibility(View.VISIBLE);
                 emergency_ll.setVisibility(View.VISIBLE);
             }
-            emergency.setChecked(request.isEmergency());
+            emergency.setChecked(checkedAsEmergency.getOrDefault(request.getRequestId(), false));
             title.setText(String.format("%s in %s", request.getBloodGroup(), request.getCity()));
             units.setText(String.format(Locale.getDefault(), "%d units", request.getUnits()));
             name.setText(request.getName());
