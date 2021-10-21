@@ -1,7 +1,7 @@
 package com.mitrukahitesh.asrik.models;
 
 public class BloodRequest {
-    private String requestId, uid, name, bloodGroup, pincode, city, state, latitude, longitude, address, documentUrl, severity, profilePicUrl;
+    private String requestId, uid, name, number, bloodGroup, pincode, city, state, latitude, longitude, address, documentUrl, severity, profilePicUrl;
     private Integer units;
     private boolean emergency, verified, userOnline = false, rejected = false;
     private long time;
@@ -11,6 +11,14 @@ public class BloodRequest {
 
     public boolean isRejected() {
         return rejected;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public void setRejected(boolean rejected) {

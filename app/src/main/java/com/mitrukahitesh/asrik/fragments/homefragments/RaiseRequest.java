@@ -212,7 +212,7 @@ public class RaiseRequest extends Fragment {
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.navigate(R.id.action_raiseRequest_to_selectLocation);
+                controller.navigate(R.id.action_raiseRequest_to_selectLocation, new Bundle());
             }
         });
         selectFile.setOnClickListener(new View.OnClickListener() {
@@ -264,6 +264,7 @@ public class RaiseRequest extends Fragment {
                     request.setLongitude(lon.toString());
                     request.setTime(System.currentTimeMillis());
                     request.setName(preferences.getString(Constants.NAME, "User"));
+                    request.setName(preferences.getString(Constants.NUMBER, ""));
                     request.setProfilePicUrl(preferences.getString(Constants.PROFILE_PIC_URL, ""));
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(Constants.REQUESTS).child(reference.getId());
                     storageReference.putFile(uri).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -293,9 +294,6 @@ public class RaiseRequest extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 notifyAdmin();
-                                                Snackbar.make(root, "Request sent to admin for verification..", Snackbar.LENGTH_LONG).show();
-                                                NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.feed, true).build();
-                                                controller.navigate(R.id.action_raiseRequest_to_feed, null, navOptions);
                                             }
                                         });
                                     } else {
@@ -328,12 +326,16 @@ public class RaiseRequest extends Fragment {
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-
+                        Snackbar.make(root, "Request sent to admin for verification..", Snackbar.LENGTH_LONG).show();
+                        NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.feed, true).build();
+                        controller.navigate(R.id.action_raiseRequest_to_feed, null, navOptions);
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-
+                        Snackbar.make(root, "Request sent to admin for verification..", Snackbar.LENGTH_LONG).show();
+                        NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.feed, true).build();
+                        controller.navigate(R.id.action_raiseRequest_to_feed, null, navOptions);
                     }
                 });
     }
@@ -351,6 +353,14 @@ public class RaiseRequest extends Fragment {
         address.setEnabled(b);
         map.setEnabled(b);
         selectFile.setEnabled(b);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (lat != null && lon != null) {
+            map.setText("Edit\nLocation");
+        }
     }
 
     @Override

@@ -17,4 +17,13 @@ public interface CustomRetrofit {
 
     @POST("/new_request/{code}")
     Call<String> notifyAdmin(@Path(value = "code", encoded = true) String code, @Body JSONObject object);
+
+    @POST("/request_verified/{code}/{seeker}")
+    Call<String> notifyUsersForRequestVerified(@Path(value = "code", encoded = true) String code, @Path(value = "seeker", encoded = true) String seeker, @Body JSONObject object);
+
+    @POST("/request_rejected/{seeker}")
+    Call<String> notifyRequestRejection(@Path(value = "seeker", encoded = true) String seeker, @Body JSONObject object);
+
+    @POST("/blood_camp/{code}/{id}")
+    Call<String> notifyBloodCamp(@Path(value = "code", encoded = true) String code, @Path(value = "id", encoded = true) String id, @Body JSONObject object);
 }

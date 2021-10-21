@@ -126,6 +126,35 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
                     context.startActivity(intent);
                 }
             });
+            share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BloodRequest request = requests.get(getAdapterPosition());
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    String text = String.format(Locale.getDefault(), "Blood Requirement\n\nName: %s\nBlood Group: %s\nQuantity: %d unit(s)\nAddress: %s\nCity: %s\nState: %s\nPIN Code: %s\n\nContact: %s\n\nRegards,\n%s\nAsrik",
+                            request.getName(),
+                            request.getBloodGroup(),
+                            request.getUnits(),
+                            request.getAddress(),
+                            request.getCity(),
+                            request.getState(),
+                            request.getPincode(),
+                            request.getNumber(),
+                            context.getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE).getString(Constants.NAME, "The Real Avenger"));
+                    intent.putExtra(Intent.EXTRA_TEXT, text);
+                    context.startActivity(intent);
+                }
+            });
+            locate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Uri gmmIntentUri = Uri.parse("geo:" + requests.get(getAdapterPosition()).getLatitude() + ", " + requests.get(getAdapterPosition()).getLongitude() + "?q=" + requests.get(getAdapterPosition()).getAddress());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    context.startActivity(mapIntent);
+                }
+            });
         }
 
         public void setView(BloodRequest request, int position) {

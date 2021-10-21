@@ -52,6 +52,12 @@
     <string name="pending_requests">Pending Requests</string>
     <string name="reject">Reject</string>
     <string name="approve">Approve</string>
+    <string name="camp_address">Camp Address</string>
+    <string name="date">Date</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
+    <string name="notify">Notify</string>
+    <string name="camp_date">Camp date</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>

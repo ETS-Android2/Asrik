@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/selectLocation"
-        android:name="com.mitrukahitesh.asrik.fragments.homefragments.SelectLocation"
+        android:name="com.mitrukahitesh.asrik.fragments.common.SelectLocation"
         android:label="fragment_select_location"
         tools:layout="@layout/fragment_select_location" >
         <action

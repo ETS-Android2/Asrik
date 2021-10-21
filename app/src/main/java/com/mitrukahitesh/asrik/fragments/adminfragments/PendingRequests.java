@@ -58,7 +58,7 @@ public class PendingRequests extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.navigate(R.id.action_feed_to_raiseRequest);
+                controller.navigate(R.id.action_pendingRequests_to_bloodCamp);
             }
         });
     }

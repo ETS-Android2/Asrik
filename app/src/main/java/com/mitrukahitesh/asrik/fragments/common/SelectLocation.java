@@ -1,4 +1,4 @@
-package com.mitrukahitesh.asrik.fragments.homefragments;
+package com.mitrukahitesh.asrik.fragments.common;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
@@ -19,7 +19,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mitrukahitesh.asrik.R;
+import com.mitrukahitesh.asrik.fragments.adminfragments.BloodCamp;
+import com.mitrukahitesh.asrik.fragments.homefragments.RaiseRequest;
+import com.mitrukahitesh.asrik.utility.Constants;
 
 public class SelectLocation extends Fragment {
 
@@ -43,6 +45,7 @@ public class SelectLocation extends Fragment {
     private final LatLng delhi = new LatLng(28.7041, 77.1025);
     private Button confirmLocation;
     private LatLng current = null;
+    private boolean camp;
     private final GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener = new GoogleMap.OnMyLocationButtonClickListener() {
         @Override
         public boolean onMyLocationButtonClick() {
@@ -113,8 +116,16 @@ public class SelectLocation extends Fragment {
         confirmLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RaiseRequest.lat = current.latitude;
-                RaiseRequest.lon = current.longitude;
+                Bundle bundle = new Bundle();
+                bundle.putDouble(Constants.LATITUDE, current.latitude);
+                bundle.putDouble(Constants.LONGITUDE, current.longitude);
+                if (camp) {
+                    BloodCamp.lat = current.latitude;
+                    BloodCamp.lon = current.longitude;
+                } else {
+                    RaiseRequest.lat = current.latitude;
+                    RaiseRequest.lon = current.longitude;
+                }
                 Navigation.findNavController(view).popBackStack();
             }
         });
@@ -167,6 +178,14 @@ public class SelectLocation extends Fragment {
                 })
                 .create();
         dialog.show();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            camp = getArguments().getBoolean(Constants.BLOOD_CAMP, false);
+        }
     }
 
     @SuppressLint("MissingPermission")

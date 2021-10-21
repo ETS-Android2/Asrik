@@ -2,6 +2,7 @@ package com.mitrukahitesh.asrik.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,8 +28,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mitrukahitesh.asrik.R;
+import com.mitrukahitesh.asrik.apis.RetrofitAccessObject;
 import com.mitrukahitesh.asrik.models.BloodRequest;
 import com.mitrukahitesh.asrik.utility.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +44,9 @@ import java.util.Map;
 import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PendingRequests extends RecyclerView.Adapter<PendingRequests.CustomVH> {
 
@@ -154,6 +162,7 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         requests.get(getAdapterPosition()).setVerified(true);
+                                        notifyVerification(requests.get(getAdapterPosition()));
                                         notifyItemChanged(getAdapterPosition());
                                     } else {
                                         if (root != null)
@@ -176,6 +185,8 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+                                        BloodRequest request = requests.get(getAdapterPosition());
+                                        notifyRejection(request);
                                         requests.remove(getAdapterPosition());
                                         notifyItemRemoved(getAdapterPosition());
                                     } else {
@@ -233,6 +244,57 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
                         }
                     });
             gotOnlineStatus.add(request.getRequestId());
+        }
+    }
+
+    private void notifyRejection(BloodRequest request) {
+        JSONObject object = new JSONObject();
+        try {
+            SharedPreferences preferences = context.getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+            object.put(Constants.ADMIN, preferences.getString(Constants.NAME, ""));
+            object.put(Constants.UNITS, request.getUnits());
+            object.put(Constants.BLOOD_GROUP, request.getBloodGroup());
+            object.put(Constants.SEVERITY, request.getSeverity().toUpperCase(Locale.ROOT));
+            object.put(Constants.PROFILE_PIC_URL, preferences.getString(Constants.PROFILE_PIC_URL, ""));
+            RetrofitAccessObject.getRetrofitAccessObject()
+                    .notifyRequestRejection(request.getUid(), object)
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                        }
+                    });
+        } catch (JSONException exception) {
+            Log.i("Asrik: Reject Request", exception.getMessage());
+        }
+    }
+
+    private void notifyVerification(BloodRequest request) {
+        JSONObject object = new JSONObject();
+        try {
+            SharedPreferences preferences = context.getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+            object.put(Constants.ADMIN, preferences.getString(Constants.NAME, ""));
+            object.put(Constants.UNITS, request.getUnits());
+            object.put(Constants.NAME, request.getName());
+            object.put(Constants.BLOOD_GROUP, request.getBloodGroup());
+            object.put(Constants.SEVERITY, request.getSeverity().toUpperCase(Locale.ROOT));
+            object.put(Constants.PROFILE_PIC_URL, preferences.getString(Constants.PROFILE_PIC_URL, ""));
+            RetrofitAccessObject.getRetrofitAccessObject()
+                    .notifyUsersForRequestVerified(request.getPincode(), request.getUid(), object)
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                        }
+                    });
+        } catch (JSONException exception) {
+            Log.i("Asrik: Reject Request", exception.getMessage());
         }
     }
 }

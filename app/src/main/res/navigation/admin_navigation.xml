@@ -8,5 +8,30 @@
         android:id="@+id/pendingRequests"
         android:name="com.mitrukahitesh.asrik.fragments.adminfragments.PendingRequests"
         android:label="fragment_pending_requests"
-        tools:layout="@layout/fragment_pending_requests" />
+        tools:layout="@layout/fragment_pending_requests" >
+        <action
+            android:id="@+id/action_pendingRequests_to_bloodCamp"
+            app:destination="@id/bloodCamp" />
+    </fragment>
+    <fragment
+        android:id="@+id/bloodCamp"
+        android:name="com.mitrukahitesh.asrik.fragments.adminfragments.BloodCamp"
+        android:label="fragment_blood_camp"
+        tools:layout="@layout/fragment_blood_camp" >
+        <action
+            android:id="@+id/action_bloodCamp_to_pendingRequests"
+            app:destination="@id/pendingRequests" />
+        <action
+            android:id="@+id/action_bloodCamp_to_selectLocation2"
+            app:destination="@id/selectLocation2" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectLocation2"
+        android:name="com.mitrukahitesh.asrik.fragments.common.SelectLocation"
+        android:label="fragment_select_location"
+        tools:layout="@layout/fragment_select_location" >
+        <action
+            android:id="@+id/action_selectLocation2_to_bloodCamp"
+            app:destination="@id/bloodCamp" />
+    </fragment>
 </navigation>

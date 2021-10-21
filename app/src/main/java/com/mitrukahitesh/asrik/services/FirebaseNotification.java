@@ -28,23 +28,48 @@ public class FirebaseNotification extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Map<String, String> map = remoteMessage.getData();
+        Log.i("Asrik: FCM", map.toString());
         SharedPreferences preferences = getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, MODE_PRIVATE);
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (preferences.getBoolean(Constants.ADMIN, false) && Boolean.parseBoolean(map.get("forAdmin"))) {
-            Intent intent = new Intent(this, Main.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-            Notification notification = new NotificationCompat.Builder(this, App.ADMIN_NEW_REQUEST)
+        Intent intent = new Intent(this, Main.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        if (Boolean.parseBoolean(map.get("bloodCamp"))) {
+            Notification notification = new NotificationCompat.Builder(this, App.BLOOD_CAMP)
                     .setContentTitle(map.get("title"))
-                    .setContentText(map.get("body"))
+                    .setContentText(map.get("date"))
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.ic_baseline_bloodtype_24)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_ALARM)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(map.get("body")))
                     .setColor(getResources().getColor(R.color.theme_color_light, null))
                     .build();
             manager.notify((int) System.currentTimeMillis(), notification);
-        } else if (!preferences.getBoolean(Constants.ADMIN, false) && !Boolean.parseBoolean(map.get("forAdmin"))) {
-
+        } else {
+            if (preferences.getBoolean(Constants.ADMIN, false) && Boolean.parseBoolean(map.get("forAdmin"))) {
+                Notification notification = new NotificationCompat.Builder(this, App.ADMIN_NEW_REQUEST)
+                        .setContentTitle(map.get("title"))
+                        .setContentText(map.get("body"))
+                        .setContentIntent(pendingIntent)
+                        .setSmallIcon(R.drawable.ic_baseline_bloodtype_24)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setCategory(NotificationCompat.CATEGORY_ALARM)
+                        .setColor(getResources().getColor(R.color.theme_color_light, null))
+                        .build();
+                manager.notify((int) System.currentTimeMillis(), notification);
+            } else if (!preferences.getBoolean(Constants.ADMIN, false) && !Boolean.parseBoolean(map.get("forAdmin"))) {
+                Notification notification = new NotificationCompat.Builder(this, App.USER_REQUEST_VERIFIED)
+                        .setContentTitle(map.get("title"))
+                        .setContentText(map.get("body"))
+                        .setContentIntent(pendingIntent)
+                        .setSmallIcon(R.drawable.ic_baseline_bloodtype_24)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setCategory(NotificationCompat.CATEGORY_ALARM)
+                        .setColor(getResources().getColor(R.color.theme_color_light, null))
+                        .build();
+                manager.notify((int) System.currentTimeMillis(), notification);
+            }
         }
     }
 
