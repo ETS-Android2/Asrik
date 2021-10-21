@@ -56,6 +56,7 @@ import com.mitrukahitesh.asrik.models.FileMetaData;
 import com.mitrukahitesh.asrik.models.PinCodeDetails;
 import com.mitrukahitesh.asrik.utility.Constants;
 import com.mitrukahitesh.asrik.utility.FileDetails;
+import com.mitrukahitesh.asrik.utility.TimeFormatter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -162,7 +163,7 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         startHour = hourOfDay;
                         startMin = minute;
-                        startTime.setText(String.format(Locale.getDefault(), "%d:%d", hourOfDay, minute));
+                        startTime.setText(TimeFormatter.formatTime(hourOfDay, minute));
                     }
                 }, hour, minute, true);
                 dialog.show();
@@ -179,7 +180,7 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         endhour = hourOfDay;
                         endMin = minute;
-                        endTime.setText(String.format(Locale.getDefault(), "%d:%d", hourOfDay, minute));
+                        endTime.setText(TimeFormatter.formatTime(hourOfDay, minute));
                     }
                 }, hour, minute, true);
                 dialog.show();

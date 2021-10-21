@@ -16,17 +16,58 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/blood_req_tv"
+                android:id="@+id/blood_camp_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="@string/blood_requests"
+                android:text="@string/blood_camps"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/camp_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/blood_camp_tv">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/camp_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/no_camps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginVertical="20dp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="center"
+                    android:text="@string/no_nearby_blood_donation_camps_available"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/blood_camp_tv" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/blood_req_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/blood_requests"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/camp_ll" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/emergency_recycler"

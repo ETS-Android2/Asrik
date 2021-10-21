@@ -61,6 +61,10 @@
     <string name="mark_emergency">Mark Emergency</string>
     <string name="emergency">EMERGENCY</string>
     <string name="verified">VERIFIED</string>
+    <string name="add_to_calendar">Add to Calendar</string>
+    <string name="remind_me">Remind Me</string>
+    <string name="blood_camps">Blood Donation Camps</string>
+    <string name="no_nearby_blood_donation_camps_available">No nearby blood donation camp available</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>
