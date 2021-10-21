@@ -72,7 +72,7 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
                         requests.add(request);
                         notifyItemInserted(requests.size() - 1);
                     }
-                    if (!task.getResult().isEmpty())
+                    if (requests.size() > 0)
                         last = requests.get(requests.size() - 1).getTime();
                     Log.i("Asrik", "fetched " + task.getResult().size() + " " + last);
                 } else {

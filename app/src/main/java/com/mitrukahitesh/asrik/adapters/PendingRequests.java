@@ -86,7 +86,7 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
                         requests.add(snapshot.toObject(BloodRequest.class));
                         notifyItemInserted(requests.size() - 1);
                     }
-                    if (!task.getResult().isEmpty())
+                    if (requests.size() > 0)
                         last = requests.get(requests.size() - 1).getTime();
                     Log.i("Asrik: Pending requests", "fetched " + task.getResult().size() + " " + last);
                 } else {
