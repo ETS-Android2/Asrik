@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitAccessObject {
     private static CustomRetrofit customRetrofit;
-    private static final String BASE_URL = "http://192.168.1.68:3000/";
+    private static final String BASE_URL = "https://asrik-server.herokuapp.com/";
 
     private RetrofitAccessObject() {
     }
