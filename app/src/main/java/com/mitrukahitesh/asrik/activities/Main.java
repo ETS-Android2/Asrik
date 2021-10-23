@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -104,12 +105,23 @@ public class Main extends AppCompatActivity {
         super.onStart();
         if (FirebaseAuth.getInstance().getUid() == null)
             return;
+        Map<String, String> map = new HashMap<>();
+        map.put(Constants.TOKEN, "");
+        if (!getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, MODE_PRIVATE).getBoolean(Constants.LOGGED_IN, false)) {
+            FirebaseFirestore.getInstance()
+                    .collection(Constants.TOKENS)
+                    .document(FirebaseAuth.getInstance().getUid())
+                    .set(map);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, Registration.class));
+            finish();
+            return;
+        }
         FirebaseMessaging.getInstance().getToken()
                 .addOnSuccessListener(new OnSuccessListener<String>() {
                     @Override
                     public void onSuccess(String s) {
                         Log.i("Asrik: FCM", s);
-                        Map<String, String> map = new HashMap<>();
                         map.put(Constants.TOKEN, s);
                         FirebaseFirestore.getInstance()
                                 .collection(Constants.TOKENS)
@@ -151,7 +163,8 @@ public class Main extends AppCompatActivity {
         super.onStop();
         Map<String, Boolean> map = new HashMap<>();
         map.put(Constants.STATUS, false);
-        FirebaseFirestore.getInstance().collection(Constants.ONLINE).document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).set(map);
+        if (FirebaseAuth.getInstance().getUid() != null)
+            FirebaseFirestore.getInstance().collection(Constants.ONLINE).document(FirebaseAuth.getInstance().getUid()).set(map);
     }
 
 }

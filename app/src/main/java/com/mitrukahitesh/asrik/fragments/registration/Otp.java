@@ -76,6 +76,7 @@ public class Otp extends Fragment {
             if (code.getText().toString().length() != 6) {
                 return;
             }
+            submit.setEnabled(false);
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verId, code.getText().toString());
             signInWithPhoneAuthCredential(credential);
         });
@@ -152,6 +153,7 @@ public class Otp extends Fragment {
                         bundle.putBoolean(Constants.ADMIN, admin);
                         controller.navigate(R.id.action_otp_to_userDetails, bundle);
                     } else {
+                        submit.setEnabled(true);
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                             Log.i("Asrik", "Incorrect OTP");
                         }

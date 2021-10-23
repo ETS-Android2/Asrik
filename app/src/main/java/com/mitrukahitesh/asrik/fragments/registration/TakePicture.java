@@ -170,7 +170,7 @@ public class TakePicture extends Fragment {
                     upload.setVisibility(View.GONE);
                     progressIndicator.setVisibility(View.VISIBLE);
                     progressIndicator.setProgress(0);
-                    Snackbar.make(frameLayout, "Uploading...", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(frameLayout, "Uploading image...", Snackbar.LENGTH_LONG).show();
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(Constants.PROFILE_PIC).child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
                     storageReference.putFile(uri).addOnProgressListener(requireActivity(), new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -222,6 +222,7 @@ public class TakePicture extends Fragment {
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(Constants.PROFILE_PIC_URL, url);
+            editor.putBoolean(Constants.LOGGED_IN, true);
             editor.apply();
             FirebaseFirestore.getInstance()
                     .collection(Constants.USERS)

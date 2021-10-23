@@ -3,6 +3,7 @@ package com.mitrukahitesh.asrik.utility;
 public class Constants {
     public static final String USER_DETAILS_SHARED_PREFERENCE = "USER_DETAILS_SHARED_PREFERENCE";
 
+    public static final String LOGGED_IN = "LOGGED_IN";
     public static final String ADMIN = "ADMIN";
     public static final String NUMBER = "NUMBER";
     public static final String REGISTER = "REGISTER";

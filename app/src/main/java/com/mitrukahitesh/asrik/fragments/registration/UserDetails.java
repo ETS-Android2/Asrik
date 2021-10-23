@@ -109,7 +109,7 @@ public class UserDetails extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
-                        if (task.getResult() != null && task.getResult().exists() && Objects.equals(task.getResult().get(Constants.ADMIN), FirebaseAuth.getInstance().getUid())) {
+                        if (Objects.equals(task.getResult().get(Constants.ADMIN), FirebaseAuth.getInstance().getUid())) {
                             setAdmin();
                             return;
                         }

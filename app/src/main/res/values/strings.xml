@@ -4,7 +4,7 @@
     <string name="continue_text">Continue</string>
     <string name="registration">Registration</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
-    <string name="phone_placeholder">901-234-5086</string>
+    <string name="phone_placeholder">9012345086</string>
     <string name="verification">Verification</string>
     <string name="please_enter_the_otp">Please enter the OTP</string>
     <string name="resend_code_in">Resend code in</string>
@@ -17,7 +17,7 @@
     <string name="company_email">help@asrik.com</string>
     <string name="take_your_photo">Take your photo</string>
     <string name="your_photo_made_us_to_ndeliver_right_person">Your photo made us to\ndeliver right person</string>
-    <string name="upload">Upload</string>
+    <string name="finish">Finish Registration</string>
     <string name="your_area_pin_code">Your area PIN Code</string>
     <string name="city">City</string>
     <string name="state">State</string>
