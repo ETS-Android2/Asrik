@@ -33,7 +33,7 @@ public class FirebaseNotification extends FirebaseMessagingService {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Intent intent = new Intent(this, Main.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        if (Boolean.parseBoolean(map.get("bloodCamp"))) {
+        if (Boolean.parseBoolean(map.get("bloodCamp")) && preferences.getBoolean(Constants.ENABLE_NOTIFICATION_BLOOD_CAMP, true)) {
             Notification notification = new NotificationCompat.Builder(this, App.BLOOD_CAMP)
                     .setContentTitle(map.get("title"))
                     .setContentText(map.get("date"))

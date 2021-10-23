@@ -7,11 +7,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -26,6 +28,7 @@ public class Profile extends Fragment {
     private TextView name, pincode, bloodGroup, city, phone, email;
     private FrameLayout root;
     private CircleImageView dp;
+    private SwitchCompat notifyBloodCamps;
 
     public Profile() {
     }
@@ -52,6 +55,14 @@ public class Profile extends Fragment {
         phone = view.findViewById(R.id.phone);
         email = view.findViewById(R.id.email);
         dp = view.findViewById(R.id.profile_image);
+        notifyBloodCamps = view.findViewById(R.id.camp_notification);
+        notifyBloodCamps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences preferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+                preferences.edit().putBoolean(Constants.ENABLE_NOTIFICATION_BLOOD_CAMP, isChecked).apply();
+            }
+        });
         view.findViewById(R.id.card1).setBackgroundResource(R.drawable.dashed_border);
         view.findViewById(R.id.card2).setBackgroundResource(R.drawable.dashed_border);
         setValues();
@@ -65,9 +76,11 @@ public class Profile extends Fragment {
         phone.setText(preferences.getString(Constants.NUMBER, ""));
         email.setText(preferences.getString(Constants.EMAIL, ""));
         pincode.setText(String.format("#%s", preferences.getString(Constants.PIN_CODE, "")));
+        notifyBloodCamps.setChecked(preferences.getBoolean(Constants.ENABLE_NOTIFICATION_BLOOD_CAMP, true));
         if (!preferences.getString(Constants.PROFILE_PIC_URL, "").equals(""))
             Glide.with(requireContext()).load(preferences.getString(Constants.PROFILE_PIC_URL, "")).into(dp);
         else
             Glide.with(requireContext()).load(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_usercircle_large)).centerCrop().into(dp);
     }
+
 }

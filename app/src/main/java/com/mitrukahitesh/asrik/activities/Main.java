@@ -44,6 +44,7 @@ public class Main extends AppCompatActivity {
     private Fragment active = home;
     private BottomNavigationView navigationView;
     private final FragmentManager fragmentManager = getSupportFragmentManager();
+    public static final String ADMIN = "admin";
     public static final String HOME = "home";
     public static final String NEARBY_SERVICES = "nearby_services";
     public static final String CHAT = "chat";
@@ -59,18 +60,16 @@ public class Main extends AppCompatActivity {
         setBottomNavListener();
         updatePicUrlOnUserRequests();
         navigationView.setBackground(null);
-        fragmentManager.beginTransaction().add(R.id.main_container, home, HOME).hide(home).commit();
+        navigationView.setSelectedItemId(R.id.home);
         if (isAdmin) {
             navigationView.getMenu().getItem(0).setVisible(true);
-            fragmentManager.beginTransaction().add(R.id.main_container, admin, PROFILE).show(admin).commit();
-            active = admin;
-        } else {
-            fragmentManager.beginTransaction().show(home).commit();
-            active = home;
+            fragmentManager.beginTransaction().add(R.id.main_container, admin, ADMIN).hide(admin).commit();
         }
+        fragmentManager.beginTransaction().add(R.id.main_container, home, HOME).show(home).commit();
         fragmentManager.beginTransaction().add(R.id.main_container, profile, PROFILE).hide(profile).commit();
         fragmentManager.beginTransaction().add(R.id.main_container, chat, CHAT).hide(chat).commit();
         fragmentManager.beginTransaction().add(R.id.main_container, nearbyServices, NEARBY_SERVICES).hide(nearbyServices).commit();
+        active = home;
     }
 
     private void setBottomNavListener() {

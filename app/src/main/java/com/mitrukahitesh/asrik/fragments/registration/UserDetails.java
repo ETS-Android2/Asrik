@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mitrukahitesh.asrik.R;
@@ -53,6 +54,7 @@ public class UserDetails extends Fragment {
     private Spinner spinner;
     private String bloodGroup;
     private SharedPreferences.Editor editor;
+    private Button button;
     private final View.OnClickListener onSubmit = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -72,13 +74,33 @@ public class UserDetails extends Fragment {
                 Snackbar.make(frameLayout, "Please select blood group", Snackbar.LENGTH_LONG).show();
                 return;
             }
+            button.setEnabled(false);
             if (!bundle.getBoolean(Constants.ADMIN, false)) {
-                saveData();
+                removeAsAdminIfAdmin();
             } else {
                 checkExistingAdminAndAddData();
             }
         }
     };
+
+    private void removeAsAdminIfAdmin() {
+        DocumentReference reference = FirebaseFirestore.getInstance()
+                .collection(Constants.ADMINS)
+                .document(Objects.requireNonNull(pin.getText()).toString());
+        reference.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null && task.getResult().exists() && Objects.equals(task.getResult().get(Constants.ADMIN), FirebaseAuth.getInstance().getUid())) {
+                        reference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                saveData();
+                            }
+                        });
+                    } else {
+                        saveData();
+                    }
+                });
+    }
 
     private void checkExistingAdminAndAddData() {
         FirebaseFirestore.getInstance()
@@ -86,7 +108,7 @@ public class UserDetails extends Fragment {
                 .document(Objects.requireNonNull(pin.getText()).toString())
                 .get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && (task.getResult() == null || task.getResult().exists())) {
+                    if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
                         if (task.getResult() != null && task.getResult().exists() && Objects.equals(task.getResult().get(Constants.ADMIN), FirebaseAuth.getInstance().getUid())) {
                             setAdmin();
                             return;
@@ -187,7 +209,7 @@ public class UserDetails extends Fragment {
 
             }
         });
-        Button button = view.findViewById(R.id.continue_btn);
+        button = view.findViewById(R.id.continue_btn);
         frameLayout = view.findViewById(R.id.root);
         pin.addTextChangedListener(new TextWatcher() {
             @Override

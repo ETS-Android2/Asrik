@@ -1,6 +1,10 @@
 package com.mitrukahitesh.asrik.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.models.BloodCamp;
+import com.mitrukahitesh.asrik.utility.Constants;
 import com.mitrukahitesh.asrik.utility.TimeFormatter;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class CampAdapter extends RecyclerView.Adapter<CampAdapter.CustomVH> {
 
@@ -63,6 +69,42 @@ public class CampAdapter extends RecyclerView.Adapter<CampAdapter.CustomVH> {
         }
 
         private void setListeners() {
+            remind.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BloodCamp camp = camps.get(getAdapterPosition());
+                    Intent intent = new Intent(Intent.ACTION_EDIT);
+                    intent.setType("vnd.android.cursor.item/event");
+                    intent.putExtra(CalendarContract.Events.TITLE, "Blood Donation Camp");
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.setTimeZone(TimeZone.getDefault());
+                    calendar1.set(camp.getYear(), camp.getMonth(), camp.getDay(), camp.getStartHour(), camp.getStartMin());
+                    Calendar calendar2 = Calendar.getInstance();
+                    calendar2.setTimeZone(TimeZone.getDefault());
+                    calendar2.set(camp.getYear(), camp.getMonth(), camp.getDay(), camp.getEndhour(), camp.getEndMin());
+                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                            calendar1.getTimeInMillis());
+                    intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                            calendar2.getTimeInMillis());
+                    intent.putExtra(CalendarContract.Events.ALL_DAY, false);
+                    intent.putExtra(CalendarContract.Events.EVENT_LOCATION, camp.getAddress());
+                    context.startActivity(intent);
+                }
+            });
+            locate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    locate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Uri gmmIntentUri = Uri.parse("geo:" + camps.get(getAdapterPosition()).getLat() + ", " + camps.get(getAdapterPosition()).getLon() + "?q=" + camps.get(getAdapterPosition()).getAddress());
+                            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                            mapIntent.setPackage("com.google.android.apps.maps");
+                            context.startActivity(mapIntent);
+                        }
+                    });
+                }
+            });
         }
 
         private void setView(BloodCamp camp) {

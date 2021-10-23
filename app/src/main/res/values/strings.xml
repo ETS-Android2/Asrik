@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Asrik</string>
+    <string name="app_name" translatable="false">Asrik</string>
     <string name="already_have_a_account_sign_in">Already have a account? sign-in</string>
     <string name="continue_text">Continue</string>
     <string name="registration">Registration</string>
@@ -65,6 +65,7 @@
     <string name="remind_me">Remind Me</string>
     <string name="blood_camps">Blood Donation Camps</string>
     <string name="no_nearby_blood_donation_camps_available">No nearby blood donation camp available</string>
+    <string name="notify_blood_donation_camps">Blood donation camps</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>
