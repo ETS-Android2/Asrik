@@ -43,6 +43,8 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
     private final List<BloodRequest> requests = new ArrayList<>();
     private Long last = System.currentTimeMillis();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference reference = db.collection(Constants.REQUESTS);
+    ;
     private final Set<Integer> updatedAt = new HashSet<>();
     private final Set<String> gotOnlineStatus = new HashSet<>();
 
@@ -52,7 +54,6 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
     }
 
     private void fetchData() {
-        CollectionReference reference = db.collection(Constants.REQUESTS);
         Query query = reference.
                 whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
                 orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.DESCENDING).

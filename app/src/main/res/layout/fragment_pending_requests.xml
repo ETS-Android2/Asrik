@@ -49,6 +49,7 @@
         android:backgroundTint="#566BFF"
         android:contentDescription="@string/request_blood"
         android:src="@drawable/ic_baseline_bloodtype_24"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@android:color/white" />

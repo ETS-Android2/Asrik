@@ -1,12 +1,17 @@
 package com.mitrukahitesh.asrik.fragments.homefragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -17,11 +22,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -47,6 +55,10 @@ public class Feed extends Fragment {
     private CampAdapter campAdapter;
     private NavController controller;
     private TextView noCamps;
+    private RadioGroup radioGroup;
+    private TextInputEditText search;
+    private CardView hospitals, bloodBanks, bloodDonationCamps, pharmacies;
+
     private final List<BloodCamp> campList = new ArrayList<>();
 
     public Feed() {
@@ -66,6 +78,11 @@ public class Feed extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setReferences(view);
+        setListeners(view);
+    }
+
+    private void setReferences(View view) {
         if (recyclerView == null) {
             adapter = new FeedRequests(requireContext());
         } else {
@@ -100,6 +117,16 @@ public class Feed extends Fragment {
         campRecycler.setAdapter(campAdapter);
         emergencyRecyclerView.setAdapter(emergencyAdapter);
         recyclerView.setAdapter(adapter);
+        radioGroup = view.findViewById(R.id.radio_group);
+        radioGroup.setVisibility(View.GONE);
+        radioGroup.check(R.id.relevance);
+        hospitals = view.findViewById(R.id.nearby_hospital);
+        bloodBanks = view.findViewById(R.id.nearby_bank);
+        bloodDonationCamps = view.findViewById(R.id.nearby_camp);
+        pharmacies = view.findViewById(R.id.nearby_pharmacy);
+    }
+
+    private void setListeners(View view) {
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +134,50 @@ public class Feed extends Fragment {
                 controller.navigate(R.id.action_feed_to_raiseRequest);
             }
         });
+        ImageView filterImg = view.findViewById(R.id.filter);
+        filterImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (radioGroup.getVisibility() == View.GONE) {
+                    radioGroup.setVisibility(View.VISIBLE);
+                    radioGroup.setAlpha(0.0f);
+                    radioGroup.animate().alpha(1.0f).setDuration(700);
+                } else {
+                    radioGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+        hospitals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNearbyServices("hospitals");
+            }
+        });
+        bloodBanks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNearbyServices("blood banks");
+            }
+        });
+        bloodDonationCamps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNearbyServices("blood donation camps");
+            }
+        });
+        pharmacies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNearbyServices("pharmacies");
+            }
+        });
+    }
+
+    private void showNearbyServices(String service) {
+        Uri gmmIntentUri = Uri.parse(String.format("geo:0,0?z=10&q=%s", service));
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        requireContext().startActivity(mapIntent);
     }
 
     private void fetchCamps() {

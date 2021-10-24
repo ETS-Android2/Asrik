@@ -41,49 +41,43 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:includeFontPadding="false"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="72sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/day"
+                        android:id="@+id/month"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
                         android:includeFontPadding="false"
-                        android:paddingHorizontal="5dp"
                         android:textColor="@color/white"
-                        android:textSize="72sp" />
+                        android:textSize="24sp" />
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/year"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/month"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_bold"
-                            android:includeFontPadding="false"
-                            android:textColor="@color/white"
-                            android:textSize="24sp" />
-
-                        <TextView
-                            android:id="@+id/year"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_bold"
-                            android:includeFontPadding="false"
-                            android:textColor="@color/white"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
+                        android:layout_marginStart="2dp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -117,6 +111,8 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
                 android:text="@string/remind_me"
                 android:textAllCaps="false"
                 android:textColor="@color/green1" />
@@ -130,6 +126,8 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
                 android:text="@string/locate"
                 android:textAllCaps="false"
                 android:textColor="@color/pink" />
