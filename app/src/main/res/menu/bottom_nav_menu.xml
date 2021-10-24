@@ -4,30 +4,33 @@
 
     <item
         android:id="@+id/admin"
-        android:icon="@drawable/ic_baseline_admin_panel_settings_24"
+        android:icon="@drawable/ic_administrator_developer"
+        android:title="Admin"
         android:visible="false"
         tools:ignore="MenuTitle" />
 
     <item
         android:id="@+id/home"
         android:icon="@drawable/ic_house"
+        android:title="Home"
         tools:ignore="MenuTitle" />
 
-
     <item
-        android:id="@+id/nearbyServices"
-        android:icon="@drawable/ic_navigation_arrow"
+        android:id="@+id/history"
+        android:icon="@drawable/ic_baseline_history_edu_24"
+        android:title="History"
         tools:ignore="MenuTitle" />
 
     <item
         android:id="@+id/chat"
         android:icon="@drawable/ic_chats"
+        android:title="Chats"
         tools:ignore="MenuTitle" />
-
 
     <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_usercircle"
+        android:title="Profile"
         tools:ignore="MenuTitle" />
 
 </menu>

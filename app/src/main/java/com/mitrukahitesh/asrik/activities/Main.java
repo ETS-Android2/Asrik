@@ -83,7 +83,7 @@ public class Main extends AppCompatActivity {
                 fragmentManager.beginTransaction().hide(active).show(home).commit();
                 active = home;
                 return true;
-            } else if (item.getItemId() == R.id.nearbyServices) {
+            } else if (item.getItemId() == R.id.history) {
                 fragmentManager.beginTransaction().hide(active).show(nearbyServices).commit();
                 active = nearbyServices;
                 return true;
