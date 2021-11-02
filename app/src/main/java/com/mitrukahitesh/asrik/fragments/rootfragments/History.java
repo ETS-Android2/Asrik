@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import com.mitrukahitesh.asrik.R;
 
-public class NearbyServices extends Fragment {
+public class History extends Fragment {
 
-    public NearbyServices() {
+    public History() {
     }
 
     @Override

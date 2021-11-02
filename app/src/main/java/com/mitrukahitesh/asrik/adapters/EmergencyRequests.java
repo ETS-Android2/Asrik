@@ -67,6 +67,7 @@ public class EmergencyRequests extends RecyclerView.Adapter<EmergencyRequests.Cu
         CollectionReference reference = db.collection(Constants.REQUESTS);
         Query query = reference.
                 whereEqualTo(Constants.PINCODE.toLowerCase(Locale.ROOT), context.getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE).getString(Constants.PIN_CODE, "")).
+                whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
                 whereEqualTo(Constants.EMERGENCY.toLowerCase(Locale.ROOT), true).
                 orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.ASCENDING);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

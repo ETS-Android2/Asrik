@@ -4,6 +4,7 @@ public class Constants {
     public static final String USER_DETAILS_SHARED_PREFERENCE = "USER_DETAILS_SHARED_PREFERENCE";
 
     public static final String LOGGED_IN = "LOGGED_IN";
+    public static final String UID = "UID";
     public static final String ADMIN = "ADMIN";
     public static final String NUMBER = "NUMBER";
     public static final String REGISTER = "REGISTER";
@@ -28,6 +29,7 @@ public class Constants {
     public static final String START_TIME = "START_TIME";
     public static final String END_TIME = "END_TIME";
     public static final String REQUEST_ID = "REQUEST_ID";
+    public static final String CANCELLED = "CANCELLED";
     public static final String ENABLE_NOTIFICATION_BLOOD_CAMP = "ENABLE_NOTIFICATION_BLOOD_CAMP";
 
 

@@ -3,10 +3,18 @@ package com.mitrukahitesh.asrik.models;
 public class BloodRequest {
     private String requestId, uid, name, number, bloodGroup, pincode, city, state, latitude, longitude, address, documentUrl, severity, profilePicUrl;
     private Integer units;
-    private boolean emergency, verified, userOnline = false, rejected = false;
+    private boolean emergency, verified, userOnline = false, rejected = false, cancelled = false;
     private long time;
 
     public BloodRequest() {
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
     public boolean isRejected() {

@@ -55,6 +55,7 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
 
     private void fetchData() {
         Query query = reference.
+                whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
                 whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
                 orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.DESCENDING).
                 whereLessThan(Constants.TIME.toLowerCase(Locale.ROOT), last).

@@ -71,6 +71,7 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
         CollectionReference reference = db.collection(Constants.REQUESTS);
         Query query = reference.
                 whereEqualTo(Constants.PINCODE.toLowerCase(Locale.ROOT), context.getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE).getString(Constants.PIN_CODE, "")).
+                whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
                 whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), false).
                 whereEqualTo(Constants.REJECTED.toLowerCase(Locale.ROOT), false).
                 orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.ASCENDING).
