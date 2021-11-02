@@ -263,8 +263,8 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(Constants.ADDRESS, address.getText().toString());
             jsonObject.put(Constants.DATE, String.format(Locale.getDefault(), "%d %s %d", cal.get(Calendar.DAY_OF_MONTH), cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()), cal.get(Calendar.YEAR)));
-            jsonObject.put(Constants.START_TIME, String.format(Locale.getDefault(), "%d:%d", startHour, startMin));
-            jsonObject.put(Constants.END_TIME, String.format(Locale.getDefault(), "%d:%d", endhour, endMin));
+            jsonObject.put(Constants.START_TIME, TimeFormatter.formatTime(startHour, startMin));
+            jsonObject.put(Constants.END_TIME, TimeFormatter.formatTime(endhour, endMin));
             RetrofitAccessObject.getRetrofitAccessObject()
                     .notifyBloodCamp(preferences.getString(Constants.PIN_CODE, ""), FirebaseAuth.getInstance().getUid(), jsonObject)
                     .enqueue(new Callback<String>() {

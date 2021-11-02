@@ -264,7 +264,7 @@ public class RaiseRequest extends Fragment {
                     request.setLongitude(lon.toString());
                     request.setTime(System.currentTimeMillis());
                     request.setName(preferences.getString(Constants.NAME, "User"));
-                    request.setName(preferences.getString(Constants.NUMBER, ""));
+                    request.setNumber(preferences.getString(Constants.NUMBER, ""));
                     request.setProfilePicUrl(preferences.getString(Constants.PROFILE_PIC_URL, ""));
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(Constants.REQUESTS).child(reference.getId());
                     storageReference.putFile(uri).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -318,6 +318,7 @@ public class RaiseRequest extends Fragment {
             object.put(Constants.PROFILE_PIC_URL, preferences.getString(Constants.PROFILE_PIC_URL, ""));
             object.put(Constants.UNITS, units.getText().toString());
             object.put(Constants.BLOOD_GROUP, bloodGroup);
+            object.put(Constants.SEVERITY, severityString);
         } catch (JSONException exception) {
             Log.i("Asrik: RaiseRequest", exception.getMessage());
         }
