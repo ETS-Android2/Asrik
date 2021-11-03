@@ -43,4 +43,12 @@ public class Constants {
     public static final String PROFILE_PIC = "profile_pic";
     public static final String TOKENS = "TOKENS";
     public static final String TOKEN = "TOKEN";
+    public static final String CHATS = "CHATS";
+    public static final String MESSAGES = "MESSAGES";
+    public static final String MESSAGE = "MESSAGE";
+    public static final String MEDIA = "MEDIA";
+    public static final String IMAGE = "IMAGE";
+    public static final String SENDER = "SENDER";
+    public static final String MESSAGE_ID = "MESSAGE_ID";
+    public static final String CHAT_ID = "CHAT_ID";
 }

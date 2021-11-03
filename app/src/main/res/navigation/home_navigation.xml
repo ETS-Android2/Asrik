@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_feed_to_raiseRequest"
             app:destination="@id/raiseRequest" />
+        <action
+            android:id="@+id/action_feed_to_chat3"
+            app:destination="@id/chat3" />
     </fragment>
     <fragment
         android:id="@+id/raiseRequest"
@@ -34,4 +37,9 @@
             android:id="@+id/action_selectLocation_to_raiseRequest"
             app:destination="@id/raiseRequest" />
     </fragment>
+    <fragment
+        android:id="@+id/chat3"
+        android:name="com.mitrukahitesh.asrik.fragments.chatfragments.Chat"
+        android:label="fragment_chat2"
+        tools:layout="@layout/fragment_chat2" />
 </navigation>

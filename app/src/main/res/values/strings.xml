@@ -82,6 +82,16 @@
     <string name="revoke">Revoke</string>
     <string name="req_revoked">Request Revoked</string>
     <string name="req_rejected">Request Rejected by Admin</string>
+    <string name="no_active_chats_available">No active chats available</string>
+    <string name="chats">Chats</string>
+    <string name="message">Message</string>
+    <string name="send_message">Send Message</string>
+    <string name="online">online</string>
+    <string name="typing">typing....</string>
+    <string name="send_image">Send Image</string>
+    <string name="send_document">Send Document</string>
+    <string name="remove_selected_file">Remove Selected File</string>
+    <string name="call">Call</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>

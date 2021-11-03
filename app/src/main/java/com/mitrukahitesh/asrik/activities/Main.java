@@ -147,16 +147,18 @@ public class Main extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Map<String, Boolean> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put(Constants.STATUS, true);
+        map.put(Constants.MESSAGE, getString(R.string.online));
         FirebaseFirestore.getInstance().collection(Constants.ONLINE).document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).set(map);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Map<String, Boolean> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put(Constants.STATUS, false);
+        map.put(Constants.TIME, System.currentTimeMillis());
         if (FirebaseAuth.getInstance().getUid() != null)
             FirebaseFirestore.getInstance().collection(Constants.ONLINE).document(FirebaseAuth.getInstance().getUid()).set(map);
     }

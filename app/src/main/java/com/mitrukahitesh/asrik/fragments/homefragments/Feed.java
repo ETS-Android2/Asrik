@@ -84,12 +84,12 @@ public class Feed extends Fragment {
 
     private void setReferences(View view) {
         if (recyclerView == null) {
-            adapter = new FeedRequests(requireContext());
+            adapter = new FeedRequests(requireContext(), Navigation.findNavController(view));
         } else {
             adapter = (FeedRequests) recyclerView.getAdapter();
         }
         if (emergencyRecyclerView == null) {
-            emergencyAdapter = new EmergencyRequests(requireContext());
+            emergencyAdapter = new EmergencyRequests(requireContext(), Navigation.findNavController(view));
         } else {
             emergencyAdapter = (EmergencyRequests) emergencyRecyclerView.getAdapter();
         }

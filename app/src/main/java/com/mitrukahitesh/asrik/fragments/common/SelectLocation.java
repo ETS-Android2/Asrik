@@ -152,6 +152,22 @@ public class SelectLocation extends Fragment {
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
                 googleMap.animateCamera(cameraUpdate);
             }
+
+            @Override
+            public void onProviderEnabled(@NonNull String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(@NonNull String provider) {
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
         }, null);
     }
 
@@ -199,4 +215,5 @@ public class SelectLocation extends Fragment {
             googleMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
         }
     }
+
 }

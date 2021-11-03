@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_pendingRequests_to_bloodCamp"
             app:destination="@id/bloodCamp" />
+        <action
+            android:id="@+id/action_pendingRequests_to_chat4"
+            app:destination="@id/chat4" />
     </fragment>
     <fragment
         android:id="@+id/bloodCamp"
@@ -34,4 +37,9 @@
             android:id="@+id/action_selectLocation2_to_bloodCamp"
             app:destination="@id/bloodCamp" />
     </fragment>
+    <fragment
+        android:id="@+id/chat4"
+        android:name="com.mitrukahitesh.asrik.fragments.chatfragments.Chat"
+        android:label="fragment_chat2"
+        tools:layout="@layout/fragment_chat2" />
 </navigation>

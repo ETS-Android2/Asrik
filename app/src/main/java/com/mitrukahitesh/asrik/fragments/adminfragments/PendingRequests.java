@@ -44,12 +44,12 @@ public class PendingRequests extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         root = view.findViewById(R.id.root);
+        controller = Navigation.findNavController(view);
         if (recyclerView == null) {
-            adapter = new com.mitrukahitesh.asrik.adapters.PendingRequests(requireContext(), root);
+            adapter = new com.mitrukahitesh.asrik.adapters.PendingRequests(requireContext(), root, controller);
         } else {
             adapter = (com.mitrukahitesh.asrik.adapters.PendingRequests) recyclerView.getAdapter();
         }
-        controller = Navigation.findNavController(view);
         recyclerView = view.findViewById(R.id.recycler);
         fab = view.findViewById(R.id.fab);
         recyclerView.setNestedScrollingEnabled(false);

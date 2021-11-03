@@ -3,6 +3,7 @@ package com.mitrukahitesh.asrik.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +42,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
 
     private Context context;
+    private NavController controller;
     private final List<BloodRequest> requests = new ArrayList<>();
     private Long last = System.currentTimeMillis();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -48,8 +51,9 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
     private final Set<Integer> updatedAt = new HashSet<>();
     private final Set<String> gotOnlineStatus = new HashSet<>();
 
-    public FeedRequests(Context context) {
+    public FeedRequests(Context context, NavController controller) {
         this.context = context;
+        this.controller = controller;
         fetchData();
     }
 
@@ -160,6 +164,18 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     context.startActivity(mapIntent);
+                }
+            });
+            chat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BloodRequest request = requests.get(getAdapterPosition());
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.PROFILE_PIC_URL, request.getProfilePicUrl());
+                    bundle.putString(Constants.NAME, request.getName());
+                    bundle.putString(Constants.UID, request.getUid());
+                    bundle.putString(Constants.NUMBER, request.getNumber());
+                    controller.navigate(R.id.action_feed_to_chat3, bundle);
                 }
             });
         }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -57,9 +59,11 @@ public class EmergencyRequests extends RecyclerView.Adapter<EmergencyRequests.Cu
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final Set<Integer> updatedAt = new HashSet<>();
     private final Set<String> gotOnlineStatus = new HashSet<>();
+    private NavController controller;
 
-    public EmergencyRequests(Context context) {
+    public EmergencyRequests(Context context, NavController controller) {
         this.context = context;
+        this.controller = controller;
         fetchData();
     }
 
@@ -167,6 +171,18 @@ public class EmergencyRequests extends RecyclerView.Adapter<EmergencyRequests.Cu
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     context.startActivity(mapIntent);
+                }
+            });
+            chat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BloodRequest request = requests.get(getAdapterPosition());
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.PROFILE_PIC_URL, request.getProfilePicUrl());
+                    bundle.putString(Constants.NAME, request.getName());
+                    bundle.putString(Constants.UID, request.getUid());
+                    bundle.putString(Constants.NUMBER, request.getNumber());
+                    controller.navigate(R.id.action_feed_to_chat3, bundle);
                 }
             });
         }
