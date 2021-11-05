@@ -7,6 +7,8 @@ import android.accessibilityservice.AccessibilityService;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.inputmethodservice.Keyboard;
 import android.net.Uri;
@@ -54,11 +56,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.adapters.Messages;
+import com.mitrukahitesh.asrik.apis.RetrofitAccessObject;
 import com.mitrukahitesh.asrik.models.FileMetaData;
 import com.mitrukahitesh.asrik.models.Message;
+import com.mitrukahitesh.asrik.receivers.ReceiverForChat;
 import com.mitrukahitesh.asrik.utility.Constants;
 import com.mitrukahitesh.asrik.utility.FileDetails;
 import com.mitrukahitesh.asrik.utility.TimeFormatter;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,6 +76,9 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Chat extends Fragment {
 
@@ -87,6 +96,7 @@ public class Chat extends Fragment {
     private LinearLayout fileLl;
     private Uri uri = null;
     private final List<Message> messages = new ArrayList<>();
+    private final ReceiverForChat receiverForChat = new ReceiverForChat();
 
     public Chat() {
     }
@@ -128,6 +138,15 @@ public class Chat extends Fragment {
         super.onResume();
         requireActivity().findViewById(R.id.bottomAppBar).setVisibility(View.GONE);
         changeStatusBarColor(R.color.theme_color_light);
+        IntentFilter filter = new IntentFilter(Constants.NEW_MESSAGE_INTENT_FILTER);
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        requireContext().registerReceiver(receiverForChat, filter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        requireContext().unregisterReceiver(receiverForChat);
     }
 
     @Override
@@ -198,6 +217,13 @@ public class Chat extends Fragment {
             reference.set(m).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
+                    sendNotification(
+                            bundle.getString(Constants.UID, ""),
+                            bundle.getString(Constants.NAME, ""),
+                            bundle.getString(Constants.NUMBER, ""),
+                            bundle.getString(Constants.CHAT_ID, chatId),
+                            message.getText().toString().trim().equals("") ? fileName.getText().toString() : message.getText().toString().trim()
+                    );
                     message.setText("");
                     fileName.setText("");
                     fileLl.setVisibility(View.GONE);
@@ -261,17 +287,6 @@ public class Chat extends Fragment {
                 fileLl.setVisibility(View.GONE);
             }
         });
-        fileName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*if (uri == null) {
-                    fileLl.setVisibility(View.GONE);
-                    return;
-                }
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);*/
-            }
-        });
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -295,6 +310,7 @@ public class Chat extends Fragment {
                         for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
                             if (snapshot.getId().equals(bundle.getString(Constants.UID))) {
                                 chatId = snapshot.getString(Constants.CHAT_ID);
+                                receiverForChat.setChatId(chatId);
                                 fetchChat();
                                 return;
                             }
@@ -306,6 +322,7 @@ public class Chat extends Fragment {
                         chatId = FirebaseFirestore.getInstance()
                                 .collection(Constants.CHATS)
                                 .document().getId();
+                        receiverForChat.setChatId(chatId);
                         Map<String, Object> map = new HashMap<>();
                         map.put(Constants.CHAT_ID, chatId);
                         FirebaseFirestore.getInstance()
@@ -333,12 +350,8 @@ public class Chat extends Fragment {
                 Map<String, Object> map = new HashMap<>();
                 map.put(Constants.MESSAGE, requireContext().getString(R.string.online));
                 if (s != null && !s.toString().trim().equals("")) {
-//                    image.setVisibility(View.GONE);
                     map.put(Constants.MESSAGE, requireContext().getString(R.string.typing));
                 }
-                /*else {
-                    image.setVisibility(View.VISIBLE);
-                }*/
                 FirebaseFirestore.getInstance()
                         .collection(Constants.ONLINE)
                         .document(FirebaseAuth.getInstance().getUid())
@@ -382,6 +395,32 @@ public class Chat extends Fragment {
                         }
                     }
                 });
+    }
+
+    private void sendNotification(String uid, String name, String number, String chatId, String message) {
+        SharedPreferences preferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(Constants.NAME, preferences.getString(Constants.NAME, ""));
+            jsonObject.put(Constants.NUMBER, preferences.getString(Constants.NUMBER, ""));
+            jsonObject.put(Constants.CHAT_ID, chatId);
+            jsonObject.put(Constants.MESSAGE, message);
+            RetrofitAccessObject.getRetrofitAccessObject()
+                    .notifyNewMessage(uid, jsonObject)
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+
+                        }
+                    });
+        } catch (Exception e) {
+            Log.i("Asrik: Sending Message Notification", e.getMessage());
+        }
     }
 
     private void changeStatusBarColor(int color) {

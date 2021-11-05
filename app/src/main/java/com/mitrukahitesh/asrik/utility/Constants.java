@@ -60,4 +60,6 @@ public class Constants {
     public static final String NAME_LOWER_CASE = "NAME_LOWER_CASE";
     public static final String NAME_LOWER_CASE_CAMEL = "nameLowerCase";
     public static final String SEVERITY_INDEX = "severityIndex";
+
+    public static final String NEW_MESSAGE_INTENT_FILTER = "com.mitrukahitesh.asrik.NEW_MESSAGE";
 }

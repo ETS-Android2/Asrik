@@ -26,4 +26,7 @@ public interface CustomRetrofit {
 
     @POST("/blood_camp/{code}/{id}")
     Call<String> notifyBloodCamp(@Path(value = "code", encoded = true) String code, @Path(value = "id", encoded = true) String id, @Body JSONObject object);
+
+    @POST("/new_message/{receiver}")
+    Call<String> notifyNewMessage(@Path(value = "receiver", encoded = true) String receiver, @Body JSONObject body);
 }

@@ -10,6 +10,7 @@ public class App extends Application {
     public static final String ADMIN_NEW_REQUEST = "ADMIN_NEW_REQUEST";
     public static final String USER_REQUEST_VERIFIED = "USER_REQUEST_VERIFIED";
     public static final String BLOOD_CAMP = "BLOOD_CAMP";
+    public static final String NEW_MESSAGE = "NEW_MESSAGE";
 
     @Override
     public void onCreate() {
@@ -23,11 +24,14 @@ public class App extends Application {
         NotificationChannel userRequestVerified = new NotificationChannel(USER_REQUEST_VERIFIED, "User Request Verified", NotificationManager.IMPORTANCE_HIGH);
         userRequestVerified.setShowBadge(true);
         NotificationChannel bloodCamp = new NotificationChannel(BLOOD_CAMP, "Blood Camp", NotificationManager.IMPORTANCE_HIGH);
-        userRequestVerified.setShowBadge(true);
+        bloodCamp.setShowBadge(true);
+        NotificationChannel newMessage = new NotificationChannel(NEW_MESSAGE, "New Message", NotificationManager.IMPORTANCE_HIGH);
+        newMessage.setShowBadge(true);
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.createNotificationChannel(adminNewRequest);
         manager.createNotificationChannel(userRequestVerified);
         manager.createNotificationChannel(bloodCamp);
+        manager.createNotificationChannel(newMessage);
     }
 }
