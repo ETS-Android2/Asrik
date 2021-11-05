@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mitrukahitesh.asrik.App;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.adapters.ChatListAdapter;
 import com.mitrukahitesh.asrik.models.ChatInfo;
@@ -170,9 +171,7 @@ public class ChatList extends Fragment {
 
                                     @SuppressLint("NotifyDataSetChanged")
                                     private void sortAndNotify() {
-                                        chatInfoList.sort((o1, o2) -> {
-                                            return (int) -(o1.getTime() - o2.getTime());
-                                        });
+                                        chatInfoList.sort((o1, o2) -> (int) -(o1.getTime() - o2.getTime()));
                                         adapter.notifyDataSetChanged();
                                     }
                                 });
