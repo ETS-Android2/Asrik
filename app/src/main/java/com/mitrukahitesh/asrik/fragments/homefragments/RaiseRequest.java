@@ -55,6 +55,8 @@ import com.mitrukahitesh.asrik.utility.FileDetails;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,6 +76,7 @@ public class RaiseRequest extends Fragment {
     private String bloodGroup = "", severityString = "";
     public static Double lat = null;
     public static Double lon = null;
+    private int severityIndex;
 
     public RaiseRequest() {
     }
@@ -159,6 +162,7 @@ public class RaiseRequest extends Fragment {
                     severityString = "";
                     return;
                 }
+                severityIndex = position;
                 severityString = getResources().getStringArray(R.array.severities)[position];
             }
 
@@ -253,6 +257,7 @@ public class RaiseRequest extends Fragment {
                     request.setRequestId(reference.getId());
                     request.setBloodGroup(bloodGroup);
                     request.setSeverity(severityString);
+                    request.setSeverityIndex(severityIndex);
                     request.setAddress(address.getText().toString());
                     request.setUnits(Integer.parseInt(units.getText().toString()));
                     request.setPincode(pin.getText().toString());
@@ -264,6 +269,7 @@ public class RaiseRequest extends Fragment {
                     request.setLongitude(lon.toString());
                     request.setTime(System.currentTimeMillis());
                     request.setName(preferences.getString(Constants.NAME, "User"));
+                    request.setNameLowerCase(preferences.getString(Constants.NAME_LOWER_CASE_CAMEL, "User").toLowerCase(Locale.ROOT));
                     request.setNumber(preferences.getString(Constants.NUMBER, ""));
                     request.setProfilePicUrl(preferences.getString(Constants.PROFILE_PIC_URL, ""));
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(Constants.REQUESTS).child(reference.getId());
@@ -271,11 +277,7 @@ public class RaiseRequest extends Fragment {
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                             long progress = ((snapshot.getBytesTransferred() * 100) / snapshot.getTotalByteCount());
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                progressIndicator.setProgress((int) progress, true);
-                            } else {
-                                progressIndicator.setProgress((int) progress);
-                            }
+                            progressIndicator.setProgress((int) progress, true);
                             if (progress == 100) {
                                 progressIndicator.setProgress(100);
                             }

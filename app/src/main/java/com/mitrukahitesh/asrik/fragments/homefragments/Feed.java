@@ -19,9 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -58,6 +61,8 @@ public class Feed extends Fragment {
     private RadioGroup radioGroup;
     private TextInputEditText search;
     private CardView hospitals, bloodBanks, bloodDonationCamps, pharmacies;
+    private String searchString = "";
+    private String sortSelected = Constants.RELEVANCE;
 
     private final List<BloodCamp> campList = new ArrayList<>();
 
@@ -84,7 +89,7 @@ public class Feed extends Fragment {
 
     private void setReferences(View view) {
         if (recyclerView == null) {
-            adapter = new FeedRequests(requireContext(), Navigation.findNavController(view));
+            adapter = new FeedRequests(requireContext(), Navigation.findNavController(view), sortSelected, searchString);
         } else {
             adapter = (FeedRequests) recyclerView.getAdapter();
         }
@@ -124,6 +129,7 @@ public class Feed extends Fragment {
         bloodBanks = view.findViewById(R.id.nearby_bank);
         bloodDonationCamps = view.findViewById(R.id.nearby_camp);
         pharmacies = view.findViewById(R.id.nearby_pharmacy);
+        search = view.findViewById(R.id.search);
     }
 
     private void setListeners(View view) {
@@ -171,6 +177,51 @@ public class Feed extends Fragment {
                 showNearbyServices("pharmacies");
             }
         });
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == view.findViewById(R.id.relevance).getId()) {
+                    sortSelected = Constants.RELEVANCE;
+                    setAdaptersWithFilters();
+                } else if (checkedId == view.findViewById(R.id.newest).getId()) {
+                    sortSelected = Constants.NEWEST_FIRST;
+                    setAdaptersWithFilters();
+                } else if (checkedId == view.findViewById(R.id.oldest).getId()) {
+                    sortSelected = Constants.OLDEST_FIRST;
+                    setAdaptersWithFilters();
+                } else if (checkedId == view.findViewById(R.id.sev_high_low).getId()) {
+                    sortSelected = Constants.SEVERITY_HIGH_LOW;
+                    setAdaptersWithFilters();
+                } else if (checkedId == view.findViewById(R.id.sev_low_high).getId()) {
+                    sortSelected = Constants.SEVERITY_LOW_HIGH;
+                    setAdaptersWithFilters();
+                }
+                radioGroup.setVisibility(View.GONE);
+            }
+        });
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (search.getText() != null)
+                        searchString = search.getText().toString().trim().toLowerCase(Locale.ROOT);
+                    else
+                        searchString = "";
+                    setAdaptersWithFilters();
+                }
+                InputMethodManager inputManager = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(requireActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                return false;
+            }
+        });
+    }
+
+    private void setAdaptersWithFilters() {
+        if (!sortSelected.equals(Constants.RELEVANCE) || !searchString.equals(""))
+            emergencyRecyclerView.setVisibility(View.GONE);
+        else
+            emergencyRecyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setAdapter(new FeedRequests(requireContext(), controller, sortSelected, searchString));
     }
 
     private void showNearbyServices(String service) {

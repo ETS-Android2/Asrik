@@ -66,7 +66,7 @@
     <string name="blood_camps">Blood Donation Camps</string>
     <string name="no_nearby_blood_donation_camps_available">No nearby blood donation camp available</string>
     <string name="notify_blood_donation_camps">Blood donation camps</string>
-    <string name="search_request">Search request..</string>
+    <string name="search_request">Search by seeker name</string>
     <string name="relevance">Relevance</string>
     <string name="severity_high_to_low">Severity: High to Low</string>
     <string name="severity_low_to_high">Severity: low to High</string>

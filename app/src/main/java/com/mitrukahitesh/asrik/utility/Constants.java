@@ -51,4 +51,13 @@ public class Constants {
     public static final String SENDER = "SENDER";
     public static final String MESSAGE_ID = "MESSAGE_ID";
     public static final String CHAT_ID = "CHAT_ID";
+
+    public static final String RELEVANCE = "CHAT_ID";
+    public static final String NEWEST_FIRST = "NEWEST_FIRST";
+    public static final String OLDEST_FIRST = "OLDEST_FIRST";
+    public static final String SEVERITY_HIGH_LOW = "SEVERITY_HIGH_LOW";
+    public static final String SEVERITY_LOW_HIGH = "SEVERITY_LOW_HIGH";
+    public static final String NAME_LOWER_CASE = "NAME_LOWER_CASE";
+    public static final String NAME_LOWER_CASE_CAMEL = "nameLowerCase";
+    public static final String SEVERITY_INDEX = "severityIndex";
 }

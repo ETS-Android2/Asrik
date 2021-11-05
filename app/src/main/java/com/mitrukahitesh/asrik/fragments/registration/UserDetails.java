@@ -36,6 +36,7 @@ import com.mitrukahitesh.asrik.models.PinCodeDetails;
 import com.mitrukahitesh.asrik.utility.Constants;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -134,16 +135,18 @@ public class UserDetails extends Fragment {
         Map<String, Object> details = new HashMap<>();
         details.put(Constants.ADMIN, bundle.getBoolean(Constants.ADMIN, false));
         details.put(Constants.NUMBER, bundle.getString(Constants.NUMBER));
-        details.put(Constants.NAME, Objects.requireNonNull(name.getText()).toString());
-        details.put(Constants.EMAIL, Objects.requireNonNull(email.getText()).toString());
+        details.put(Constants.NAME, Objects.requireNonNull(name.getText()).toString().trim());
+        details.put(Constants.NAME_LOWER_CASE, Objects.requireNonNull(name.getText()).toString().trim().toLowerCase(Locale.ROOT));
+        details.put(Constants.EMAIL, Objects.requireNonNull(email.getText()).toString().trim());
         details.put(Constants.PIN_CODE, Objects.requireNonNull(pin.getText()).toString());
         details.put(Constants.BLOOD_GROUP, bloodGroup);
         details.put(Constants.CITY, city.getText().toString());
         details.put(Constants.STATE, state.getText().toString());
         editor.putBoolean(Constants.ADMIN, bundle.getBoolean(Constants.ADMIN, false));
         editor.putString(Constants.NUMBER, bundle.getString(Constants.NUMBER));
-        editor.putString(Constants.NAME, Objects.requireNonNull(name.getText()).toString());
-        editor.putString(Constants.EMAIL, Objects.requireNonNull(email.getText()).toString());
+        editor.putString(Constants.NAME, Objects.requireNonNull(name.getText()).toString().trim());
+        editor.putString(Constants.NAME_LOWER_CASE, Objects.requireNonNull(name.getText()).toString().trim().toLowerCase(Locale.ROOT));
+        editor.putString(Constants.EMAIL, Objects.requireNonNull(email.getText()).toString().trim());
         editor.putString(Constants.PIN_CODE, Objects.requireNonNull(pin.getText()).toString());
         editor.putString(Constants.BLOOD_GROUP, bloodGroup);
         editor.putString(Constants.CITY, city.getText().toString());

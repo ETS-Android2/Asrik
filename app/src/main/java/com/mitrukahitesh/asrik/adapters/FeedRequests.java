@@ -32,9 +32,11 @@ import com.mitrukahitesh.asrik.models.BloodRequest;
 import com.mitrukahitesh.asrik.utility.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -44,26 +46,143 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
     private Context context;
     private NavController controller;
     private final List<BloodRequest> requests = new ArrayList<>();
-    private Long last = System.currentTimeMillis();
+    private Long last;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference reference = db.collection(Constants.REQUESTS);
-    ;
+    private final Map<String, Query> queryMap = new HashMap<>();
+    private String queryName = "", searchName = "";
     private final Set<Integer> updatedAt = new HashSet<>();
     private final Set<String> gotOnlineStatus = new HashSet<>();
 
-    public FeedRequests(Context context, NavController controller) {
+    public FeedRequests(Context context, NavController controller, String queryName, String searchName) {
         this.context = context;
         this.controller = controller;
+        this.queryName = queryName;
+        this.searchName = searchName;
+        if (!queryName.equals(Constants.SEVERITY_HIGH_LOW) && !queryName.equals(Constants.SEVERITY_LOW_HIGH)) {
+            if (queryName.equals(Constants.OLDEST_FIRST))
+                last = 0L;
+            else
+                last = System.currentTimeMillis();
+        } else {
+            if (queryName.equals(Constants.SEVERITY_HIGH_LOW)) {
+                last = 2L;
+            } else {
+                last = 3L;
+            }
+        }
+        setMap(searchName);
         fetchData();
     }
 
+    private void setMap(String name) {
+        if (name.equals("")) {
+            queryMap.put(
+                    Constants.RELEVANCE,
+                    reference.
+                            whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
+                            whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
+                            orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.DESCENDING)
+            );
+            queryMap.put(
+                    Constants.NEWEST_FIRST,
+                    reference.
+                            whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
+                            whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
+                            orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.DESCENDING)
+            );
+            queryMap.put(
+                    Constants.OLDEST_FIRST,
+                    reference.
+                            whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
+                            whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
+                            orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.ASCENDING)
+            );
+            queryMap.put(
+                    Constants.SEVERITY_HIGH_LOW,
+                    reference.
+                            whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
+                            whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
+                            orderBy(Constants.SEVERITY_INDEX, Query.Direction.ASCENDING)
+            );
+            queryMap.put(
+                    Constants.SEVERITY_LOW_HIGH,
+                    reference.
+                            whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
+                            whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
+                            orderBy(Constants.SEVERITY_INDEX, Query.Direction.DESCENDING)
+            );
+        } else {
+            queryMap.put(
+                    Constants.RELEVANCE,
+                    reference.
+                            whereEqualTo(Constants.NAME_LOWER_CASE_CAMEL, name).
+                            whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
+                            whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
+                            orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.DESCENDING)
+            );
+            queryMap.put(
+                    Constants.NEWEST_FIRST,
+                    reference.
+                            whereEqualTo(Constants.NAME_LOWER_CASE_CAMEL, name).
+                            whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
+                            whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
+                            orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.DESCENDING)
+            );
+            queryMap.put(
+                    Constants.OLDEST_FIRST,
+                    reference.
+                            whereEqualTo(Constants.NAME_LOWER_CASE_CAMEL, name).
+                            whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
+                            whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
+                            orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.ASCENDING)
+            );
+            queryMap.put(
+                    Constants.SEVERITY_HIGH_LOW,
+                    reference.
+                            whereEqualTo(Constants.NAME_LOWER_CASE_CAMEL, name).
+                            whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
+                            whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
+                            orderBy(Constants.SEVERITY_INDEX, Query.Direction.ASCENDING)
+            );
+            queryMap.put(
+                    Constants.SEVERITY_LOW_HIGH,
+                    reference.
+                            whereEqualTo(Constants.NAME_LOWER_CASE_CAMEL, name).
+                            whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
+                            whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
+                            orderBy(Constants.SEVERITY_INDEX, Query.Direction.DESCENDING)
+            );
+        }
+    }
+
     private void fetchData() {
-        Query query = reference.
-                whereEqualTo(Constants.CANCELLED.toLowerCase(Locale.ROOT), false).
-                whereEqualTo(Constants.VERIFIED.toLowerCase(Locale.ROOT), true).
-                orderBy(Constants.TIME.toLowerCase(Locale.ROOT), Query.Direction.DESCENDING).
-                whereLessThan(Constants.TIME.toLowerCase(Locale.ROOT), last).
-                limit(15);
+        Query query = queryMap.get(queryName);
+        if (query == null)
+            return;
+        if (queryName.equals(Constants.OLDEST_FIRST)) {
+            query = query.
+                    whereGreaterThan(Constants.TIME.toLowerCase(Locale.ROOT), last).
+                    limit(10);
+        } else if (!queryName.equals(Constants.SEVERITY_HIGH_LOW) && !queryName.equals(Constants.SEVERITY_LOW_HIGH)) {
+            query = query.
+                    whereLessThan(Constants.TIME.toLowerCase(Locale.ROOT), last).
+                    limit(10);
+        } else {
+            if (queryName.equals(Constants.SEVERITY_HIGH_LOW)) {
+                if (last > 5)
+                    return;
+                query = query.
+                        startAt(last - 1).
+                        endBefore(last);
+            } else {
+                if (last < 0)
+                    return;
+                query = query
+                        .startAt(last + 1)
+                        .endBefore(last);
+            }
+        }
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -73,13 +192,22 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
                         return;
                     for (QueryDocumentSnapshot snapshot : task.getResult()) {
                         BloodRequest request = snapshot.toObject(BloodRequest.class);
-                        if (request.isEmergency() && request.getPincode().equals(pincode))
+                        if (request.isEmergency() && request.getPincode().equals(pincode) && queryName.equals(Constants.RELEVANCE) && searchName.equals(""))
                             continue;
                         requests.add(request);
                         notifyItemInserted(requests.size() - 1);
                     }
-                    if (requests.size() > 0)
+                    if (requests.size() > 0 && !queryName.equals(Constants.SEVERITY_HIGH_LOW) && !queryName.equals(Constants.SEVERITY_LOW_HIGH))
                         last = requests.get(requests.size() - 1).getTime();
+                    else {
+                        if (queryName.equals(Constants.SEVERITY_HIGH_LOW)) {
+                            last++;
+                        } else {
+                            last--;
+                        }
+                        if (task.getResult().size() == 0)
+                            fetchData();
+                    }
                     Log.i("Asrik", "fetched " + task.getResult().size() + " " + last);
                 } else {
                     Log.i("Asrik", "get failed with ", task.getException());
@@ -181,7 +309,10 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
         }
 
         public void setView(BloodRequest request, int position) {
-            if ((position + 1) % 15 == 0 && !updatedAt.contains(position)) {
+            if (!queryName.equals(Constants.SEVERITY_HIGH_LOW) && !queryName.equals(Constants.SEVERITY_LOW_HIGH) && (position + 1) % 7 == 0 && !updatedAt.contains(position)) {
+                fetchData();
+                updatedAt.add(position);
+            } else if (position + 1 == requests.size() && !updatedAt.contains(position)) {
                 fetchData();
                 updatedAt.add(position);
             }

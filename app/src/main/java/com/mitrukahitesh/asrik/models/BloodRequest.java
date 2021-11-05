@@ -1,12 +1,29 @@
 package com.mitrukahitesh.asrik.models;
 
 public class BloodRequest {
-    private String requestId, uid, name, number, bloodGroup, pincode, city, state, latitude, longitude, address, documentUrl, severity, profilePicUrl;
+    private String requestId, nameLowerCase, uid, name, number, bloodGroup, pincode, city, state, latitude, longitude, address, documentUrl, severity, profilePicUrl;
     private Integer units;
     private boolean emergency, verified, userOnline = false, rejected = false, cancelled = false;
     private long time;
+    private int severityIndex;
 
     public BloodRequest() {
+    }
+
+    public String getNameLowerCase() {
+        return nameLowerCase;
+    }
+
+    public void setNameLowerCase(String nameLowerCase) {
+        this.nameLowerCase = nameLowerCase;
+    }
+
+    public int getSeverityIndex() {
+        return severityIndex;
+    }
+
+    public void setSeverityIndex(int severityIndex) {
+        this.severityIndex = severityIndex;
     }
 
     public boolean isCancelled() {
