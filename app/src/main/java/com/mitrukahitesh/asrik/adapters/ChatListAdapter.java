@@ -88,7 +88,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Custom
         }
 
         private void setView(ChatInfo info, int position) {
-            Glide.with(context).load(info.getProfileUrl()).into(dp);
+            Glide.with(context).load(!info.getProfileUrl().equals("") ? info.getProfileUrl() : AppCompatResources.getDrawable(context, R.drawable.ic_usercircle)).into(dp);
             name.setText(info.getName());
             time.setText(getTime(info.getTime()));
             if (info.getMedia()) {

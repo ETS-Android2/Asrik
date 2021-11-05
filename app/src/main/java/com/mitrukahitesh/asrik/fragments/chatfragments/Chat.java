@@ -16,6 +16,7 @@ import android.os.Bundle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -390,7 +391,7 @@ public class Chat extends Fragment {
     }
 
     private void setInfo() {
-        Glide.with(requireContext()).load(bundle.getString(Constants.PROFILE_PIC_URL)).into(dp);
+        Glide.with(requireContext()).load(!bundle.getString(Constants.PROFILE_PIC_URL).equals("") ? bundle.getString(Constants.PROFILE_PIC_URL) : AppCompatResources.getDrawable(requireContext(), R.drawable.ic_usercircle)).into(dp);
         name.setText(bundle.getString(Constants.NAME));
         FirebaseFirestore.getInstance()
                 .collection(Constants.ONLINE)
