@@ -52,6 +52,7 @@ public class FirebaseNotification extends FirebaseMessagingService {
                     Notification notification = new NotificationCompat.Builder(context, App.NEW_MESSAGE)
                             .setContentTitle(intent.getStringExtra(Constants.NAME))
                             .setContentText(intent.getStringExtra(Constants.MESSAGE))
+                            .setContentIntent(pendingIntent)
                             .setSmallIcon(R.drawable.ic_baseline_bloodtype_24)
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setCategory(NotificationCompat.CATEGORY_ALARM)
