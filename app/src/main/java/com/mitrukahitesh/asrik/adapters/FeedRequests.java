@@ -327,10 +327,10 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
                 emergency_ll.setVisibility(View.GONE);
             }
             title.setText(String.format("%s in %s", request.getBloodGroup(), request.getCity()));
-            units.setText(String.format(Locale.getDefault(), "%d units", request.getUnits()));
+            units.setText(String.format(Locale.getDefault(), "%d %s", request.getUnits(), context.getString(R.string.units)));
             name.setText(request.getName());
             address.setText(request.getAddress());
-            severity.setText(request.getSeverity());
+            severity.setText(context.getResources().getStringArray(R.array.severities)[request.getSeverityIndex()]);
             if (request.isUserOnline()) {
                 on.setVisibility(View.VISIBLE);
                 off.setVisibility(View.GONE);

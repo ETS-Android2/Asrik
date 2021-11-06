@@ -199,10 +199,10 @@ public class EmergencyRequests extends RecyclerView.Adapter<EmergencyRequests.Cu
                 Glide.with(context).load(request.getProfilePicUrl()).into(dp);
             }
             title.setText(String.format("%s in %s", request.getBloodGroup(), request.getCity()));
-            units.setText(String.format(Locale.getDefault(), "%d units", request.getUnits()));
+            units.setText(String.format(Locale.getDefault(), "%d %s", request.getUnits(), context.getString(R.string.units)));
             name.setText(request.getName());
             address.setText(request.getAddress());
-            severity.setText(request.getSeverity());
+            severity.setText(context.getResources().getStringArray(R.array.severities)[request.getSeverityIndex()]);
             if (request.isUserOnline()) {
                 on.setVisibility(View.VISIBLE);
                 off.setVisibility(View.GONE);

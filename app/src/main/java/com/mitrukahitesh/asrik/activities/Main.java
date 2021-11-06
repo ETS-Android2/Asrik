@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +30,7 @@ import com.mitrukahitesh.asrik.fragments.rootfragments.Profile;
 import com.mitrukahitesh.asrik.utility.Constants;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,6 +54,7 @@ public class Main extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userDefaultLanguage(this, getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, MODE_PRIVATE).getString(Constants.LOCALE, "en"));
         setContentView(R.layout.activity_main);
         isAdmin = getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, MODE_PRIVATE).getBoolean(Constants.ADMIN, false);
         navigationView = findViewById(R.id.bottomNavigationView);
@@ -56,6 +62,9 @@ public class Main extends AppCompatActivity {
         updatePicUrlOnUserRequests();
         navigationView.setBackground(null);
         navigationView.setSelectedItemId(R.id.home);
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            fragmentManager.beginTransaction().remove(fragment).commit();
+        }
         if (isAdmin) {
             navigationView.getMenu().getItem(0).setVisible(true);
             fragmentManager.beginTransaction().add(R.id.main_container, admin, ADMIN).hide(admin).commit();
@@ -142,6 +151,17 @@ public class Main extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public static void userDefaultLanguage(Activity context, String localeName) {
+        Locale locale;
+        locale = new Locale(localeName);
+        Configuration config = new
+                Configuration(context.getResources().getConfiguration());
+        Locale.setDefault(locale);
+        config.setLocale(locale);
+        context.getBaseContext().getResources().updateConfiguration(config,
+                context.getBaseContext().getResources().getDisplayMetrics());
     }
 
     @Override

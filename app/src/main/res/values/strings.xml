@@ -12,11 +12,12 @@
     <string name="hashes">######</string>
     <string name="learning_about">Learning About</string>
     <string name="you">You</string>
+    <string name="units">units</string>
     <string name="your_full_name">Your full name</string>
     <string name="your_email">Your email</string>
     <string name="company_email">help@asrik.com</string>
     <string name="take_your_photo">Take your photo</string>
-    <string name="your_photo_made_us_to_ndeliver_right_person">Your photo made us to\ndeliver right person</string>
+    <string name="your_photo_made_us_to_ndeliver_right_person">Your photo help us\ndeliver right person</string>
     <string name="finish">Finish Registration</string>
     <string name="your_area_pin_code">Your area PIN Code</string>
     <string name="city">City</string>
@@ -92,6 +93,14 @@
     <string name="send_document">Send Document</string>
     <string name="remove_selected_file">Remove Selected File</string>
     <string name="call">Call</string>
+    <string name="home">Home</string>
+    <string name="history">History</string>
+    <string name="profile">Profile</string>
+    <string name="language">Language</string>
+    <string name="english" translatable="false">English</string>
+    <string name="hindi" translatable="false">हिंदी</string>
+    <string name="restart">Restart app to see changes</string>
+    <string name="edit_location">Edit\nLocation</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>

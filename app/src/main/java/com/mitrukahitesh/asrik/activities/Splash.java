@@ -22,7 +22,7 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(Splash.this, user != null ? Main.class : Registration.class);
+                Intent intent = new Intent(Splash.this, user != null ? Main.class : LocaleSelection.class);
                 startActivity(intent);
                 finish();
             }

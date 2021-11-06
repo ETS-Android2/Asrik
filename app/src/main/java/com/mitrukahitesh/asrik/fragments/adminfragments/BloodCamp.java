@@ -305,7 +305,7 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
     public void onResume() {
         super.onResume();
         if (lat != null && lon != null) {
-            map.setText("Edit\nLocation");
+            map.setText(requireContext().getString(R.string.edit_location));
         }
         if (cal != null) {
             date.setText(String.format(Locale.getDefault(), "%d %s %d", cal.get(Calendar.DAY_OF_MONTH), cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()), cal.get(Calendar.YEAR)));

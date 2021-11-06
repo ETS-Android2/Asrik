@@ -5,32 +5,32 @@
     <item
         android:id="@+id/admin"
         android:icon="@drawable/ic_administrator_developer"
-        android:title="Admin"
+        android:title="@string/admin"
         android:visible="false"
         tools:ignore="MenuTitle" />
 
     <item
         android:id="@+id/home"
         android:icon="@drawable/ic_house"
-        android:title="Home"
+        android:title="@string/home"
         tools:ignore="MenuTitle" />
 
     <item
         android:id="@+id/history"
         android:icon="@drawable/ic_baseline_history_edu_24"
-        android:title="History"
+        android:title="@string/history"
         tools:ignore="MenuTitle" />
 
     <item
         android:id="@+id/chat"
         android:icon="@drawable/ic_chats"
-        android:title="Chats"
+        android:title="@string/chats"
         tools:ignore="MenuTitle" />
 
     <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_usercircle"
-        android:title="Profile"
+        android:title="@string/profile"
         tools:ignore="MenuTitle" />
 
 </menu>

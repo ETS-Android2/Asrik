@@ -362,7 +362,7 @@ public class RaiseRequest extends Fragment {
     public void onResume() {
         super.onResume();
         if (lat != null && lon != null) {
-            map.setText("Edit\nLocation");
+            map.setText(requireContext().getString(R.string.edit_location));
         }
     }
 

@@ -15,11 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.mitrukahitesh.asrik.R;
+import com.mitrukahitesh.asrik.activities.Main;
 import com.mitrukahitesh.asrik.utility.Constants;
+
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -29,6 +34,7 @@ public class Profile extends Fragment {
     private FrameLayout root;
     private CircleImageView dp;
     private SwitchCompat notifyBloodCamps;
+    private RadioGroup languageGroup;
 
     public Profile() {
     }
@@ -55,6 +61,7 @@ public class Profile extends Fragment {
         phone = view.findViewById(R.id.phone);
         email = view.findViewById(R.id.email);
         dp = view.findViewById(R.id.profile_image);
+        languageGroup = view.findViewById(R.id.language_radio_group);
         notifyBloodCamps = view.findViewById(R.id.camp_notification);
         notifyBloodCamps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -65,10 +72,10 @@ public class Profile extends Fragment {
         });
         view.findViewById(R.id.card1).setBackgroundResource(R.drawable.dashed_border);
         view.findViewById(R.id.card2).setBackgroundResource(R.drawable.dashed_border);
-        setValues();
+        setValues(view);
     }
 
-    private void setValues() {
+    private void setValues(View view) {
         SharedPreferences preferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         name.setText(preferences.getString(Constants.NAME, ""));
         bloodGroup.setText(preferences.getString(Constants.BLOOD_GROUP, ""));
@@ -81,6 +88,23 @@ public class Profile extends Fragment {
             Glide.with(requireContext()).load(preferences.getString(Constants.PROFILE_PIC_URL, "")).into(dp);
         else
             Glide.with(requireContext()).load(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_usercircle_large)).centerCrop().into(dp);
+        if (preferences.getString(Constants.LOCALE, "en").equals("en")) {
+            languageGroup.check(view.findViewById(R.id.en).getId());
+        } else {
+            languageGroup.check(view.findViewById(R.id.hi).getId());
+        }
+        languageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                String locale = "en";
+                if (checkedId == view.findViewById(R.id.hi).getId()) {
+                    locale = "hi";
+                }
+                preferences.edit().putString(Constants.LOCALE, locale).apply();
+                Main.userDefaultLanguage(requireActivity(), locale);
+                Snackbar.make(root, requireContext().getString(R.string.restart), Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
 }
