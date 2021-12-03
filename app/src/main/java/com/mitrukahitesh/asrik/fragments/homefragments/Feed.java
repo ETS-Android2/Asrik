@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.KeyEvent;
@@ -49,6 +50,7 @@ import java.util.Locale;
 
 public class Feed extends Fragment {
 
+    private SwipeRefreshLayout refreshLayout;
     private RecyclerView campRecycler, emergencyRecyclerView, recyclerView;
     private FeedRequests adapter;
     private EmergencyRequests emergencyAdapter;
@@ -85,6 +87,7 @@ public class Feed extends Fragment {
     }
 
     private void setReferences(View view) {
+        refreshLayout = view.findViewById(R.id.refresh_layout);
         if (recyclerView == null) {
             adapter = new FeedRequests(requireContext(), Navigation.findNavController(view), sortSelected, searchString);
         } else {
@@ -211,6 +214,17 @@ public class Feed extends Fragment {
                 return false;
             }
         });
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter = new FeedRequests(requireContext(), Navigation.findNavController(view), sortSelected, searchString);
+                emergencyAdapter = new EmergencyRequests(requireContext(), Navigation.findNavController(view));
+                campList.clear();
+                campAdapter = new CampAdapter(requireContext(), campList);
+                fetchCamps();
+                setAdaptersWithFilters();
+            }
+        });
     }
 
     private void setAdaptersWithFilters() {
@@ -259,6 +273,7 @@ public class Feed extends Fragment {
                             campAdapter.notifyDataSetChanged();
                             campRecycler.setVisibility(View.VISIBLE);
                             noCamps.setVisibility(View.GONE);
+                            refreshLayout.setRefreshing(false);
                         }
                         Log.i("Asrik: Camps", "fetched " + campList.size());
                     }

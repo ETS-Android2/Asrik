@@ -118,4 +118,5 @@
         <item>उदारवादी</item>
         <item>अवयस्क</item>
     </string-array>
+    <string name="no_request_pending">कोई अनुरोध लंबित नहीं</string>
 </resources>

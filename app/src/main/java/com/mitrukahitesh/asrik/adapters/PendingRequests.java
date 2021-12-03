@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,7 +56,7 @@ import retrofit2.Response;
 public class PendingRequests extends RecyclerView.Adapter<PendingRequests.CustomVH> {
 
     private Context context;
-    private View root;
+    private View root, noReq;
     private NavController controller;
     private final List<BloodRequest> requests = new ArrayList<>();
     private Long last = 0l;
@@ -64,10 +65,11 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
     private final Set<String> gotOnlineStatus = new HashSet<>();
     private final Map<String, Boolean> checkedAsEmergency = new HashMap<>();
 
-    public PendingRequests(Context context, View root, NavController controller) {
+    public PendingRequests(Context context, View root, NavController controller, View noReq) {
         this.context = context;
         this.root = root;
         this.controller = controller;
+        this.noReq = noReq;
         fetchData();
     }
 
@@ -84,6 +86,7 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                ((SwipeRefreshLayout) root).setRefreshing(false);
                 if (task.isSuccessful()) {
                     if (task.getResult() == null)
                         return;
@@ -91,8 +94,10 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
                         requests.add(snapshot.toObject(BloodRequest.class));
                         notifyItemInserted(requests.size() - 1);
                     }
-                    if (requests.size() > 0)
+                    if (requests.size() > 0) {
+                        noReq.setVisibility(View.GONE);
                         last = requests.get(requests.size() - 1).getTime();
+                    }
                     Log.i("Asrik: Pending requests", "fetched " + task.getResult().size() + " " + last);
                 } else {
                     Log.i("Asrik: Pending requests", "get failed with ", task.getException());
