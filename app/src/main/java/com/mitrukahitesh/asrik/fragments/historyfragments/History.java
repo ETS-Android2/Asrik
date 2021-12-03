@@ -1,7 +1,6 @@
 package com.mitrukahitesh.asrik.fragments.historyfragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,13 +25,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.adapters.RequestHistory;
-import com.mitrukahitesh.asrik.models.BloodCamp;
 import com.mitrukahitesh.asrik.models.BloodRequest;
-import com.mitrukahitesh.asrik.utility.Constants;
+import com.mitrukahitesh.asrik.helpers.Constants;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 

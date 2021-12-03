@@ -2,7 +2,6 @@ package com.mitrukahitesh.asrik.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.mitrukahitesh.asrik.R;
-import com.mitrukahitesh.asrik.models.BloodRequest;
 import com.mitrukahitesh.asrik.models.ChatInfo;
-import com.mitrukahitesh.asrik.utility.Constants;
-import com.mitrukahitesh.asrik.utility.TimeFormatter;
+import com.mitrukahitesh.asrik.helpers.Constants;
+import com.mitrukahitesh.asrik.helpers.TimeFormatter;
 
 import java.util.Calendar;
 import java.util.List;

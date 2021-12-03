@@ -1,4 +1,4 @@
-package com.mitrukahitesh.asrik.utility;
+package com.mitrukahitesh.asrik.helpers;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;

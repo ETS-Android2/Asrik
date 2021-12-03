@@ -1,5 +1,6 @@
 package com.mitrukahitesh.asrik.apis;
 
+import com.mitrukahitesh.asrik.models.BotReply;
 import com.mitrukahitesh.asrik.models.PinCodeDetails;
 
 import org.json.JSONObject;
@@ -29,4 +30,7 @@ public interface CustomRetrofit {
 
     @POST("/new_message/{receiver}")
     Call<String> notifyNewMessage(@Path(value = "receiver", encoded = true) String receiver, @Body JSONObject body);
+
+    @GET("/bot/{message}")
+    Call<BotReply> getBotReply(@Path(value = "message", encoded = true) String message);
 }

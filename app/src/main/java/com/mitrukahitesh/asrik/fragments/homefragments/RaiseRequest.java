@@ -25,7 +25,6 @@ import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -49,8 +48,8 @@ import com.mitrukahitesh.asrik.apis.RetrofitAccessObject;
 import com.mitrukahitesh.asrik.models.BloodRequest;
 import com.mitrukahitesh.asrik.models.FileMetaData;
 import com.mitrukahitesh.asrik.models.PinCodeDetails;
-import com.mitrukahitesh.asrik.utility.Constants;
-import com.mitrukahitesh.asrik.utility.FileDetails;
+import com.mitrukahitesh.asrik.helpers.Constants;
+import com.mitrukahitesh.asrik.helpers.FileDetails;
 
 import org.json.JSONException;
 import org.json.JSONObject;

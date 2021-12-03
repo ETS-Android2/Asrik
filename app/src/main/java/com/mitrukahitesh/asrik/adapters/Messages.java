@@ -3,7 +3,6 @@ package com.mitrukahitesh.asrik.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.models.Message;
-import com.mitrukahitesh.asrik.utility.TimeFormatter;
+import com.mitrukahitesh.asrik.helpers.TimeFormatter;
 
 import java.util.Calendar;
 import java.util.List;

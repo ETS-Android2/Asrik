@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.mitrukahitesh.asrik.R;
-import com.mitrukahitesh.asrik.utility.Constants;
+import com.mitrukahitesh.asrik.helpers.Constants;
 
 public class Registration extends AppCompatActivity {
 

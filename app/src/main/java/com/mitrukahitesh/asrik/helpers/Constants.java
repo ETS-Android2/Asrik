@@ -1,4 +1,4 @@
-package com.mitrukahitesh.asrik.utility;
+package com.mitrukahitesh.asrik.helpers;
 
 public class Constants {
     public static final String USER_DETAILS_SHARED_PREFERENCE = "USER_DETAILS_SHARED_PREFERENCE";
@@ -61,6 +61,8 @@ public class Constants {
     public static final String NAME_LOWER_CASE = "NAME_LOWER_CASE";
     public static final String NAME_LOWER_CASE_CAMEL = "nameLowerCase";
     public static final String SEVERITY_INDEX = "severityIndex";
+
+    public static final String DEFAULT_BOT_MESSAGE = "Sorry! Did not get that. Can you please come again?";
 
     public static final String NEW_MESSAGE_INTENT_FILTER = "com.mitrukahitesh.asrik.NEW_MESSAGE";
 }

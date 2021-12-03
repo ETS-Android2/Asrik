@@ -96,6 +96,7 @@
     <string name="home">घर</string>
     <string name="history">इतिहास</string>
     <string name="profile">उपयोगकर्ता</string>
+    <string name="chat_bot">चैट बॉट</string>
     <string name="language">भाषा</string>
     <string name="restart">बदलाव देखने के लिए ऐप को रीस्टार्ट करें</string>
     <string name="edit_location">स्थान\nसंपादित करें</string>

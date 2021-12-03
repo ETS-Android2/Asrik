@@ -9,9 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.mitrukahitesh.asrik.R;
-import com.mitrukahitesh.asrik.utility.Constants;
+import com.mitrukahitesh.asrik.helpers.Constants;
 
 public class LocaleSelection extends AppCompatActivity {
 

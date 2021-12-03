@@ -35,7 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.fragments.adminfragments.BloodCamp;
 import com.mitrukahitesh.asrik.fragments.homefragments.RaiseRequest;
-import com.mitrukahitesh.asrik.utility.Constants;
+import com.mitrukahitesh.asrik.helpers.Constants;
 
 public class SelectLocation extends Fragment {
 

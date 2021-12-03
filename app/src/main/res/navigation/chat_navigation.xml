@@ -12,10 +12,18 @@
         <action
             android:id="@+id/action_chatList_to_chat2"
             app:destination="@id/chat2" />
+        <action
+            android:id="@+id/action_chatList_to_chatBot"
+            app:destination="@id/chatBot" />
     </fragment>
     <fragment
         android:id="@+id/chat2"
         android:name="com.mitrukahitesh.asrik.fragments.chatfragments.Chat"
         android:label="fragment_chat2"
         tools:layout="@layout/fragment_chat2" />
+    <fragment
+        android:id="@+id/chatBot"
+        android:name="com.mitrukahitesh.asrik.fragments.chatfragments.ChatBot"
+        android:label="fragment_chat_bot"
+        tools:layout="@layout/fragment_chat_bot" />
 </navigation>

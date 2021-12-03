@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -20,7 +19,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.mitrukahitesh.asrik.App;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.activities.Main;
-import com.mitrukahitesh.asrik.utility.Constants;
+import com.mitrukahitesh.asrik.helpers.Constants;
 
 import java.util.HashMap;
 import java.util.Locale;

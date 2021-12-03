@@ -7,9 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,7 +25,7 @@ import com.mitrukahitesh.asrik.fragments.rootfragments.Chat;
 import com.mitrukahitesh.asrik.fragments.rootfragments.Home;
 import com.mitrukahitesh.asrik.fragments.rootfragments.History;
 import com.mitrukahitesh.asrik.fragments.rootfragments.Profile;
-import com.mitrukahitesh.asrik.utility.Constants;
+import com.mitrukahitesh.asrik.helpers.Constants;
 
 import java.util.HashMap;
 import java.util.Locale;

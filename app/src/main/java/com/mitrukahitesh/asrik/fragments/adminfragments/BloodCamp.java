@@ -1,35 +1,24 @@
 package com.mitrukahitesh.asrik.fragments.adminfragments;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -37,26 +26,15 @@ import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.apis.RetrofitAccessObject;
-import com.mitrukahitesh.asrik.models.BloodRequest;
-import com.mitrukahitesh.asrik.models.FileMetaData;
-import com.mitrukahitesh.asrik.models.PinCodeDetails;
-import com.mitrukahitesh.asrik.utility.Constants;
-import com.mitrukahitesh.asrik.utility.FileDetails;
-import com.mitrukahitesh.asrik.utility.TimeFormatter;
+import com.mitrukahitesh.asrik.helpers.Constants;
+import com.mitrukahitesh.asrik.helpers.TimeFormatter;
 
 import org.json.JSONException;
 import org.json.JSONObject;

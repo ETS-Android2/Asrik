@@ -1,7 +1,5 @@
 package com.mitrukahitesh.asrik.fragments.homefragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +32,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mitrukahitesh.asrik.R;
@@ -42,7 +39,7 @@ import com.mitrukahitesh.asrik.adapters.CampAdapter;
 import com.mitrukahitesh.asrik.adapters.EmergencyRequests;
 import com.mitrukahitesh.asrik.adapters.FeedRequests;
 import com.mitrukahitesh.asrik.models.BloodCamp;
-import com.mitrukahitesh.asrik.utility.Constants;
+import com.mitrukahitesh.asrik.helpers.Constants;
 
 import java.util.ArrayList;
 import java.util.Calendar;

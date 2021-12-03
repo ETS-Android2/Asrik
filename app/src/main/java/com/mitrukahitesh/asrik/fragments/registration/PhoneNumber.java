@@ -18,7 +18,7 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.mitrukahitesh.asrik.R;
-import com.mitrukahitesh.asrik.utility.Constants;
+import com.mitrukahitesh.asrik.helpers.Constants;
 
 public class PhoneNumber extends Fragment {
 

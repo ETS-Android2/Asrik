@@ -10,13 +10,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,24 +25,24 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.mitrukahitesh.asrik.App;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.adapters.ChatListAdapter;
 import com.mitrukahitesh.asrik.models.ChatInfo;
+import com.mitrukahitesh.asrik.helpers.Constants;
 import com.mitrukahitesh.asrik.models.Message;
-import com.mitrukahitesh.asrik.utility.Constants;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
 public class ChatList extends Fragment {
 
     private final List<ChatInfo> chatInfoList = new ArrayList<>();
+    public static final List<Message> botChat = new ArrayList<>();
     private RecyclerView recyclerView;
     private ChatListAdapter adapter;
     private TextView noChats;
+    private FloatingActionButton fab;
 
     public ChatList() {
     }
@@ -67,6 +67,7 @@ public class ChatList extends Fragment {
             adapter = new ChatListAdapter(requireContext(), chatInfoList, Navigation.findNavController(view));
             fetchChats();
         }
+        fab = view.findViewById(R.id.fab);
         noChats = view.findViewById(R.id.no_chats);
         recyclerView = view.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -79,6 +80,12 @@ public class ChatList extends Fragment {
             noChats.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_chatList_to_chatBot);
+            }
+        });
     }
 
     private void fetchChats() {

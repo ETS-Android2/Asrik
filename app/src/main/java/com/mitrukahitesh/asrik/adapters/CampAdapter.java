@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.models.BloodCamp;
-import com.mitrukahitesh.asrik.utility.Constants;
-import com.mitrukahitesh.asrik.utility.TimeFormatter;
+import com.mitrukahitesh.asrik.helpers.TimeFormatter;
 
 import java.util.Calendar;
 import java.util.List;

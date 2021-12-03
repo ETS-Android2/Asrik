@@ -22,9 +22,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.activities.Main;
-import com.mitrukahitesh.asrik.utility.Constants;
-
-import java.util.Locale;
+import com.mitrukahitesh.asrik.helpers.Constants;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

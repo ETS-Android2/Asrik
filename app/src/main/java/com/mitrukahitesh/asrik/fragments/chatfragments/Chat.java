@@ -3,16 +3,11 @@ package com.mitrukahitesh.asrik.fragments.chatfragments;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Intent.ACTION_DIAL;
 
-import android.accessibilityservice.AccessibilityService;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.inputmethodservice.Keyboard;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -32,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -60,13 +54,12 @@ import com.mitrukahitesh.asrik.apis.RetrofitAccessObject;
 import com.mitrukahitesh.asrik.models.FileMetaData;
 import com.mitrukahitesh.asrik.models.Message;
 import com.mitrukahitesh.asrik.receivers.ReceiverForChat;
-import com.mitrukahitesh.asrik.utility.Constants;
-import com.mitrukahitesh.asrik.utility.FileDetails;
-import com.mitrukahitesh.asrik.utility.TimeFormatter;
+import com.mitrukahitesh.asrik.helpers.Constants;
+import com.mitrukahitesh.asrik.helpers.FileDetails;
+import com.mitrukahitesh.asrik.helpers.TimeFormatter;
 
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;

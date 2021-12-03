@@ -101,6 +101,8 @@
     <string name="hindi" translatable="false">हिंदी</string>
     <string name="restart">Restart app to see changes</string>
     <string name="edit_location">Edit\nLocation</string>
+    <string name="chat_bot">CHAT BOT</string>
+    <string name="bot_name" translatable="false">Dash</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>
