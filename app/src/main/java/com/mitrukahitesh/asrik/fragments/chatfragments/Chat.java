@@ -194,8 +194,10 @@ public class Chat extends Fragment {
             }
             if (message.getText().toString().trim().equals("") && uri == null)
                 return;
+            String msg = message.getText().toString().trim();
             Message m = new Message();
-            m.setMessage(message.getText().toString().trim());
+            m.setMessage(msg);
+            message.setText("");
             m.setMedia(!(uri == null));
             m.setProgress(0);
             m.setTime(System.currentTimeMillis());
@@ -215,9 +217,8 @@ public class Chat extends Fragment {
                             bundle.getString(Constants.NAME, ""),
                             bundle.getString(Constants.NUMBER, ""),
                             bundle.getString(Constants.CHAT_ID, chatId),
-                            message.getText().toString().trim().equals("") ? fileName.getText().toString() : message.getText().toString().trim()
+                            msg.equals("") ? fileName.getText().toString() : msg
                     );
-                    message.setText("");
                     fileName.setText("");
                     fileLl.setVisibility(View.GONE);
                     if (m.getMedia()) {

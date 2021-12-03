@@ -1,302 +1,309 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/refresh_layout"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.homefragments.Feed">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/searchll"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/greybg"
-                android:gravity="center_vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_magnifyingglass" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/search"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:drawablePadding="4dp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:hint="@string/search_request"
-                    android:imeOptions="actionSearch"
-                    android:includeFontPadding="false"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:padding="8sp"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_filter" />
-
-            </LinearLayout>
-
-            <RadioGroup
-                android:id="@+id/radio_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="10dp"
-                android:gravity="start"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/searchll">
-
-                <RadioButton
-                    android:id="@+id/relevance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/relevance" />
-
-                <RadioButton
-                    android:id="@+id/sev_high_low"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/severity_high_to_low" />
-
-                <RadioButton
-                    android:id="@+id/sev_low_high"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/severity_low_to_high" />
-
-                <RadioButton
-                    android:id="@+id/newest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/newest_first" />
-
-                <RadioButton
-                    android:id="@+id/oldest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/oldest_first" />
-
-            </RadioGroup>
-
-            <HorizontalScrollView
-                android:id="@+id/scrollview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radio_group">
+                android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/searchll"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/greybg"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="8dp">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/nearby_hospital"
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="6dp"
-                        android:layout_marginVertical="8dp"
-                        android:elevation="2dp"
-                        app:cardCornerRadius="16dp">
+                        android:padding="4dp"
+                        android:src="@drawable/ic_magnifyingglass" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="10dp"
-                            android:fontFamily="@font/poppins_regular"
-                            android:includeFontPadding="false"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="5dp"
-                            android:text="@string/hospitals"
-                            android:textAllCaps="false"
-                            android:textSize="14sp"
-                            app:drawableStartCompat="@drawable/ic_hospital_clinic" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/search"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:drawablePadding="4dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:hint="@string/search_request"
+                        android:imeOptions="actionSearch"
+                        android:includeFontPadding="false"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="8sp"
+                        android:textSize="14sp" />
 
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/nearby_bank"
+                    <ImageView
+                        android:id="@+id/filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="6dp"
-                        android:layout_marginVertical="8dp"
-                        android:elevation="2dp"
-                        app:cardCornerRadius="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="10dp"
-                            android:fontFamily="@font/poppins_regular"
-                            android:includeFontPadding="false"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="5dp"
-                            android:text="@string/blood_banks"
-                            android:textAllCaps="false"
-                            android:textSize="14sp"
-                            app:drawableStartCompat="@drawable/ic_bank" />
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/nearby_camp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="6dp"
-                        android:layout_marginVertical="8dp"
-                        android:elevation="2dp"
-                        app:cardCornerRadius="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="10dp"
-                            android:fontFamily="@font/poppins_regular"
-                            android:includeFontPadding="false"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="5dp"
-                            android:text="@string/blood_donation_camps"
-                            android:textAllCaps="false"
-                            android:textSize="14sp"
-                            app:drawableStartCompat="@drawable/ic_blood_test" />
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/nearby_pharmacy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="6dp"
-                        android:layout_marginVertical="8dp"
-                        android:elevation="2dp"
-                        app:cardCornerRadius="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="10dp"
-                            android:fontFamily="@font/poppins_regular"
-                            android:includeFontPadding="false"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="5dp"
-                            android:text="@string/pharmacies"
-                            android:textSize="14sp"
-                            app:drawableStartCompat="@drawable/ic_medicine" />
-
-                    </androidx.cardview.widget.CardView>
+                        android:padding="4dp"
+                        android:src="@drawable/ic_filter" />
 
                 </LinearLayout>
 
-            </HorizontalScrollView>
-
-            <TextView
-                android:id="@+id/blood_camp_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins_semibold"
-                android:text="@string/blood_camps"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/scrollview" />
-
-            <LinearLayout
-                android:id="@+id/camp_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/blood_camp_tv">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/camp_recycler"
+                <RadioGroup
+                    android:id="@+id/radio_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="4dp"
-                    android:visibility="gone" />
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="start"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/searchll">
+
+                    <RadioButton
+                        android:id="@+id/relevance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/relevance" />
+
+                    <RadioButton
+                        android:id="@+id/sev_high_low"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/severity_high_to_low" />
+
+                    <RadioButton
+                        android:id="@+id/sev_low_high"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/severity_low_to_high" />
+
+                    <RadioButton
+                        android:id="@+id/newest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/newest_first" />
+
+                    <RadioButton
+                        android:id="@+id/oldest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/oldest_first" />
+
+                </RadioGroup>
+
+                <HorizontalScrollView
+                    android:id="@+id/scrollview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/radio_group">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="8dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/nearby_hospital"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="6dp"
+                            android:layout_marginVertical="8dp"
+                            android:elevation="2dp"
+                            app:cardCornerRadius="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:includeFontPadding="false"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="5dp"
+                                android:text="@string/hospitals"
+                                android:textAllCaps="false"
+                                android:textSize="14sp"
+                                app:drawableStartCompat="@drawable/ic_hospital_clinic" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/nearby_bank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="6dp"
+                            android:layout_marginVertical="8dp"
+                            android:elevation="2dp"
+                            app:cardCornerRadius="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:includeFontPadding="false"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="5dp"
+                                android:text="@string/blood_banks"
+                                android:textAllCaps="false"
+                                android:textSize="14sp"
+                                app:drawableStartCompat="@drawable/ic_bank" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/nearby_camp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="6dp"
+                            android:layout_marginVertical="8dp"
+                            android:elevation="2dp"
+                            app:cardCornerRadius="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:includeFontPadding="false"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="5dp"
+                                android:text="@string/blood_donation_camps"
+                                android:textAllCaps="false"
+                                android:textSize="14sp"
+                                app:drawableStartCompat="@drawable/ic_blood_test" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/nearby_pharmacy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="6dp"
+                            android:layout_marginVertical="8dp"
+                            android:elevation="2dp"
+                            app:cardCornerRadius="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:includeFontPadding="false"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="5dp"
+                                android:text="@string/pharmacies"
+                                android:textSize="14sp"
+                                app:drawableStartCompat="@drawable/ic_medicine" />
+
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
 
                 <TextView
-                    android:id="@+id/no_camps"
+                    android:id="@+id/blood_camp_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/blood_camps"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/scrollview" />
+
+                <LinearLayout
+                    android:id="@+id/camp_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/blood_camp_tv">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/camp_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="4dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/no_camps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="4dp"
+                        android:layout_marginVertical="20dp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:gravity="center"
+                        android:text="@string/no_nearby_blood_donation_camps_available"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@id/blood_camp_tv" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/blood_req_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/blood_requests"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/camp_ll" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/emergency_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="4dp"
-                    android:layout_marginVertical="20dp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:gravity="center"
-                    android:text="@string/no_nearby_blood_donation_camps_available"
-                    android:textSize="14sp"
-                    app:layout_constraintTop_toBottomOf="@id/blood_camp_tv" />
+                    app:layout_constraintTop_toBottomOf="@id/blood_req_tv" />
 
-            </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/emergency_recycler" />
 
-            <TextView
-                android:id="@+id/blood_req_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="14dp"
-                android:fontFamily="@font/poppins_semibold"
-                android:text="@string/blood_requests"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/camp_ll" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/emergency_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                app:layout_constraintTop_toBottomOf="@id/blood_req_tv" />
+        </androidx.core.widget.NestedScrollView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/emergency_recycler" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -311,4 +318,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@android:color/white" />
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
