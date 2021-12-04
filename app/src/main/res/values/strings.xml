@@ -104,6 +104,7 @@
     <string name="chat_bot">CHAT BOT</string>
     <string name="bot_name" translatable="false">Dash</string>
     <string name="no_request_pending">No request pending</string>
+    <string name="blood_donation_camp">Blood Donation Camp</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>

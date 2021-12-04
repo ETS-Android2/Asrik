@@ -119,4 +119,5 @@
         <item>अवयस्क</item>
     </string-array>
     <string name="no_request_pending">कोई अनुरोध लंबित नहीं</string>
+    <string name="blood_donation_camp">रक्तदान शिविर</string>
 </resources>
