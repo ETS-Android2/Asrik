@@ -116,6 +116,7 @@ The .apk file produced on building the project will require an Android device/em
   <li>Firebase Firestore</li>
   <li>Firebase Authentication</li>
   <li>Firebase Cloud Messaging</li>
+  <li>Google Maps SDK</li>
   <li>Node.js</li>
   <li>Express.js</li>
   <li>Brainshop.ai</li>
