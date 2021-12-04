@@ -74,8 +74,8 @@ The .apk file produced on building the project will require an Android device/em
 
   <li><b>Chat: </b>Users can chat among themselves and can share media</li>
   <div>
-    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/13.jpg"  height=300/>
-    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/10.jpg"  height=300/>
+    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/23.jpg"  height=300/>
+    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/20.jpg"  height=300/>
   </div>
 
   <li><b>Chat bot: </b>Chat bot for assistance in case of any doubt</li>
@@ -106,7 +106,7 @@ The .apk file produced on building the project will require an Android device/em
 ## Architecture of App
 
   <div>
-    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/architecture.jpg"  height=480 width=1296/>
+    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/architecture.png"  height=480 width=1296/>
   </div>
 
 ## Technologies that have been used in this project
