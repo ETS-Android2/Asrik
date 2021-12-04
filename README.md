@@ -126,7 +126,7 @@ The .apk file produced on building the project will require an Android device/em
 ## Links
 
 [Android App]("")<br>
-[Node.js Application]("https://github.com/mitrukahitesh/Asrik-Server")<br>
+[Node.js Application](https://github.com/mitrukahitesh/Asrik-Server)<br>
 
 ## Team Water Bottle
 
