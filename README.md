@@ -80,8 +80,8 @@ The .apk file produced on building the project will require an Android device/em
 
   <li><b>Chat bot: </b>Chat bot for assistance in case of any doubt</li>
   <div>
-    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/13.jpg"  height=300/>
-    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/13.jpg"  height=300/>
+    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/23.jpg"  height=300/>
+    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/26.jpg"  height=300/>
   </div>
 
   <li><b>Profile: </b>User can view their details and can change app settings</li>
