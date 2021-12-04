@@ -132,7 +132,7 @@ The .apk file produced on building the project will require an Android device/em
 
 <div>
   <div>
-    <img src=""  height=72 width=72 style="border-radius: 50%;"/>
+    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/me.jpeg"  height=72 width=72 style="border-radius: 50%;"/>
     <br>
     <a href="https://www.linkedin.com/in/mitrukahitesh/"><b>Hitesh Mitruka</b></a>
     <br>
