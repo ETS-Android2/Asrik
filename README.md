@@ -34,7 +34,7 @@ The .apk file produced on building the project will require an Android device/em
 
 <ol type='A'>
 <li>Clone the repository on your device, and build the project using Android Studio and run on the connected Android device/emulator.</li>
-<li>Download the apk from <a href="">here </a>
+<li>Download the apk from <a href="https://drive.google.com/file/d/1Oe194Nzc2WYZ8cm9yIeCP8wqHEjARKYY/view?usp=sharing">here </a>
    and install and run on your Android device.</li>
 </ol>
 
@@ -125,7 +125,7 @@ The .apk file produced on building the project will require an Android device/em
 
 ## Links
 
-[Android App]("")<br>
+[Android App](https://drive.google.com/file/d/1Oe194Nzc2WYZ8cm9yIeCP8wqHEjARKYY/view?usp=sharing)<br>
 [Node.js Application](https://github.com/mitrukahitesh/Asrik-Server)<br>
 
 ## Team Water Bottle
