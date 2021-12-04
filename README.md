@@ -106,7 +106,7 @@ The .apk file produced on building the project will require an Android device/em
 ## Architecture of App
 
   <div>
-    <img src=""  height=480 width=1296/>
+    <img src="https://github.com/mitrukahitesh/Asrik/blob/main/screenshots/architecture.jpg"  height=480 width=1296/>
   </div>
 
 ## Technologies that have been used in this project
@@ -114,8 +114,8 @@ The .apk file produced on building the project will require an Android device/em
 <ol>
   <li>Android</li>
   <li>Firebase Firestore</li>
-  <li>Firebase Realtime Database</li>
   <li>Firebase Authentication</li>
+  <li>Firebase Cloud Messaging</li>
   <li>Node.js</li>
   <li>Express.js</li>
   <li>Brainshop.ai</li>
