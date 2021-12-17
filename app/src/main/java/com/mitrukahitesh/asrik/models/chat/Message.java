@@ -1,4 +1,4 @@
-package com.mitrukahitesh.asrik.models;
+package com.mitrukahitesh.asrik.models.chat;
 
 public class Message {
     private String sender, message, messageId, url = "", fileName = "";

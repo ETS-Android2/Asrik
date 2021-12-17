@@ -27,7 +27,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mitrukahitesh.asrik.R;
-import com.mitrukahitesh.asrik.models.BloodRequest;
+import com.mitrukahitesh.asrik.models.blood.BloodRequest;
 import com.mitrukahitesh.asrik.helpers.Constants;
 
 import java.util.ArrayList;

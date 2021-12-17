@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.mitrukahitesh.asrik.R;
-import com.mitrukahitesh.asrik.models.ChatInfo;
+import com.mitrukahitesh.asrik.models.chat.ChatInfo;
 import com.mitrukahitesh.asrik.helpers.Constants;
 import com.mitrukahitesh.asrik.helpers.TimeFormatter;
 

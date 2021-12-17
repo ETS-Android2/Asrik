@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mitrukahitesh.asrik.R;
-import com.mitrukahitesh.asrik.models.BloodRequest;
+import com.mitrukahitesh.asrik.models.blood.BloodRequest;
 import com.mitrukahitesh.asrik.helpers.Constants;
 
 import java.util.ArrayList;

@@ -45,9 +45,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.apis.RetrofitAccessObject;
-import com.mitrukahitesh.asrik.models.BloodRequest;
-import com.mitrukahitesh.asrik.models.FileMetaData;
-import com.mitrukahitesh.asrik.models.PinCodeDetails;
+import com.mitrukahitesh.asrik.models.blood.BloodRequest;
+import com.mitrukahitesh.asrik.models.file.FileMetaData;
+import com.mitrukahitesh.asrik.models.pin.PinCodeDetails;
 import com.mitrukahitesh.asrik.helpers.Constants;
 import com.mitrukahitesh.asrik.helpers.FileDetails;
 

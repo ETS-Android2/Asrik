@@ -1,7 +1,7 @@
 package com.mitrukahitesh.asrik.apis;
 
-import com.mitrukahitesh.asrik.models.BotReply;
-import com.mitrukahitesh.asrik.models.PinCodeDetails;
+import com.mitrukahitesh.asrik.models.chat.BotReply;
+import com.mitrukahitesh.asrik.models.pin.PinCodeDetails;
 
 import org.json.JSONObject;
 

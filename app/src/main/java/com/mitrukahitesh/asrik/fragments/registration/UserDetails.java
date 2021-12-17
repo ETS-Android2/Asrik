@@ -30,7 +30,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.apis.RetrofitAccessObject;
-import com.mitrukahitesh.asrik.models.PinCodeDetails;
+import com.mitrukahitesh.asrik.models.pin.PinCodeDetails;
 import com.mitrukahitesh.asrik.helpers.Constants;
 
 import java.util.HashMap;

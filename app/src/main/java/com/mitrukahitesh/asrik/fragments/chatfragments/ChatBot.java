@@ -24,8 +24,8 @@ import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.adapters.ChatBotAdapter;
 import com.mitrukahitesh.asrik.apis.RetrofitAccessObject;
 import com.mitrukahitesh.asrik.helpers.Constants;
-import com.mitrukahitesh.asrik.models.BotReply;
-import com.mitrukahitesh.asrik.models.Message;
+import com.mitrukahitesh.asrik.models.chat.BotReply;
+import com.mitrukahitesh.asrik.models.chat.Message;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,5 +1,5 @@
 
-package com.mitrukahitesh.asrik.models;
+package com.mitrukahitesh.asrik.models.pin;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;

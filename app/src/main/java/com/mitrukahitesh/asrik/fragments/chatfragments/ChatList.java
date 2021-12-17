@@ -27,9 +27,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.adapters.ChatListAdapter;
-import com.mitrukahitesh.asrik.models.ChatInfo;
+import com.mitrukahitesh.asrik.models.chat.ChatInfo;
 import com.mitrukahitesh.asrik.helpers.Constants;
-import com.mitrukahitesh.asrik.models.Message;
+import com.mitrukahitesh.asrik.models.chat.Message;
 
 import java.util.ArrayList;
 import java.util.List;

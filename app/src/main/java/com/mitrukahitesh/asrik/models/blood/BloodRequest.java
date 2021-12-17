@@ -1,4 +1,4 @@
-package com.mitrukahitesh.asrik.models;
+package com.mitrukahitesh.asrik.models.blood;
 
 public class BloodRequest {
     private String requestId, nameLowerCase, uid, name, number, bloodGroup, pincode, city, state, latitude, longitude, address, documentUrl, severity, profilePicUrl;

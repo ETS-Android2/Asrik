@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.helpers.TimeFormatter;
-import com.mitrukahitesh.asrik.models.Message;
+import com.mitrukahitesh.asrik.models.chat.Message;
 
 import java.util.Calendar;
 import java.util.List;

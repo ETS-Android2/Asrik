@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mitrukahitesh.asrik.R;
-import com.mitrukahitesh.asrik.models.BloodCamp;
+import com.mitrukahitesh.asrik.models.blood.BloodCamp;
 import com.mitrukahitesh.asrik.helpers.TimeFormatter;
 
 import java.util.Calendar;

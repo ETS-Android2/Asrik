@@ -39,7 +39,7 @@ import com.mitrukahitesh.asrik.R;
 import com.mitrukahitesh.asrik.adapters.CampAdapter;
 import com.mitrukahitesh.asrik.adapters.EmergencyRequests;
 import com.mitrukahitesh.asrik.adapters.FeedRequests;
-import com.mitrukahitesh.asrik.models.BloodCamp;
+import com.mitrukahitesh.asrik.models.blood.BloodCamp;
 import com.mitrukahitesh.asrik.helpers.Constants;
 
 import java.util.ArrayList;

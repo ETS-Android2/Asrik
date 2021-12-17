@@ -202,7 +202,7 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
             return;
         }
         toggleViews(false);
-        com.mitrukahitesh.asrik.models.BloodCamp camp = new com.mitrukahitesh.asrik.models.BloodCamp();
+        com.mitrukahitesh.asrik.models.blood.BloodCamp camp = new com.mitrukahitesh.asrik.models.blood.BloodCamp();
         camp.setTime(System.currentTimeMillis());
         camp.setAddress(address.getText().toString());
         camp.setLat(lat.toString());

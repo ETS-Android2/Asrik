@@ -9,7 +9,7 @@ import android.provider.OpenableColumns;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
-import com.mitrukahitesh.asrik.models.FileMetaData;
+import com.mitrukahitesh.asrik.models.file.FileMetaData;
 
 import java.io.File;
 

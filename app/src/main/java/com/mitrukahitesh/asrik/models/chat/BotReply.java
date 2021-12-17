@@ -1,4 +1,4 @@
-package com.mitrukahitesh.asrik.models;
+package com.mitrukahitesh.asrik.models.chat;
 
 public class BotReply {
     private int code;

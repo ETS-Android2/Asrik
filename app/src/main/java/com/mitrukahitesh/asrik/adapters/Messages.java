@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mitrukahitesh.asrik.R;
-import com.mitrukahitesh.asrik.models.Message;
+import com.mitrukahitesh.asrik.models.chat.Message;
 import com.mitrukahitesh.asrik.helpers.TimeFormatter;
 
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package com.mitrukahitesh.asrik.models;
+package com.mitrukahitesh.asrik.models.blood;
 
 public class BloodCamp {
     private String pincode, city, state, address, lat, lon, adminId, adminName;

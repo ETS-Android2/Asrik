@@ -1,4 +1,4 @@
-package com.mitrukahitesh.asrik.models;
+package com.mitrukahitesh.asrik.models.file;
 
 public class FileMetaData {
     public String displayName;
