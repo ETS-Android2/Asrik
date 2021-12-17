@@ -293,7 +293,7 @@
                 android:backgroundTint="@color/green1"
                 android:fontFamily="@font/poppins_medium"
                 android:includeFontPadding="false"
-                android:text="@string/cooldown"
+                android:text="@string/normalize"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 

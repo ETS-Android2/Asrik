@@ -105,6 +105,64 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/cooldown_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/camp_notification_ll">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:text="@string/cool_down"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@drawable/ic_baseline_fastfood_24" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cooldown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/logout_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/cooldown_ll">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:text="@string/logout_as_admin"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@drawable/ic_baseline_logout_24" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/language_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -112,7 +170,7 @@
                     android:layout_marginTop="24dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@+id/camp_notification_ll">
+                    app:layout_constraintTop_toBottomOf="@+id/logout_ll">
 
                     <TextView
                         android:id="@+id/language_tv"

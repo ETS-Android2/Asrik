@@ -60,7 +60,7 @@ public class FirebaseNotification extends FirebaseMessagingService {
                     manager.notify((int) Long.parseLong(intent.getStringExtra(Constants.NUMBER)), notification);
                 }
             }, null, 1, null, null);
-        } else if (Boolean.parseBoolean(map.get("bloodCamp")) && preferences.getBoolean(Constants.ENABLE_NOTIFICATION_BLOOD_CAMP, true)) {
+        } else if (Boolean.parseBoolean(map.get("bloodCamp")) && preferences.getBoolean(Constants.ENABLE_NOTIFICATION_BLOOD_CAMP, true) && !preferences.getBoolean(Constants.COOL_DOWN, false)) {
             Notification notification = new NotificationCompat.Builder(this, App.BLOOD_CAMP)
                     .setContentTitle(map.get("title"))
                     .setContentText(map.get("date"))
@@ -85,7 +85,7 @@ public class FirebaseNotification extends FirebaseMessagingService {
                         .setColor(getResources().getColor(R.color.theme_color_light, null))
                         .build();
                 manager.notify((int) System.currentTimeMillis(), notification);
-            } else if (!preferences.getBoolean(Constants.ADMIN, false) && !Boolean.parseBoolean(map.get("forAdmin"))) {
+            } else if (!preferences.getBoolean(Constants.ADMIN, false) && !Boolean.parseBoolean(map.get("forAdmin")) && !preferences.getBoolean(Constants.COOL_DOWN, false)) {
                 Notification notification = new NotificationCompat.Builder(this, App.USER_REQUEST_VERIFIED)
                         .setContentTitle(map.get("title"))
                         .setContentText(map.get("body"))

@@ -32,6 +32,7 @@ public class Constants {
     public static final String REQUEST_ID = "REQUEST_ID";
     public static final String CANCELLED = "CANCELLED";
     public static final String ENABLE_NOTIFICATION_BLOOD_CAMP = "ENABLE_NOTIFICATION_BLOOD_CAMP";
+    public static final String COOL_DOWN = "COOL_DOWN";
 
 
     public static final String USERS = "USERS";
