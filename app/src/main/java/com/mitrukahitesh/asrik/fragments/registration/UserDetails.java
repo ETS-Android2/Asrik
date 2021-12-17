@@ -50,7 +50,6 @@ public class UserDetails extends Fragment {
     private Bundle bundle;
     private NavController controller;
     private ScrollView frameLayout;
-    private Spinner spinner;
     private String bloodGroup;
     private SharedPreferences.Editor editor;
     private Button button;
@@ -191,7 +190,7 @@ public class UserDetails extends Fragment {
         pin = view.findViewById(R.id.pin);
         city = view.findViewById(R.id.city);
         state = view.findViewById(R.id.state);
-        spinner = view.findViewById(R.id.spinner);
+        Spinner spinner = view.findViewById(R.id.spinner);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.blood_groups));
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
