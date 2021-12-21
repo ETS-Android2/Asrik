@@ -1,3 +1,8 @@
+/*
+    Contains FragmentContainerView that holds all the fragments
+    that come under Home tab
+ */
+
 package com.mitrukahitesh.asrik.fragments.rootfragments;
 
 import android.os.Bundle;
@@ -15,11 +20,19 @@ public class Home extends Fragment {
     public Home() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

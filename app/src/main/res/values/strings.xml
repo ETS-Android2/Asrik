@@ -112,6 +112,9 @@
     <string name="yes">Yes</string>
     <string name="logout_message">You will be removed as admin of your area and the position will be vacant for other users.</string>
     <string name="failed">Failed</string>
+    <string name="location_service">Location Service</string>
+    <string name="turn_gps_on">Please turn on GPS for better experience.</string>
+    <string name="ok">OK</string>
     <string-array name="blood_groups">
         <item>Blood Group</item>
         <item>A+</item>

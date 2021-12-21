@@ -1,3 +1,6 @@
+/*
+    Model class for postal code details
+ */
 
 package com.mitrukahitesh.asrik.models.pin;
 

@@ -1,3 +1,8 @@
+/*
+    It is the adapter that is used with recycler view
+    which renders a list of pending requests
+ */
+
 package com.mitrukahitesh.asrik.adapters;
 
 import android.content.Context;
@@ -59,10 +64,27 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
     private View root, noReq;
     private NavController controller;
     private final List<BloodRequest> requests = new ArrayList<>();
+    /**
+     * Stores time of the last blood request
+     * Helps in achieving lazy loading
+     */
     private Long last = 0l;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    /**
+     * Stores at which number of blood request, more requests are fetched
+     * Helps prevent redundant data fetch at same level
+     * Say, user has viewed request no. 7, then this set will store 7 in it
+     * So, if user again views the 7th request, app does not make request to more data
+     */
     private final Set<Integer> updatedAt = new HashSet<>();
+    /**
+     * Contains UID of blood seeker whose online status listener is set
+     * Prevents setting multiple listeners
+     */
     private final Set<String> gotOnlineStatus = new HashSet<>();
+    /**
+     * Contains updated emergency status of requests
+     */
     private final Map<String, Boolean> checkedAsEmergency = new HashMap<>();
 
     public PendingRequests(Context context, View root, NavController controller, View noReq) {
@@ -73,6 +95,9 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
         fetchData();
     }
 
+    /**
+     * Fetch pending blood requests
+     */
     private void fetchData() {
         CollectionReference reference = db.collection(Constants.REQUESTS);
         Query query = reference.
@@ -97,6 +122,8 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
                     if (requests.size() > 0) {
                         noReq.setVisibility(View.GONE);
                         last = requests.get(requests.size() - 1).getTime();
+                    } else {
+                        noReq.setVisibility(View.VISIBLE);
                     }
                     Log.i("Asrik: Pending requests", "fetched " + task.getResult().size() + " " + last);
                 } else {
@@ -106,22 +133,38 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
         });
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item
+     */
     @NonNull
     @Override
     public CustomVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CustomVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_request, parent, false));
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * This method should update the contents of the RecyclerView.ViewHolder.itemView
+     * to reflect the item at the given position.
+     */
     @Override
     public void onBindViewHolder(@NonNull CustomVH holder, int position) {
         holder.setView(requests.get(position), position);
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     */
     @Override
     public int getItemCount() {
         return requests.size();
     }
 
+    /**
+     * Extend the abstract class RecyclerView.ViewHolder
+     * to create ViewHolder objects and write custom
+     * implementation
+     */
     public class CustomVH extends RecyclerView.ViewHolder {
 
         private final LinearLayout locate, share, chat, on, off, detailsHolder, emergency_ll, buttons;
@@ -131,6 +174,10 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
         private final Button approve, reject;
         private final CheckBox emergency;
 
+        /**
+         * Call super constructor, and
+         * Set references and listeners to views
+         */
         public CustomVH(@NonNull View itemView) {
             super(itemView);
             detailsHolder = itemView.findViewById(R.id.details_holder);
@@ -154,6 +201,9 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
             setListeners();
         }
 
+        /**
+         * Set listeners to views in view holder
+         */
         private void setListeners() {
             detailsHolder.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -263,6 +313,9 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
             });
         }
 
+        /**
+         * Renders pending request data into view holder
+         */
         public void setView(BloodRequest request, int position) {
             if ((position + 1) % 15 == 0 && !updatedAt.contains(position)) {
                 fetchData();
@@ -314,6 +367,9 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
         }
     }
 
+    /**
+     * Send request to server to notify the users about request rejection
+     */
     private void notifyRejection(BloodRequest request) {
         JSONObject object = new JSONObject();
         try {
@@ -339,6 +395,9 @@ public class PendingRequests extends RecyclerView.Adapter<PendingRequests.Custom
         }
     }
 
+    /**
+     * Send request to server to notify the users about request verification
+     */
     private void notifyVerification(BloodRequest request) {
         JSONObject object = new JSONObject();
         try {

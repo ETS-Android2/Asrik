@@ -1,3 +1,7 @@
+/*
+    Fragment to select location from map
+ */
+
 package com.mitrukahitesh.asrik.fragments.common;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -42,10 +46,20 @@ public class SelectLocation extends Fragment {
     private GoogleMap googleMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private Marker marker;
+    /**
+     * LatLon of Delhi
+     * Default location shown in map
+     */
     private final LatLng delhi = new LatLng(28.7041, 77.1025);
     private Button confirmLocation;
+    /**
+     * Current selected location
+     */
     private LatLng current = null;
     private boolean camp;
+    /**
+     * Callback called when MyLocation button on map is clicked
+     */
     private final GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener = new GoogleMap.OnMyLocationButtonClickListener() {
         @Override
         public boolean onMyLocationButtonClick() {
@@ -54,6 +68,9 @@ public class SelectLocation extends Fragment {
         }
     };
 
+    /**
+     * Callback which is called when is ready to use
+     */
     private final OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
@@ -61,6 +78,7 @@ public class SelectLocation extends Fragment {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(delhi, 5);
             googleMap.animateCamera(cameraUpdate);
             checkLocationPermission();
+            // Update current selected location
             googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(@NonNull LatLng latLng) {
@@ -82,6 +100,7 @@ public class SelectLocation extends Fragment {
 
                 }
 
+                // Update current selected location
                 @Override
                 public void onMarkerDragEnd(@NonNull Marker marker) {
                     current = marker.getPosition();
@@ -90,6 +109,10 @@ public class SelectLocation extends Fragment {
         }
     };
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -98,6 +121,13 @@ public class SelectLocation extends Fragment {
         return inflater.inflate(R.layout.fragment_select_location, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     * Set initial values of views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -108,6 +138,7 @@ public class SelectLocation extends Fragment {
             }
         });
         confirmLocation = view.findViewById(R.id.confirm);
+        // Get the SupportMapFragment and request notification when the map is ready to be used.
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -119,6 +150,10 @@ public class SelectLocation extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putDouble(Constants.LATITUDE, current.latitude);
                 bundle.putDouble(Constants.LONGITUDE, current.longitude);
+                /*
+                    If fragment is called from BloodCamp fragment, update BloodCamp's static variables
+                    If fragment is called from RaiseRequest fragment, update RaiseRequest's static variables
+                 */
                 if (camp) {
                     BloodCamp.lat = current.latitude;
                     BloodCamp.lon = current.longitude;
@@ -131,6 +166,12 @@ public class SelectLocation extends Fragment {
         });
     }
 
+    /**
+     * Check location permission
+     * If denied, ask permission
+     * Else request to turn on GPS, then get current location
+     * Set map view to current location
+     */
     private void checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
@@ -142,6 +183,10 @@ public class SelectLocation extends Fragment {
         }
     }
 
+    /**
+     * Get current location
+     * Set map view to current location
+     */
     @SuppressLint("MissingPermission")
     private void getCurrentLocation() {
         LocationManager locationManager = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
@@ -171,14 +216,17 @@ public class SelectLocation extends Fragment {
         }, null);
     }
 
+    /**
+     * Request user to turn GPS on
+     */
     private void requestToTurnGpsOn() {
         if (((LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE)).isProviderEnabled(LocationManager.GPS_PROVIDER))
             return;
         AlertDialog dialog = new AlertDialog.Builder(requireContext())
-                .setTitle("Location Service")
-                .setMessage("Please turn on GPS for better experience.")
+                .setTitle(requireContext().getString(R.string.location_service))
+                .setMessage(requireContext().getString(R.string.turn_gps_on))
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(requireContext().getText(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent gpsOptionsIntent = new Intent(
@@ -186,7 +234,7 @@ public class SelectLocation extends Fragment {
                         startActivity(gpsOptionsIntent);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(requireContext().getText(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -196,6 +244,10 @@ public class SelectLocation extends Fragment {
         dialog.show();
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,6 +256,9 @@ public class SelectLocation extends Fragment {
         }
     }
 
+    /**
+     * Get permission result
+     */
     @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

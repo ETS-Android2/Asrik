@@ -1,3 +1,8 @@
+/*
+    First class called when app opens
+    Responsible for creating notification channels
+ */
+
 package com.mitrukahitesh.asrik;
 
 import android.app.Application;
@@ -7,6 +12,9 @@ import android.os.Build;
 
 public class App extends Application {
 
+    /**
+     * Notification Channel IDs
+     */
     public static final String ADMIN_NEW_REQUEST = "ADMIN_NEW_REQUEST";
     public static final String USER_REQUEST_VERIFIED = "USER_REQUEST_VERIFIED";
     public static final String BLOOD_CAMP = "BLOOD_CAMP";
@@ -18,6 +26,9 @@ public class App extends Application {
         createNotificationChannel();
     }
 
+    /**
+     * Creates notification channels for various purposes
+     */
     private void createNotificationChannel() {
         NotificationChannel adminNewRequest = new NotificationChannel(ADMIN_NEW_REQUEST, "Admin New Request", NotificationManager.IMPORTANCE_HIGH);
         adminNewRequest.setShowBadge(true);

@@ -1,3 +1,8 @@
+/*
+    It is the adapter that is used with recycler view
+    which renders a list of blood requests
+ */
+
 package com.mitrukahitesh.asrik.adapters;
 
 import android.content.Context;
@@ -44,12 +49,30 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
     private Context context;
     private NavController controller;
     private final List<BloodRequest> requests = new ArrayList<>();
+    /**
+     * Stores time of the last blood request
+     * Helps in achieving lazy loading
+     */
     private Long last;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference reference = db.collection(Constants.REQUESTS);
+    /**
+     * This helps in choosing the correct Query depending upon
+     * the sorting required or text searched
+     */
     private final Map<String, Query> queryMap = new HashMap<>();
     private String queryName = "", searchName = "";
+    /**
+     * Stores at which number of blood request, more requests are fetched
+     * Helps prevent redundant data fetch at same level
+     * Say, user has viewed request no. 7, then this set will store 7 in it
+     * So, if user again views the 7th request, app does not make request to more data
+     */
     private final Set<Integer> updatedAt = new HashSet<>();
+    /**
+     * Contains UID of blood seeker whose online status listener is set
+     * Prevents setting multiple listeners
+     */
     private final Set<String> gotOnlineStatus = new HashSet<>();
 
     public FeedRequests(Context context, NavController controller, String queryName, String searchName) {
@@ -73,6 +96,11 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
         fetchData();
     }
 
+    /**
+     * Create a map with string as key and Query as value
+     * This helps in choosing the correct Query depending upon
+     * the sorting required or text searched
+     */
     private void setMap(String name) {
         if (name.equals("")) {
             queryMap.put(
@@ -154,6 +182,10 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
         }
     }
 
+    /**
+     * Fetch blood requests by choosing correct Query object depending on
+     * sorting selected and/or text searched
+     */
     private void fetchData() {
         Query query = queryMap.get(queryName);
         if (query == null)
@@ -214,28 +246,48 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
         });
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item
+     */
     @NonNull
     @Override
     public CustomVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CustomVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_request, parent, false));
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * This method should update the contents of the RecyclerView.ViewHolder.itemView
+     * to reflect the item at the given position.
+     */
     @Override
     public void onBindViewHolder(@NonNull CustomVH holder, int position) {
         holder.setView(requests.get(position), position);
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     */
     @Override
     public int getItemCount() {
         return requests.size();
     }
 
+    /**
+     * Extend the abstract class RecyclerView.ViewHolder
+     * to create ViewHolder objects and write custom
+     * implementation
+     */
     public class CustomVH extends RecyclerView.ViewHolder {
 
         private final LinearLayout locate, share, chat, on, off, detailsHolder, emergency_ll;
         private final TextView title, name, units, address, severity;
         private final CircleImageView dp;
 
+        /**
+         * Call super constructor, and
+         * Set references and listeners to views
+         */
         public CustomVH(@NonNull View itemView) {
             super(itemView);
             detailsHolder = itemView.findViewById(R.id.details_holder);
@@ -254,6 +306,9 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
             setListeners();
         }
 
+        /**
+         * Set listeners to views in view holder
+         */
         private void setListeners() {
             detailsHolder.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -306,7 +361,12 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
             });
         }
 
+        /**
+         * Renders request data into view holder
+         */
         public void setView(BloodRequest request, int position) {
+            // Fetch more blood requests after every 7 requests user views
+            // Lazy loading
             if (!queryName.equals(Constants.SEVERITY_HIGH_LOW) && !queryName.equals(Constants.SEVERITY_LOW_HIGH) && (position + 1) % 7 == 0 && !updatedAt.contains(position)) {
                 fetchData();
                 updatedAt.add(position);
@@ -338,6 +398,7 @@ public class FeedRequests extends RecyclerView.Adapter<FeedRequests.CustomVH> {
             }
             if (gotOnlineStatus.contains(request.getRequestId()))
                 return;
+            // Get online status of blood seeker
             FirebaseFirestore.getInstance()
                     .collection(Constants.ONLINE)
                     .document(request.getUid())

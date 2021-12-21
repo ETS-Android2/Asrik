@@ -1,3 +1,8 @@
+/*
+    Fragment under Admin tab
+    Allows admin to view pending blood requests and respond to them
+ */
+
 package com.mitrukahitesh.asrik.fragments.adminfragments;
 
 import android.os.Bundle;
@@ -32,17 +37,32 @@ public class PendingRequests extends Fragment {
     public PendingRequests() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_pending_requests, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     * Set initial values of views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -59,7 +79,6 @@ public class PendingRequests extends Fragment {
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
-        noReq.setVisibility(View.VISIBLE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

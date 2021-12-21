@@ -1,3 +1,8 @@
+/*
+    Used to get the display name of file the user selects
+    Source: https://stackoverflow.com/questions/23160874/getting-filename-from-uri
+ */
+
 package com.mitrukahitesh.asrik.helpers;
 
 import android.annotation.SuppressLint;
@@ -15,12 +20,9 @@ import java.io.File;
 
 public class FileDetails {
 
-    public static String getExtension(Context context, Uri uri) throws Exception {
-        ContentResolver resolver = context.getContentResolver();
-        MimeTypeMap map = MimeTypeMap.getSingleton();
-        return map.getExtensionFromMimeType(resolver.getType(uri));
-    }
-
+    /**
+     * Takes the Uri of the file and extracts the metadata (name, size and path)
+     */
     @SuppressLint("Range")
     public static FileMetaData getFileMetaData(Context context, Uri uri) {
         FileMetaData fileMetaData = new FileMetaData();

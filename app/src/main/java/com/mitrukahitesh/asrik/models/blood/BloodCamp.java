@@ -1,3 +1,7 @@
+/*
+    Model class for Blood Camps
+ */
+
 package com.mitrukahitesh.asrik.models.blood;
 
 public class BloodCamp {

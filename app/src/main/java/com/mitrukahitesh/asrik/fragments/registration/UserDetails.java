@@ -1,3 +1,9 @@
+/*
+    Complete sign in by finalizing admin privilege followed
+    by storing basic user details like name, email,
+    postal code, blood group in FireStore database
+ */
+
 package com.mitrukahitesh.asrik.fragments.registration;
 
 import android.content.Context;
@@ -53,6 +59,10 @@ public class UserDetails extends Fragment {
     private String bloodGroup;
     private SharedPreferences.Editor editor;
     private Button button;
+    /**
+     * Callback to validate the input, finalize admin privilege,
+     * then add data to database
+     */
     private final View.OnClickListener onSubmit = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -81,6 +91,10 @@ public class UserDetails extends Fragment {
         }
     };
 
+    /**
+     * If user is previously an admin but is now signing in as
+     * normal user, remove the user's admin privilege
+     */
     private void removeAsAdminIfAdmin() {
         DocumentReference reference = FirebaseFirestore.getInstance()
                 .collection(Constants.ADMINS)
@@ -100,6 +114,11 @@ public class UserDetails extends Fragment {
                 });
     }
 
+    /**
+     * If user him/herself is the admin of the area and is signing in as
+     * admin again, then allow him to sign in as admin, else display message
+     * that admin already exists
+     */
     private void checkExistingAdminAndAddData() {
         FirebaseFirestore.getInstance()
                 .collection(Constants.ADMINS)
@@ -118,6 +137,9 @@ public class UserDetails extends Fragment {
                 });
     }
 
+    /**
+     * Set user as admin
+     */
     private void setAdmin() {
         Map<String, String> map = new HashMap<>();
         map.put(Constants.ADMIN, FirebaseAuth.getInstance().getUid());
@@ -128,6 +150,9 @@ public class UserDetails extends Fragment {
                 .addOnCompleteListener(task -> saveData());
     }
 
+    /**
+     * Save user data in FireStore
+     */
     private void saveData() {
         Map<String, Object> details = new HashMap<>();
         details.put(Constants.ADMIN, bundle.getBoolean(Constants.ADMIN, false));
@@ -165,6 +190,11 @@ public class UserDetails extends Fragment {
     public UserDetails() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     * Get data sent from Otp fragment
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,12 +205,22 @@ public class UserDetails extends Fragment {
         }
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_user_details, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -226,6 +266,10 @@ public class UserDetails extends Fragment {
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().length() == 6) {
                     button.setEnabled(false);
+                    /*
+                        Get postal code details when input length
+                        is 6
+                     */
                     RetrofitAccessObject.getRetrofitAccessObject().getPinCodeDetails(editable.toString()).enqueue(new Callback<PinCodeDetails>() {
                         @Override
                         public void onResponse(@NonNull Call<PinCodeDetails> call, @NonNull Response<PinCodeDetails> response) {
@@ -256,6 +300,9 @@ public class UserDetails extends Fragment {
         button.setOnClickListener(onSubmit);
     }
 
+    /**
+     * Shows postal code validation fail message
+     */
     private void pinCodeValidationFailed() {
         Snackbar.make(frameLayout, "Invalid PIN Code", Snackbar.LENGTH_SHORT).show();
     }

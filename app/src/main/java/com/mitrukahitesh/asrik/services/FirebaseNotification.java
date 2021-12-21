@@ -1,3 +1,7 @@
+/*
+    Service to handle push notifications
+ */
+
 package com.mitrukahitesh.asrik.services;
 
 import android.app.Notification;
@@ -27,6 +31,9 @@ import java.util.Map;
 
 public class FirebaseNotification extends FirebaseMessagingService {
 
+    /**
+     * Called when new message is received by the service
+     */
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -36,6 +43,13 @@ public class FirebaseNotification extends FirebaseMessagingService {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Intent intent = new Intent(this, Main.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        /*
+            Check the intent of message
+            Intents ---> newMessage (new message is received in chat)
+                    ---> bloodCamp (new blood donation camp is posted)
+                    ---> default (new request is made or a request is verified/rejected)
+            Send notification if user settings allow
+         */
         if (Boolean.parseBoolean(map.get("newMessage"))) {
             Intent broadcast = new Intent(Constants.NEW_MESSAGE_INTENT_FILTER);
             broadcast.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -43,6 +57,12 @@ public class FirebaseNotification extends FirebaseMessagingService {
             broadcast.putExtra(Constants.NAME, map.get("title"));
             broadcast.putExtra(Constants.MESSAGE, map.get("body"));
             broadcast.putExtra(Constants.CHAT_ID, map.get(Constants.CHAT_ID.toLowerCase(Locale.ROOT)));
+            /*
+                Send broadcast to check if the message is
+                received from the user whose chat is opened.
+                If same chat is opened, do not show notification, else
+                show notification
+             */
             sendOrderedBroadcast(broadcast, null, new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
@@ -100,6 +120,10 @@ public class FirebaseNotification extends FirebaseMessagingService {
         }
     }
 
+    /*
+        Save the new FCM device token in fire-store database
+        when new one generated
+     */
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);

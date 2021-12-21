@@ -1,3 +1,9 @@
+/*
+    It is the adapter that is used with recycler view
+    which renders a list of users a user has contacted
+    via chat previously
+ */
+
 package com.mitrukahitesh.asrik.adapters;
 
 import android.content.Context;
@@ -38,28 +44,48 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Custom
         this.controller = controller;
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item
+     */
     @NonNull
     @Override
     public CustomVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CustomVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_chat_list, parent, false));
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * This method should update the contents of the RecyclerView.ViewHolder.itemView
+     * to reflect the item at the given position.
+     */
     @Override
     public void onBindViewHolder(@NonNull CustomVH holder, int position) {
         holder.setView(chatInfoList.get(position), position);
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     */
     @Override
     public int getItemCount() {
         return chatInfoList.size();
     }
 
+    /**
+     * Extend the abstract class RecyclerView.ViewHolder
+     * to create ViewHolder objects and write custom
+     * implementation
+     */
     public class CustomVH extends RecyclerView.ViewHolder {
 
         private final CircleImageView dp;
         private final TextView name, lastMessage, time;
         private final LinearLayout root;
 
+        /**
+         * Call super constructor, and
+         * Set references and listeners to views
+         */
         public CustomVH(@NonNull View itemView) {
             super(itemView);
             dp = itemView.findViewById(R.id.dp);
@@ -70,6 +96,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Custom
             setListener();
         }
 
+        /**
+         * Set listeners to views in view holder
+         */
         private void setListener() {
             root.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,6 +114,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Custom
             });
         }
 
+        /**
+         * Renders chat info data into view holder
+         */
         private void setView(ChatInfo info, int position) {
             Glide.with(context).load(!info.getProfileUrl().equals("") ? info.getProfileUrl() : AppCompatResources.getDrawable(context, R.drawable.ic_usercircle)).into(dp);
             name.setText(info.getName());
@@ -97,6 +129,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Custom
             lastMessage.setText(info.getLastMessage());
         }
 
+        /**
+         * Get formatted time (String) from time in millis
+         */
         private String getTime(Long time) {
             Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
             calendar.setTimeInMillis(time);

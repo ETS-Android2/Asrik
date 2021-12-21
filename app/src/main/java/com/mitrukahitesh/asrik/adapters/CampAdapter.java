@@ -1,3 +1,8 @@
+/*
+    It is the adapter that is used with recycler view
+    which renders a list of blood donation camps
+ */
+
 package com.mitrukahitesh.asrik.adapters;
 
 import android.content.Context;
@@ -32,27 +37,47 @@ public class CampAdapter extends RecyclerView.Adapter<CampAdapter.CustomVH> {
         this.camps = camps;
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item
+     */
     @NonNull
     @Override
     public CustomVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CustomVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_blood_camp, parent, false));
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * This method should update the contents of the RecyclerView.ViewHolder.itemView
+     * to reflect the item at the given position.
+     */
     @Override
     public void onBindViewHolder(@NonNull CustomVH holder, int position) {
         holder.setView(camps.get(position));
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     */
     @Override
     public int getItemCount() {
         return camps.size();
     }
 
+    /**
+     * Extend the abstract class RecyclerView.ViewHolder
+     * to create ViewHolder objects and write custom
+     * implementation
+     */
     public class CustomVH extends RecyclerView.ViewHolder {
 
         private final TextView address, day, month, year, time;
         private final Button remind, locate;
 
+        /**
+         * Call super constructor, and
+         * Set references and listeners to views
+         */
         public CustomVH(@NonNull View itemView) {
             super(itemView);
             address = itemView.findViewById(R.id.address);
@@ -66,6 +91,9 @@ public class CampAdapter extends RecyclerView.Adapter<CampAdapter.CustomVH> {
             setListeners();
         }
 
+        /**
+         * Set listeners to views in view holder
+         */
         private void setListeners() {
             remind.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,6 +133,9 @@ public class CampAdapter extends RecyclerView.Adapter<CampAdapter.CustomVH> {
             });
         }
 
+        /**
+         * Renders blood camp data into view holder
+         */
         private void setView(BloodCamp camp) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(camp.getYear(), camp.getMonth(), camp.getDay());

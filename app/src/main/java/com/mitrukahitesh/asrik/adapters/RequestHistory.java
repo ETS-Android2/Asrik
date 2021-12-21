@@ -1,3 +1,9 @@
+/*
+    It is the adapter that is used with recycler view
+    which renders a list of blood requests that a
+    user has made i.e. request history
+ */
+
 package com.mitrukahitesh.asrik.adapters;
 
 import android.app.AlertDialog;
@@ -42,22 +48,38 @@ public class RequestHistory extends RecyclerView.Adapter<RequestHistory.CustomVH
         this.requestList = requestList;
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item
+     */
     @NonNull
     @Override
     public CustomVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CustomVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_request, parent, false));
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * This method should update the contents of the RecyclerView.ViewHolder.itemView
+     * to reflect the item at the given position.
+     */
     @Override
     public void onBindViewHolder(@NonNull CustomVH holder, int position) {
         holder.setView(requestList.get(position), position);
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     */
     @Override
     public int getItemCount() {
         return requestList.size();
     }
 
+    /**
+     * Extend the abstract class RecyclerView.ViewHolder
+     * to create ViewHolder objects and write custom
+     * implementation
+     */
     public class CustomVH extends RecyclerView.ViewHolder {
 
         private final LinearLayout locate;
@@ -71,6 +93,10 @@ public class RequestHistory extends RecyclerView.Adapter<RequestHistory.CustomVH
         private final TextView note;
         private final ImageView verified;
 
+        /**
+         * Call super constructor, and
+         * Set references and listeners to views
+         */
         public CustomVH(@NonNull View itemView) {
             super(itemView);
             detailsHolder = itemView.findViewById(R.id.details_holder);
@@ -98,6 +124,9 @@ public class RequestHistory extends RecyclerView.Adapter<RequestHistory.CustomVH
             setListeners();
         }
 
+        /**
+         * Set listeners to views in view holder
+         */
         private void setListeners() {
             detailsHolder.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -209,6 +238,9 @@ public class RequestHistory extends RecyclerView.Adapter<RequestHistory.CustomVH
             });
         }
 
+        /**
+         * Renders request data into view holder
+         */
         public void setView(BloodRequest request, int position) {
             if (request.getProfilePicUrl() == null || request.getProfilePicUrl().equals("")) {
                 Glide.with(context).load(AppCompatResources.getDrawable(context, R.drawable.ic_usercircle)).into(dp);

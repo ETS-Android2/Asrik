@@ -1,3 +1,7 @@
+/*
+    Contains all the constants used throughout the app
+ */
+
 package com.mitrukahitesh.asrik.helpers;
 
 public class Constants {

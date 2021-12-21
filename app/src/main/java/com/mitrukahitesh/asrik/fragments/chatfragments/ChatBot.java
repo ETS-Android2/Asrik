@@ -1,3 +1,8 @@
+/*
+    Fragment under Chat tab
+    Provides interface to chat with chat-bot
+ */
+
 package com.mitrukahitesh.asrik.fragments.chatfragments;
 
 import android.os.Bundle;
@@ -42,17 +47,32 @@ public class ChatBot extends Fragment {
     public ChatBot() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_chat_bot, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     * Set initial values of views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -88,6 +108,11 @@ public class ChatBot extends Fragment {
             sendMessage(WELCOME_MESSAGE);
     }
 
+    /**
+     * Send user message for bot to server
+     * Receives the bot reply
+     * Add the conversation to list that is rendered by recycler view
+     */
     private void sendMessage(String m) {
         RetrofitAccessObject.getRetrofitAccessObject()
                 .getBotReply(m)
@@ -116,6 +141,11 @@ public class ChatBot extends Fragment {
                 });
     }
 
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * Changes status bar color
+     * Hide bottom navigation bar
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -123,6 +153,11 @@ public class ChatBot extends Fragment {
         changeStatusBarColor(R.color.theme_color_light);
     }
 
+    /**
+     * Called when the Fragment is no longer started.
+     * Change status bar color
+     * Un-hide bottom navigation bar
+     */
     @Override
     public void onStop() {
         super.onStop();
@@ -130,6 +165,10 @@ public class ChatBot extends Fragment {
         changeStatusBarColor(R.color.white);
     }
 
+    /**
+     * Changes the status bar color
+     * @param color: New status bar color
+     */
     private void changeStatusBarColor(int color) {
         Window window = requireActivity().getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

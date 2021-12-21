@@ -1,3 +1,7 @@
+/*
+    Takes user's phone number for authentication
+ */
+
 package com.mitrukahitesh.asrik.fragments.registration;
 
 import android.os.Bundle;
@@ -28,6 +32,11 @@ public class PhoneNumber extends Fragment {
     public PhoneNumber() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     * Get data sent from UserType fragment
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +44,22 @@ public class PhoneNumber extends Fragment {
             admin = getArguments().getBoolean(Constants.ADMIN, false);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_phone_number, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -58,6 +77,9 @@ public class PhoneNumber extends Fragment {
         ss.setSpan(clickableSpan1, 24, 31, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         signIn.setText(ss);
         signIn.setMovementMethod(LinkMovementMethod.getInstance());
+        /*
+            Validate phone number and send to OTP fragment
+         */
         next.setOnClickListener(v -> {
             if (phone.getText() == null) {
                 phone.requestFocus();

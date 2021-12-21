@@ -1,3 +1,7 @@
+/*
+    Model class for storing a chat information
+ */
+
 package com.mitrukahitesh.asrik.models.chat;
 
 public class ChatInfo {

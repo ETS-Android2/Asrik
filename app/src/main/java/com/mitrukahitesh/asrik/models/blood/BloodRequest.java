@@ -1,3 +1,7 @@
+/*
+    Model class for Blood Requests
+ */
+
 package com.mitrukahitesh.asrik.models.blood;
 
 public class BloodRequest {

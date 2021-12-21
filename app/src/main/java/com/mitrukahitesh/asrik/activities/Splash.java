@@ -1,3 +1,7 @@
+/*
+    Shows a splash screen for 1500ms
+ */
+
 package com.mitrukahitesh.asrik.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +18,9 @@ public class Splash extends AppCompatActivity {
 
     public static final int SPLASH_TIME_OUT = 1500;
 
+    /**
+     * Waits for SPLASH_TIME_OUT, then navigates to another activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

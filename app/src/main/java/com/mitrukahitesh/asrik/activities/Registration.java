@@ -1,3 +1,9 @@
+/*
+    Contains a fragment container to handle all
+    the fragments required throughout registration
+    process
+ */
+
 package com.mitrukahitesh.asrik.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +15,9 @@ import com.mitrukahitesh.asrik.helpers.Constants;
 
 public class Registration extends AppCompatActivity {
 
+    /**
+     * Set locale of current activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

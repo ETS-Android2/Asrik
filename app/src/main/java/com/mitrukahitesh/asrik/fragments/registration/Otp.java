@@ -1,3 +1,7 @@
+/*
+    Fragment to ask and verify OTP while signing in
+ */
+
 package com.mitrukahitesh.asrik.fragments.registration;
 
 import android.os.Bundle;
@@ -42,6 +46,11 @@ public class Otp extends Fragment {
     public Otp() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     * Get data sent from PhoneNumber fragment
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +60,22 @@ public class Otp extends Fragment {
         }
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_otp, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -73,6 +92,9 @@ public class Otp extends Fragment {
                 return;
             }
             submit.setEnabled(false);
+            /*
+                Sign in with OTP by creating PhoneAuthCredential
+             */
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verId, code.getText().toString());
             signInWithPhoneAuthCredential(credential);
         });
@@ -80,23 +102,30 @@ public class Otp extends Fragment {
         requestCode();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
+    /**
+     * Callback to handle verification state change
+     */
     private final PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        /**
+         * Called when verification is completed
+         */
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
             Log.i("Asrik", "Complete");
             signInWithPhoneAuthCredential(phoneAuthCredential);
         }
 
+        /**
+         * Called when verification is failed
+         */
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
             Log.i("Asrik", "Failed");
         }
 
+        /**
+         * Called when OTP is sent
+         */
         @Override
         public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
@@ -104,6 +133,10 @@ public class Otp extends Fragment {
             submit.setEnabled(true);
             verId = s;
             ll.setVisibility(View.VISIBLE);
+            /*
+                Thread responsible for allowing the user to request
+                new code in interval of 60s
+             */
             new Thread(() -> {
                 int count = 60;
                 while (count > 0 && !verified) {
@@ -126,6 +159,9 @@ public class Otp extends Fragment {
         }
     };
 
+    /**
+     * Request OTP
+     */
     private void requestCode() {
         ll.setVisibility(View.GONE);
         resend.setVisibility(View.GONE);
@@ -139,10 +175,16 @@ public class Otp extends Fragment {
         PhoneAuthProvider.verifyPhoneNumber(phoneAuthOptions);
     }
 
+    /**
+     * Complete sign in process after verifying PhoneAuthCredential
+     */
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
+                        /*
+                            Forward phone number and sign in type to UserDetails fragment
+                         */
                         verified = true;
                         Bundle bundle = new Bundle();
                         bundle.putString(Constants.NUMBER, number);

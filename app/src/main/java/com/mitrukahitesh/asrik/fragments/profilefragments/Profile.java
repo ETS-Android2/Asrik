@@ -1,3 +1,8 @@
+/*
+    Fragment under Profile tab
+    Gives access to various user setting and user details
+ */
+
 package com.mitrukahitesh.asrik.fragments.profilefragments;
 
 import android.app.AlertDialog;
@@ -52,17 +57,32 @@ public class Profile extends Fragment {
     public Profile() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_profile2, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     * Set initial values of views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -97,6 +117,9 @@ public class Profile extends Fragment {
         setValues(view);
     }
 
+    /**
+     * Initialize views with default values
+     */
     private void setValues(View view) {
         SharedPreferences preferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         name.setText(preferences.getString(Constants.NAME, ""));
@@ -155,6 +178,9 @@ public class Profile extends Fragment {
         }
     }
 
+    /**
+     * Function to resign as admin and logout
+     */
     private void removeAsAdminAndLogout() {
         FirebaseFirestore.getInstance()
                 .collection(Constants.ADMINS)

@@ -126,4 +126,7 @@
     <string name="yes">हां</string>
     <string name="logout_message">आपको अपने क्षेत्र के व्यवस्थापक के रूप में हटा दिया जाएगा और अन्य उपयोगकर्ताओं के लिए पद खाली हो जाएगा।</string>
     <string name="failed">असफल हुआ</string>
+    <string name="location_service">स्थान सेवा</string>
+    <string name="turn_gps_on">बेहतर अनुभव के लिए कृपया GPS चालू करें।</string>
+    <string name="ok">ठीक है</string>
 </resources>

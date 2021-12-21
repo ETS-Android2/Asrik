@@ -1,3 +1,7 @@
+/*
+    Model class for file metadata
+ */
+
 package com.mitrukahitesh.asrik.models.file;
 
 public class FileMetaData {

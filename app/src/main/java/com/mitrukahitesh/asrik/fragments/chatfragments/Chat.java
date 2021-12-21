@@ -1,3 +1,8 @@
+/*
+    Fragment under Chat tab
+    Provides interface to chat with other users
+ */
+
 package com.mitrukahitesh.asrik.fragments.chatfragments;
 
 import static android.app.Activity.RESULT_OK;
@@ -94,6 +99,10 @@ public class Chat extends Fragment {
     public Chat() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +110,11 @@ public class Chat extends Fragment {
             bundle = getArguments();
         }
         if (FirebaseAuth.getInstance().getUid() != null)
+            /*
+                This thread updates the online/typing status of user in realtime
+                If the user is typing, the status is updated to "typing"
+                If the user is idle for 2500ms, the status is again updated to "online"
+             */
             new Thread(() -> {
                 Map<String, Object> map = new HashMap<>();
                 map.put(Constants.MESSAGE, requireContext().getString(R.string.online));
@@ -120,12 +134,22 @@ public class Chat extends Fragment {
             }).start();
     }
 
+    /**
+     * Called when the fragment is no longer in use.
+     * Stops the thread that is tracking online/typing status
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
         threadRun = false;
     }
 
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * Changes status bar color
+     * Hide bottom navigation bar
+     * Register broadcast receiver for new message notification
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -136,18 +160,33 @@ public class Chat extends Fragment {
         requireContext().registerReceiver(receiverForChat, filter);
     }
 
+    /**
+     * Called when the Fragment is no longer resumed.
+     * Unregisters broadcast receiver
+     */
     @Override
     public void onPause() {
         super.onPause();
         requireContext().unregisterReceiver(receiverForChat);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_chat2, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     * Set initial values of views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -163,6 +202,9 @@ public class Chat extends Fragment {
         createChannelIdIfNotCreated();
     }
 
+    /**
+     * Set references to views
+     */
     private void setReferences(View view) {
         if (recyclerView != null) {
             adapter = (Messages) recyclerView.getAdapter();
@@ -186,6 +228,9 @@ public class Chat extends Fragment {
         call = view.findViewById(R.id.call);
     }
 
+    /**
+     * Set required listeners to views
+     */
     private void setListeners() {
         send.setOnClickListener(v -> {
             if (chatId.equals("")) {
@@ -290,6 +335,10 @@ public class Chat extends Fragment {
         });
     }
 
+    /**
+     * Create a new channel id (chat id) if the two users
+     * are chatting for the first time
+     */
     private void createChannelIdIfNotCreated() {
         if (FirebaseAuth.getInstance().getUid() == null)
             return;
@@ -360,6 +409,9 @@ public class Chat extends Fragment {
         });
     }
 
+    /**
+     * Set listener to fetch chat in realtime
+     */
     private void fetchChat() {
         FirebaseFirestore.getInstance()
                 .collection(Constants.CHATS)
@@ -391,6 +443,9 @@ public class Chat extends Fragment {
                 });
     }
 
+    /**
+     * Send request to server to send notification to the receiver of message
+     */
     private void sendNotification(String uid, String name, String number, String chatId, String message) {
         SharedPreferences preferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         try {
@@ -417,12 +472,20 @@ public class Chat extends Fragment {
         }
     }
 
+    /**
+     * Changes the status bar color
+     * @param color: New status bar color
+     */
     private void changeStatusBarColor(int color) {
         Window window = requireActivity().getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(getResources().getColor(color, null));
     }
 
+    /**
+     * Set user information (name, profile picture, online status) of the
+     * user whose chat is open
+     */
     private void setInfo() {
         Glide.with(requireContext()).load(!bundle.getString(Constants.PROFILE_PIC_URL).equals("") ? bundle.getString(Constants.PROFILE_PIC_URL) : AppCompatResources.getDrawable(requireContext(), R.drawable.ic_usercircle)).into(dp);
         name.setText(bundle.getString(Constants.NAME));
@@ -452,6 +515,9 @@ public class Chat extends Fragment {
                 });
     }
 
+    /**
+     * Called when user selects a file to send
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -468,6 +534,11 @@ public class Chat extends Fragment {
         }
     }
 
+    /**
+     * Called when the Fragment is no longer started.
+     * Change status bar color
+     * Un-hide bottom navigation bar
+     */
     @Override
     public void onStop() {
         super.onStop();

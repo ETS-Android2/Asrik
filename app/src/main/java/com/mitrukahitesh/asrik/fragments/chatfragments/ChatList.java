@@ -1,3 +1,10 @@
+/*
+    Fragment under Chat tab
+    Shows the list of users with whom the currently logged in user
+    has chat history with
+    Also provides access to ChatBot fragment via a Floating Action Button
+ */
+
 package com.mitrukahitesh.asrik.fragments.chatfragments;
 
 import android.annotation.SuppressLint;
@@ -47,17 +54,32 @@ public class ChatList extends Fragment {
     public ChatList() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_chat_list, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     * Set initial values of views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -88,9 +110,16 @@ public class ChatList extends Fragment {
         });
     }
 
+    /**
+     * Fetches all the chats user is involved in and
+     * adds to a list which is displayed in a recycler view
+     */
     private void fetchChats() {
         if (FirebaseAuth.getInstance().getUid() == null)
             return;
+        /*
+            Get ChatIDs of user's chat and fetch required chat data
+         */
         FirebaseFirestore.getInstance()
                 .collection(Constants.USERS)
                 .document(FirebaseAuth.getInstance().getUid())
@@ -110,6 +139,9 @@ public class ChatList extends Fragment {
                         }
                     }
 
+                    /*
+                        Get user information like name, profile pic url, number
+                     */
                     private void getUserInfo(ChatInfo info) {
                         FirebaseFirestore.getInstance()
                                 .collection(Constants.USERS)
@@ -126,6 +158,10 @@ public class ChatList extends Fragment {
                                 });
                     }
 
+                    /*
+                        Get last message of the conversation
+                        to display in chat list
+                     */
                     private void getLastMessage(ChatInfo info) {
                         FirebaseFirestore.getInstance()
                                 .collection(Constants.CHATS)

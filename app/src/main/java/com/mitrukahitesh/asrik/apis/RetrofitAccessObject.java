@@ -1,3 +1,8 @@
+/*
+    Singleton class that provides Retrofit object to make HTTP requests
+    Makes retrofit usage easy and clean throughout the application
+ */
+
 package com.mitrukahitesh.asrik.apis;
 
 import com.google.gson.Gson;
@@ -13,6 +18,10 @@ public class RetrofitAccessObject {
     private RetrofitAccessObject() {
     }
 
+    /**
+     * Creates retrofit object (if not already created)
+     * Returns the retrofit object
+     */
     public static CustomRetrofit getRetrofitAccessObject() {
         if (customRetrofit == null) {
             Gson gson = new GsonBuilder()

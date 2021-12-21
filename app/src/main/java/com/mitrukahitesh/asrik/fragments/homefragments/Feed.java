@@ -1,3 +1,8 @@
+/*
+    Fragment under Home tab
+    Shows the list of blood requests, blood donation camps
+ */
+
 package com.mitrukahitesh.asrik.fragments.homefragments;
 
 import android.annotation.SuppressLint;
@@ -68,17 +73,32 @@ public class Feed extends Fragment {
     public Feed() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     * Set initial values of views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -86,6 +106,9 @@ public class Feed extends Fragment {
         setListeners(view);
     }
 
+    /**
+     * Set references to views
+     */
     private void setReferences(View view) {
         refreshLayout = view.findViewById(R.id.refresh_layout);
         if (recyclerView == null) {
@@ -132,6 +155,9 @@ public class Feed extends Fragment {
         search = view.findViewById(R.id.search);
     }
 
+    /**
+     * Set required listeners to views
+     */
     private void setListeners(View view) {
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -227,6 +253,11 @@ public class Feed extends Fragment {
         });
     }
 
+    /**
+     * Handle which adapter is to be set and what data is to be sent
+     * to adapter constructor based on the filter/sort user has
+     * selected
+     */
     private void setAdaptersWithFilters() {
         if (!sortSelected.equals(Constants.RELEVANCE) || !searchString.equals(""))
             emergencyRecyclerView.setVisibility(View.GONE);
@@ -235,6 +266,9 @@ public class Feed extends Fragment {
         recyclerView.setAdapter(new FeedRequests(requireContext(), controller, sortSelected, searchString));
     }
 
+    /**
+     * Navigate user to google map to view nearby services
+     */
     private void showNearbyServices(String service) {
         Uri gmmIntentUri = Uri.parse(String.format("geo:0,0?z=10&q=%s", service));
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
@@ -242,6 +276,11 @@ public class Feed extends Fragment {
         requireContext().startActivity(mapIntent);
     }
 
+    /**
+     * Fetch blood donation camps
+     * Sort on the basis of date (Nearest first)
+     * Set adapter to display the camps in recycler view
+     */
     private void fetchCamps() {
         SharedPreferences preferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         FirebaseFirestore.getInstance()

@@ -1,3 +1,12 @@
+/*
+    Contains containers to all the fragments that user can
+    access after signing in
+    At the root, it has a bottom tab navigation where
+    each tab has set of fragments
+    Navigation between fragments is set using Navigation
+    Component
+ */
+
 package com.mitrukahitesh.asrik.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,14 +56,18 @@ public class Main extends AppCompatActivity {
     public static final String HISTORY = "history";
     public static final String CHAT = "chat";
     public static final String PROFILE = "profile";
-    private boolean isAdmin;
 
+    /**
+     * Set reference to views
+     * Setup bottom navigation
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userDefaultLanguage(this, getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, MODE_PRIVATE).getString(Constants.LOCALE, "en"));
         setContentView(R.layout.activity_main);
-        isAdmin = getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, MODE_PRIVATE).getBoolean(Constants.ADMIN, false);
+        // Whether user is signing in as admin
+        boolean isAdmin = getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, MODE_PRIVATE).getBoolean(Constants.ADMIN, false);
         navigationView = findViewById(R.id.bottomNavigationView);
         setBottomNavListener();
         updatePicUrlOnUserRequests();
@@ -74,6 +87,9 @@ public class Main extends AppCompatActivity {
         active = home;
     }
 
+    /**
+     * Set listeners to bottom navigation tabs
+     */
     private void setBottomNavListener() {
         navigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.admin) {
@@ -101,6 +117,9 @@ public class Main extends AppCompatActivity {
         });
     }
 
+    /**
+     * Send FCM Token to Firestore if the user is logged in else logout
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -132,6 +151,10 @@ public class Main extends AppCompatActivity {
                 });
     }
 
+    /**
+     * This method updates the profile_pic field of requests made by the user
+     * when he signs in for the first time
+     */
     private void updatePicUrlOnUserRequests() {
         String url = getIntent().getStringExtra(Constants.PROFILE_PIC_URL);
         if (url == null)
@@ -151,6 +174,9 @@ public class Main extends AppCompatActivity {
         });
     }
 
+    /**
+     * Set locale of main activity as per user's selection
+     */
     public static void userDefaultLanguage(Activity context, String localeName) {
         Locale locale;
         locale = new Locale(localeName);
@@ -162,6 +188,9 @@ public class Main extends AppCompatActivity {
                 context.getBaseContext().getResources().getDisplayMetrics());
     }
 
+    /**
+     * Set online status TRUE
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -171,6 +200,9 @@ public class Main extends AppCompatActivity {
         FirebaseFirestore.getInstance().collection(Constants.ONLINE).document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).set(map);
     }
 
+    /**
+     * Set online status FALSE and updates last online time in millis
+     */
     @Override
     protected void onStop() {
         super.onStop();

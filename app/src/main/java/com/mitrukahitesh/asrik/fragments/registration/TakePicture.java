@@ -1,3 +1,7 @@
+/*
+    Set profile picture and complete registration process
+ */
+
 package com.mitrukahitesh.asrik.fragments.registration;
 
 import static android.app.Activity.RESULT_OK;
@@ -7,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,17 +58,31 @@ public class TakePicture extends Fragment {
     public TakePicture() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_take_picture, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -85,6 +102,13 @@ public class TakePicture extends Fragment {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                    Upload the selected profile picture
+                    and add the profile pic url to user details
+                    in FireStore database
+                    If user has not selected any picture, save empty string
+                    as url
+                 */
                 if (uri == null) {
                     Task<Uri> task = new Task<Uri>() {
                         @Override
@@ -160,6 +184,7 @@ public class TakePicture extends Fragment {
                     return;
                 }
                 try {
+                    // Upload image
                     upload.setVisibility(View.GONE);
                     progressIndicator.setVisibility(View.VISIBLE);
                     progressIndicator.setProgress(0);
@@ -169,18 +194,14 @@ public class TakePicture extends Fragment {
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                             long progress = ((snapshot.getBytesTransferred() * 100) / snapshot.getTotalByteCount());
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                progressIndicator.setProgress((int) progress, true);
-                            } else {
-                                progressIndicator.setProgress((int) progress);
-                            }
+                            progressIndicator.setProgress((int) progress, true);
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressIndicator.setProgress(100);
                             Snackbar.make(frameLayout, "Picture uploaded successfully..", Snackbar.LENGTH_SHORT).show();
-                            completeRegistration();
+                            getAndSaveUrl();
                         }
                     });
                 } catch (Exception e) {
@@ -193,7 +214,11 @@ public class TakePicture extends Fragment {
         });
     }
 
-    private void completeRegistration() {
+    /**
+     *  Get URL of uploaded image and save it to user details
+     *  in FireStore database
+     */
+    private void getAndSaveUrl() {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(Constants.PROFILE_PIC).child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
         storageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
@@ -203,9 +228,17 @@ public class TakePicture extends Fragment {
         });
     }
 
+    /**
+     *  Save profile pic URL in database
+     *  Launch MainActivity ---> End of registration process
+     */
     private void finishRegistering(Task<Uri> task) {
         if (task.isSuccessful()) {
             String url;
+            /*
+                url = "" if user did not select any
+                picture
+             */
             if (task.getResult() == null)
                 url = "";
             else
@@ -233,6 +266,9 @@ public class TakePicture extends Fragment {
         }
     }
 
+    /**
+     * Called when user selects profile picture
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

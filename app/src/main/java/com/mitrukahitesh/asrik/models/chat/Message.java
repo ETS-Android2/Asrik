@@ -1,3 +1,7 @@
+/*
+    Model class for messages (used in chats)
+ */
+
 package com.mitrukahitesh.asrik.models.chat;
 
 public class Message {

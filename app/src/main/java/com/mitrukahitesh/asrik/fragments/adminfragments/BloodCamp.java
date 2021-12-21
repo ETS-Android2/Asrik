@@ -1,3 +1,8 @@
+/*
+    Fragment under Admin tab
+    Allows admin to post blood donation camps
+ */
+
 package com.mitrukahitesh.asrik.fragments.adminfragments;
 
 import android.app.DatePickerDialog;
@@ -63,18 +68,33 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
     public BloodCamp() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_blood_camp, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     * Set initial values of views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -89,6 +109,9 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
         setListeners();
     }
 
+    /**
+     * Set references to views
+     */
     private void setReferences(View view) {
         root = view.findViewById(R.id.root);
         controller = Navigation.findNavController(view);
@@ -104,12 +127,18 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
         progressIndicator = view.findViewById(R.id.progress);
     }
 
+    /**
+     * Initialize views with default values
+     */
     private void setValues() {
         name.setText(preferences.getString(Constants.NAME, ""));
         cityProfile.setText(String.format("%s, %s", preferences.getString(Constants.CITY, ""), preferences.getString(Constants.PIN_CODE, "")));
         Glide.with(requireContext()).load(preferences.getString(Constants.PROFILE_PIC_URL, "")).into(img);
     }
 
+    /**
+     * Set required listeners to views
+     */
     private void setListeners() {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,6 +209,9 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
         });
     }
 
+    /**
+     * Save blood donation camp details to Firestore, then notify users about it
+     */
     private void postUpdate() {
         if (cal == null) {
             Snackbar.make(root, "Please select date", Snackbar.LENGTH_SHORT).show();
@@ -236,6 +268,9 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
                 });
     }
 
+    /**
+     * Send POST request to server to notify users about new blood donation camp
+     */
     private void notifyAdmin() {
         try {
             JSONObject jsonObject = new JSONObject();
@@ -263,12 +298,19 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
         }
     }
 
+    /**
+     * Navigate to PendingRequests fragment after posting the camp details
+     */
     private void navigateToPendingRequests(boolean b) {
         Snackbar.make(root, b ? "Notified donors" : "Blood camp posted", Snackbar.LENGTH_SHORT).show();
         NavOptions options = new NavOptions.Builder().setPopUpTo(R.id.pendingRequests, true).build();
         controller.navigate(R.id.action_bloodCamp_to_pendingRequests, new Bundle(), options);
     }
 
+    /**
+     * Disable the views (button, edittext) while network operation in progress
+     * i.e. while data is being save in database
+     */
     private void toggleViews(boolean b) {
         submit.setEnabled(b);
         address.setEnabled(b);
@@ -279,6 +321,9 @@ public class BloodCamp extends Fragment implements DatePickerDialog.OnDateSetLis
         progressIndicator.setVisibility(b ? View.GONE : View.VISIBLE);
     }
 
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     */
     @Override
     public void onResume() {
         super.onResume();

@@ -1,3 +1,8 @@
+/*
+    Fragment under History tab
+    Shows the list of requests the user has made till date
+ */
+
 package com.mitrukahitesh.asrik.fragments.historyfragments;
 
 import android.annotation.SuppressLint;
@@ -43,17 +48,32 @@ public class History extends Fragment {
     public History() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_history, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     * Set initial values of views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -80,6 +100,9 @@ public class History extends Fragment {
         });
     }
 
+    /**
+     * Fetch all the requests user has made previously
+     */
     private void fetchData() {
         FirebaseFirestore.getInstance()
                 .collection(Constants.REQUESTS)

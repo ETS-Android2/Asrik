@@ -1,3 +1,8 @@
+/*
+    Fragment under Home tab
+    Provides interface to raise a new blood request
+ */
+
 package com.mitrukahitesh.asrik.fragments.homefragments;
 
 import static android.app.Activity.RESULT_OK;
@@ -80,18 +85,33 @@ public class RaiseRequest extends Fragment {
     public RaiseRequest() {
     }
 
+    /**
+     * Called to do initial creation of a fragment.
+     * This is called after onAttach and before onCreateView
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = requireContext().getSharedPreferences(Constants.USER_DETAILS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * This will be called between onCreate and onViewCreated
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_raise_request, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView has returned,
+     * but before any saved state has been restored in to the view.
+     * Set references to views
+     * Set listeners to views
+     * Set initial values of views
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -105,6 +125,9 @@ public class RaiseRequest extends Fragment {
         setListeners();
     }
 
+    /**
+     * Set reference to views
+     */
     private void setReferences(View view) {
         root = view.findViewById(R.id.root);
         controller = Navigation.findNavController(view);
@@ -138,6 +161,9 @@ public class RaiseRequest extends Fragment {
         Glide.with(requireContext()).load(preferences.getString(Constants.PROFILE_PIC_URL, "")).into(img);
     }
 
+    /**
+     * Set required listeners to views
+     */
     private void setListeners() {
         blood_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -183,6 +209,9 @@ public class RaiseRequest extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                /*
+                    Get Postal Code details
+                 */
                 if (editable.toString().length() == 6) {
                     submit.setEnabled(false);
                     RetrofitAccessObject.getRetrofitAccessObject().getPinCodeDetails(editable.toString()).enqueue(new Callback<PinCodeDetails>() {
@@ -230,6 +259,9 @@ public class RaiseRequest extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                    Validate input and then post request
+                 */
                 if (uri == null ||
                         bloodGroup.length() == 0 ||
                         severityString.length() == 0 ||
@@ -312,6 +344,9 @@ public class RaiseRequest extends Fragment {
         });
     }
 
+    /**
+     * Request server to notify admin the blood request posted
+     */
     private void notifyAdmin() {
         JSONObject object = new JSONObject();
         try {
@@ -342,10 +377,18 @@ public class RaiseRequest extends Fragment {
                 });
     }
 
+    /**
+     * Message to display when wrong postal code is entered
+     * Or there is network error
+     * Or server is not responding
+     */
     private void pinCodeValidationFailed() {
         Snackbar.make(root, "Invalid PIN Code", Snackbar.LENGTH_SHORT).show();
     }
 
+    /**
+     * Disable view while posting blood request
+     */
     private void toggleViews(boolean b) {
         submit.setEnabled(b);
         pin.setEnabled(b);
@@ -357,6 +400,11 @@ public class RaiseRequest extends Fragment {
         selectFile.setEnabled(b);
     }
 
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * Check if location is selected
+     * If yes, set text to "Edit Location", else "Select Location"
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -365,6 +413,9 @@ public class RaiseRequest extends Fragment {
         }
     }
 
+    /**
+     * Called when user selects a file to send
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

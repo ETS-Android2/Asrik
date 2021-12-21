@@ -1,3 +1,7 @@
+/*
+    Model class for reply received from bot
+ */
+
 package com.mitrukahitesh.asrik.models.chat;
 
 public class BotReply {

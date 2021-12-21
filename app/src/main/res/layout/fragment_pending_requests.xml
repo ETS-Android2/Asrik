@@ -49,6 +49,7 @@
                     android:layout_marginVertical="20dp"
                     android:fontFamily="@font/poppins_bold"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:text="@string/no_request_pending"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"

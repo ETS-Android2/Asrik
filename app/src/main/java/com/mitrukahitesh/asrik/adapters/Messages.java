@@ -1,3 +1,8 @@
+/*
+    It is the adapter that is used with recycler view
+    which renders conversation between two users
+ */
+
 package com.mitrukahitesh.asrik.adapters;
 
 import android.content.Context;
@@ -32,27 +37,44 @@ public class Messages extends RecyclerView.Adapter<Messages.CustomVH> {
         this.messages = messages;
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item
+     */
     @NonNull
     @Override
     public CustomVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CustomVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_message, parent, false));
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * This method should update the contents of the RecyclerView.ViewHolder.itemView
+     * to reflect the item at the given position.
+     */
     @Override
     public void onBindViewHolder(@NonNull CustomVH holder, int position) {
         holder.setView(messages.get(position), position);
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     */
     @Override
     public int getItemCount() {
         return messages.size();
     }
 
+    /**
+     * Extend the abstract class RecyclerView.ViewHolder
+     * to create ViewHolder objects and write custom
+     * implementation
+     */
     public class CustomVH extends RecyclerView.ViewHolder {
 
         private final LinearLayout boxSent, boxReceived, fileSent, fileReceived;
         private final TextView msgSent, timeSent, msgReceived, timeReceived, urlSent, urlReceived;
         private final CircularProgressIndicator progressSent, progressReceived;
+        // OnClickListener for opening media links
         private final View.OnClickListener urlClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +86,10 @@ public class Messages extends RecyclerView.Adapter<Messages.CustomVH> {
             }
         };
 
+        /**
+         * Call super constructor, and
+         * Set references and listeners to views
+         */
         public CustomVH(@NonNull View itemView) {
             super(itemView);
             boxSent = itemView.findViewById(R.id.boxSent);
@@ -81,11 +107,17 @@ public class Messages extends RecyclerView.Adapter<Messages.CustomVH> {
             setListener();
         }
 
+        /**
+         * Set listeners to views in view holder
+         */
         private void setListener() {
             urlReceived.setOnClickListener(urlClick);
             urlSent.setOnClickListener(urlClick);
         }
 
+        /**
+         * Renders message data into view holder
+         */
         private void setView(Message message, int position) {
             TextView msg, time, url;
             CircularProgressIndicator progress;
@@ -123,6 +155,9 @@ public class Messages extends RecyclerView.Adapter<Messages.CustomVH> {
             }
         }
 
+        /**
+         * Get formatted time from time in millis
+         */
         private String getTime(Long time) {
             Calendar c = Calendar.getInstance(TimeZone.getDefault());
             c.setTimeInMillis(time);
