@@ -1,6 +1,5 @@
 /*
     Used to get the display name of file the user selects
-    Source: https://stackoverflow.com/questions/23160874/getting-filename-from-uri
  */
 
 package com.mitrukahitesh.asrik.helpers;
