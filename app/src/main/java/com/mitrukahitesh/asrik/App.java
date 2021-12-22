@@ -1,6 +1,6 @@
 /*
-    First class called when app opens
-    Responsible for creating notification channels
+    This class is instantiated before any other class when the process for your application/package is created.
+    Responsible for creating notification channels.
  */
 
 package com.mitrukahitesh.asrik;
