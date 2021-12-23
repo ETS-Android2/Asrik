@@ -299,8 +299,8 @@ public class RaiseRequest extends Fragment {
                     request.setLatitude(lat.toString());
                     request.setLongitude(lon.toString());
                     request.setTime(System.currentTimeMillis());
-                    request.setName(preferences.getString(Constants.NAME, "User"));
-                    request.setNameLowerCase(preferences.getString(Constants.NAME_LOWER_CASE_CAMEL, "User").toLowerCase(Locale.ROOT));
+                    request.setName(preferences.getString(Constants.NAME, "user"));
+                    request.setNameLowerCase(preferences.getString(Constants.NAME, "User").toLowerCase(Locale.ROOT));
                     request.setNumber(preferences.getString(Constants.NUMBER, ""));
                     request.setProfilePicUrl(preferences.getString(Constants.PROFILE_PIC_URL, ""));
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(Constants.REQUESTS).child(reference.getId());
