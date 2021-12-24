@@ -16,8 +16,8 @@
         android:theme="@style/Theme.Asrik"
         android:usesCleartextTraffic="true">
         <activity
-            android:screenOrientation="portrait"
             android:name=".activities.LocaleSelection"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -32,12 +32,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:screenOrientation="portrait"
             android:name=".activities.Registration"
+            android:configChanges="orientation|screenSize"
             android:exported="true" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".activities.Splash"
+            android:configChanges="orientation|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,8 +46,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".activities.Main"
+            android:configChanges="orientation|screenSize"
             android:exported="true"
             android:launchMode="singleInstance" />
 
