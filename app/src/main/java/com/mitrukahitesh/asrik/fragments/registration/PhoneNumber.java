@@ -63,7 +63,6 @@ public class PhoneNumber extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView signIn = view.findViewById(R.id.sign_in_tv);
         Button next = view.findViewById(R.id.next);
         phone = view.findViewById(R.id.phone);
         String text = "Already have a account? Sign-In";
@@ -75,8 +74,6 @@ public class PhoneNumber extends Fragment {
             }
         };
         ss.setSpan(clickableSpan1, 24, 31, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        signIn.setText(ss);
-        signIn.setMovementMethod(LinkMovementMethod.getInstance());
         /*
             Validate phone number and send to OTP fragment
          */
